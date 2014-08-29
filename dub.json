@@ -1,8 +1,8 @@
 {
 	"name": "ragelake",
-	"description": "A minimal D application.",
-	"copyright": "Copyright © 2014, josh",
-	"authors": ["josh"],
+	"description": "A simple rougelike in D",
+	"copyright": "Copyright © 2014, Josh Hofing",
+	"authors": ["Josh Hofing"],
 	"dependencies": {
         "ncurses": "~master"
 	}
