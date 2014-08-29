@@ -1,0 +1,9 @@
+{
+	"name": "ragelake",
+	"description": "A minimal D application.",
+	"copyright": "Copyright © 2014, josh",
+	"authors": ["josh"],
+	"dependencies": {
+        "ncurses": "~master"
+	}
+}
