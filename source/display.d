@@ -4,7 +4,8 @@ import deimos.ncurses.ncurses;
 
 /*
  * Represents a cell in a terminal-like display.
- * Has a character, a foreground color (the color of the glyph) and a background color (the color of the cell around the glyph) 
+ * Has a character
+ * TODO: Add foreground and background colors
  */
 struct Cell {
     char glyph;
