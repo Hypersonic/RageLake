@@ -23,7 +23,13 @@ class Display {
     Cell[][] cells;
 
     void render() {
-        mvprintw(1, 1, toStringz("Hello"));
+        foreach (row_i; 0 .. cells.length) {
+        foreach (col_i; 0 .. cells[row_i].length) {
+            auto cell = cells[row_i][col_i];
+            auto glyph = toStringz("" ~ cell.glyph);
+            mvprintw(cast(int)row_i, cast(int)col_i, glyph); // TODO: Add color rendering
+        }
+        }
         refresh();
     }
 
