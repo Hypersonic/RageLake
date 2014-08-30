@@ -1,4 +1,6 @@
 import entity;
+import player;
+import game : Game;
 
 class World {
     Entity[] entities; // In the future, this should probably be a linked list
@@ -6,13 +8,13 @@ class World {
     // Step all entities forwards
     void step() {
         foreach (e; entities) {
-            e.preStep(this);
+            foreach (key; Game.getKeysPressed()) {
+                e.update(key, this);
+            }
         }
-        foreach (e; entities) {
-            e.step(this);
-        }
-        foreach (e; entities) {
-            e.postStep(this);
-        }
+    }
+
+    this() {
+        entities ~= new Player(this);
     }
 }
