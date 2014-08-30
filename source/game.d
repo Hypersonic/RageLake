@@ -1,8 +1,10 @@
 import std.stdio;
+import std.string;
 import deimos.ncurses.ncurses;
 import display;
 import world;
 import util : KeyState;
+import core.thread;
 
 class Game {
     Display display;
@@ -18,6 +20,7 @@ class Game {
         while(running) {
             world.step();
             display.update(world);
+            Thread.sleep(dur!("msecs")(20));
         }
     }
 
@@ -28,7 +31,7 @@ class Game {
             code = getch();
             states ~= KeyState(code, true);
         } while (code != ERR);
-        return states;
+        return states[0..$];
     }
 
 
