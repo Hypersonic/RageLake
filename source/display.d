@@ -2,7 +2,7 @@ import std.stdio;
 import std.string;
 import deimos.ncurses.ncurses;
 import world : World;
-import util : Cell, Point;
+import util : Cell, Point, Bounds;
 
 
 /*
@@ -10,6 +10,7 @@ import util : Cell, Point;
  */
 class Display {
     int width, height;
+    Bounds viewport;
 
     void update(ref World world) {
         erase();
@@ -19,7 +20,9 @@ class Display {
             }
         }
         foreach (entity; world.entities) {
-            entity.render(this);
+            if (viewport.contains(entity.position)) {
+                entity.render(this);
+            }
         }
         refresh();
     }
@@ -27,16 +30,17 @@ class Display {
     void drawCell(Point position, Cell cell) {
         // There's probably a much more efficient way to convert from a character to a c-string
         auto glyph = toStringz("" ~ cell.glyph);
-        mvprintw(position.y, position.x, glyph);
+        mvprintw(position.y - viewport.min.y, position.x - viewport.min.x, glyph);
     }
     
     void drawDebugMessage(string str) {
         mvprintw(height, 0, toStringz(str));
     }
 
-    this(int width, int height) {
+    this(int width, int height, Bounds view) {
         this.width = width;
         this.height = height;
+        this.viewport = view;
 
         // init ncurses
         initscr();

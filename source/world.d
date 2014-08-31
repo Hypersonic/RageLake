@@ -4,6 +4,7 @@ import game : Game;
 
 class World {
     Entity[] entities; // In the future, this should probably be a linked list
+    Player player;
 
     // Step all entities forwards
     void step() {
@@ -15,6 +16,7 @@ class World {
     }
 
     this() {
-        entities ~= new Player(this);
+        player = new Player(this);
+        entities ~= player;
     }
 }
