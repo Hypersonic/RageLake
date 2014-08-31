@@ -23,22 +23,13 @@ class Entity : Updates {
     }
 
     void update(KeyState keyState, World world) {
+        // Recharge stamina
+        stamina += staminaRechargeRate;
+        if (stamina > maxStamina) stamina = maxStamina;
     }
 
     void render(Display display) {
         display.drawCell(this.position, this.cell);
     }
 
-    // Do any setup required to step before any entities step
-    void preStep() {
-    }
-    // Step forward in time in the given world
-    void step() {
-    }
-    // Cleanup after stepping
-    void postStep() {
-        // Recharge stamina
-        stamina += staminaRechargeRate;
-        if (stamina > maxStamina) stamina = maxStamina;
-    }
 }
