@@ -12,11 +12,15 @@ class Display {
     int width, height;
 
     void update(ref World world) {
-        clear();
+        erase();
+        foreach (i; 0 .. width) {
+            foreach (j; 0 .. height) {
+                drawCell(Point(i, j), Cell('.'));
+            }
+        }
         foreach (entity; world.entities) {
             entity.render(this);
         }
-
         refresh();
     }
 
