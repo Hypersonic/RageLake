@@ -20,7 +20,7 @@ struct Point {
 
 struct Bounds {
     Point min, max;
-    bool contains(Point p) {
+    @safe bool contains(Point p) pure {
         return (min.x <= p.x && p.x < max.x
              && min.y <= p.y && p.y < max.y);
     }
