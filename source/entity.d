@@ -41,5 +41,4 @@ class Entity : Updates {
         stamina += staminaRechargeRate;
         if (stamina > maxStamina) stamina = maxStamina;
     }
-
 }

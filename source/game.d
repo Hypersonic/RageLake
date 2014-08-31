@@ -33,6 +33,4 @@ class Game {
         } while (code != ERR);
         return states[0..$];
     }
-
-
 }
