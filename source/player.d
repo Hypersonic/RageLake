@@ -1,7 +1,7 @@
 import entity : Entity;
 import world : World;
 import util : KeyState;
-import config : Config;
+import config : Config, KeyType;
 
 class Player : Entity {
     this(World world) {
@@ -10,17 +10,23 @@ class Player : Entity {
     }
 
     override void update(KeyState keyState, World world) {
-        if (keyState.keyCode == Config.MOVE_LEFT) {
+
+        auto type = Config.getKeyType(keyState);
+        switch (type) {
+        case KeyType.MOVE_LEFT:
             this.position.x -= 1;
-        }
-        if (keyState.keyCode == Config.MOVE_RIGHT) {
+            break;
+        case KeyType.MOVE_RIGHT:
             this.position.x += 1;
-        }
-        if (keyState.keyCode == Config.MOVE_UP) {
+            break;
+        case KeyType.MOVE_UP:
             this.position.y -= 1;
-        }
-        if (keyState.keyCode == Config.MOVE_DOWN) {
+            break;
+        case KeyType.MOVE_DOWN:
             this.position.y += 1;
+            break;
+        default:
+            break;
         }
     }
 }
