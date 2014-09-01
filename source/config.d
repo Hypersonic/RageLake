@@ -1,13 +1,6 @@
-import util : KeyState;
+import util : KeyState, KeyType;
 import deimos.ncurses.ncurses;
 
-enum KeyType {
-    MOVE_LEFT,
-    MOVE_RIGHT,
-    MOVE_UP,
-    MOVE_DOWN,
-    NONE
-}
 class Config {
     static KeyType getKeyType(KeyState state) {
         switch (state.keyCode) {

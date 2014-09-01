@@ -1,7 +1,6 @@
 import entity : Entity;
 import world : World;
-import util : KeyState;
-import config : Config, KeyType;
+import util : KeyState, KeyType;
 
 class Player : Entity {
     this(World world) {
@@ -9,9 +8,7 @@ class Player : Entity {
         cell.glyph = '@';
     }
 
-    override void update(KeyState keyState, World world) {
-
-        auto type = Config.getKeyType(keyState);
+    override void update(KeyType type, World world) {
         switch (type) {
         case KeyType.MOVE_LEFT:
             this.position.x -= 1;

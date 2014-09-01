@@ -31,7 +31,15 @@ struct KeyState {
     bool pressed;
 }
 
+enum KeyType {
+    MOVE_LEFT,
+    MOVE_RIGHT,
+    MOVE_UP,
+    MOVE_DOWN,
+    NONE
+}
+
 interface Updates {
-    void update(KeyState keyState, World world);
+    void update(KeyType type, World world);
     void render(Display display);
 }

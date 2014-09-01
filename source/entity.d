@@ -1,6 +1,6 @@
 import world : World;
 import display : Display;
-import util : Cell, Point, Updates, KeyState;
+import util : Cell, Point, Updates, KeyType;
 
 class Entity : Updates {
     Point position;
@@ -22,7 +22,7 @@ class Entity : Updates {
         this.position = p;
     }
 
-    void update(KeyState keyState, World world) {
+    void update(KeyType type, World world) {
         // Recharge stamina
         stamina += staminaRechargeRate;
         if (stamina > maxStamina) stamina = maxStamina;
