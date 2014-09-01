@@ -17,7 +17,7 @@ class Game {
         height = 40;
         auto viewport = Bounds(Point(0,0), Point(width, height));
         display = new Display(width, height, viewport);
-        world = new World();
+        world = new World(this);
     }
 
     void run() {
