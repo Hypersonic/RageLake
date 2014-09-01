@@ -10,6 +10,7 @@ import util : Cell, Point, Bounds;
  */
 class Display {
     int width, height;
+    string[] debugmsgs;
     Bounds viewport;
 
     void update(ref World world) {
@@ -24,6 +25,14 @@ class Display {
                 entity.render(this);
             }
         }
+        // Render debug messages
+        auto i = height;
+        foreach (msg; debugmsgs) {
+            i++;
+            mvprintw(i, 0, toStringz(msg));
+        }
+        debugmsgs.clear();
+
         refresh();
     }
 
@@ -34,7 +43,7 @@ class Display {
     }
     
     void drawDebugMessage(string str) {
-        mvprintw(height, 0, toStringz(str));
+        debugmsgs ~= str;
     }
 
     this(int width, int height, Bounds view) {
