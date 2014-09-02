@@ -11,21 +11,8 @@ class World {
 
     // Step all entities forwards
     void step() {
+
         foreach (e; entities) {
-            auto keysPressed = game.getKeysPressed();
-            KeyType[] keytypes;
-
-            // Convert our KeyStates to KeyTypes
-            foreach (key; keysPressed) {
-                keytypes ~= Config.getKeyType(key);
-            }
-            
-            game.display.drawDebugMessage(format("KeyTypes: %s", keytypes));
-
-            foreach (key; keytypes) {
-                e.recieveKey(key);
-            }
-
             e.update(this);
         }
     }

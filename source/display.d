@@ -26,7 +26,7 @@ class Display {
             }
         }
         // Render debug messages
-        auto i = height;
+        auto i = 0;
         foreach (msg; debugmsgs) {
             i++;
             mvprintw(i, 0, toStringz(msg));
@@ -57,7 +57,7 @@ class Display {
         noecho();
         nonl();
         nodelay(stdscr, true);
-        //intrflush(stdscr, false);
+        intrflush(stdscr, false);
         keypad(stdscr, true);
     }
 

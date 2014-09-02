@@ -12,6 +12,9 @@ class Config {
             return KeyType.MOVE_UP;
         case KEY_DOWN:
             return KeyType.MOVE_DOWN;
+        case 'q':
+        case 'Q':
+            return KeyType.QUIT;
         default:
             return KeyType.NONE;
         }

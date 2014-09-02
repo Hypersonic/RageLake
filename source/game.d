@@ -1,9 +1,10 @@
 import std.stdio;
 import std.string;
+import std.signals;
 import deimos.ncurses.ncurses;
 import display;
 import world;
-import util : KeyState, Point, Bounds;
+import util : KeyState, Point, Bounds, KeyType, EventType;
 import core.thread;
 
 class Game {
@@ -18,10 +19,15 @@ class Game {
         auto viewport = Bounds(Point(0,0), Point(width, height));
         display = new Display(width, height, viewport);
         world = new World(this);
+        this.connect(&this.watch);
     }
 
     void run() {
         while(running) {
+            auto keysPressed = getKeysPressed();
+
+            display.drawDebugMessage(format("KeyTypes: %s", keysPressed));
+
             world.step();
 
             // Update the viewport to be centered on the player
@@ -36,7 +42,15 @@ class Game {
         }
     }
 
-    KeyState[] getKeysPressed() {
+    void watch(EventType event, KeyType key) {
+        if (event == EventType.KEY_PRESS) {
+        if (key == KeyType.QUIT) {
+            running = false;
+        }
+        }
+    }
+
+    KeyType[] getKeysPressed() {
         KeyState[] states;
         int code;
         do {
@@ -53,6 +67,13 @@ class Game {
                 states ~= state;
             }
         } while (code != ERR);
-        return states[0..$-1]; // Return all but the last Keystate, which will always be ERR
+        KeyType[] types;
+        foreach (state; states[0 .. $-1]) {
+            auto type = Config.getKeyType(state);
+            types ~= type;
+            emit(EventType.KEY_PRESS, type);
+        }
+        return types;
     }
+    mixin Signal!(EventType, KeyType);
 }

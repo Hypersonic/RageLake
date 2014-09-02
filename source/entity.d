@@ -1,12 +1,12 @@
 import std.string;
 import world : World;
 import display : Display;
-import util : Cell, Point, Updates, RecievesKeys, KeyType;
+import util : Cell, Point, Updates, KeyType, EventType;
 
-class Entity : Updates, RecievesKeys {
+class Entity : Updates {
     Point position;
     int stamina;
-    int staminaRechargeRate = 3;
+    int staminaRechargeRate = 4;
     int maxStamina = 100;
     World world;
     Cell cell;
@@ -16,6 +16,7 @@ class Entity : Updates, RecievesKeys {
         this.position = Point(0, 0);
         this.cell = Cell('c');
         stamina = maxStamina;
+        world.game.connect(&this.watch);
     }
 
     this(World world, Point p) {
@@ -23,7 +24,7 @@ class Entity : Updates, RecievesKeys {
         this.position = p;
     }
 
-    void recieveKey(KeyType type) {
+    void watch(EventType event, KeyType key) {
     }
 
     void update(World world) {

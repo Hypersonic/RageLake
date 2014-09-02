@@ -31,16 +31,16 @@ struct KeyState {
     bool pressed;
 }
 
+enum EventType {
+    KEY_PRESS
+}
 enum KeyType {
     MOVE_LEFT,
     MOVE_RIGHT,
     MOVE_UP,
     MOVE_DOWN,
+    QUIT,
     NONE
-}
-
-interface RecievesKeys {
-    void recieveKey(KeyType type);
 }
 
 interface Updates {
