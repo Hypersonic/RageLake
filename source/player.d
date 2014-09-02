@@ -9,7 +9,8 @@ class Player : Entity {
         cell.glyph = '@';
     }
 
-    override void update(KeyType type, World world) {
+    override void recieveKey(KeyType type) {
+        if (stamina >= 10) {
         switch (type) {
         case KeyType.MOVE_LEFT:
             this.position.x -= 1;
@@ -30,7 +31,12 @@ class Player : Entity {
         default:
             break;
         }
+        }
+        super.recieveKey(type);
+    }
+
+    override void update(World world) {
         this.world.game.display.drawDebugMessage(format("Stamina: %d", stamina));
-        super.update(type, world);
+        super.update(world);
     }
 }

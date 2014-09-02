@@ -39,7 +39,11 @@ enum KeyType {
     NONE
 }
 
+interface RecievesKeys {
+    void recieveKey(KeyType type);
+}
+
 interface Updates {
-    void update(KeyType type, World world);
+    void update(World world);
     void render(Display display);
 }

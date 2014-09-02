@@ -1,11 +1,12 @@
+import std.string;
 import world : World;
 import display : Display;
-import util : Cell, Point, Updates, KeyType;
+import util : Cell, Point, Updates, RecievesKeys, KeyType;
 
-class Entity : Updates {
+class Entity : Updates, RecievesKeys {
     Point position;
     int stamina;
-    int staminaRechargeRate = 10;
+    int staminaRechargeRate = 3;
     int maxStamina = 100;
     World world;
     Cell cell;
@@ -22,7 +23,10 @@ class Entity : Updates {
         this.position = p;
     }
 
-    void update(KeyType type, World world) {
+    void recieveKey(KeyType type) {
+    }
+
+    void update(World world) {
         // Recharge stamina
         stamina += staminaRechargeRate;
         if (stamina > maxStamina) stamina = maxStamina;

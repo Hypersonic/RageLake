@@ -36,13 +36,22 @@ class Game {
         }
     }
 
-    static KeyState[] getKeysPressed() {
+    KeyState[] getKeysPressed() {
         KeyState[] states;
         int code;
         do {
             code = getch();
-            states ~= KeyState(code, true);
+            bool found = false;
+            foreach (key; states) {
+                if (key.keyCode == code)
+                    found = true;
+            }
+            if (!found) {
+                auto state = KeyState(code, true);
+                states ~= state;
+            }
         } while (code != ERR);
-        return states[0..$];
+        display.drawDebugMessage(format("KeyStates: %s", states[0 .. $-1]));
+        return states[0..$-1]; // Return all but the last Keystate, which will always be ERR
     }
 }

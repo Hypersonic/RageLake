@@ -11,9 +11,10 @@ class World {
     // Step all entities forwards
     void step() {
         foreach (e; entities) {
-            foreach (key; Game.getKeysPressed()) {
-                e.update(Config.getKeyType(key), this);
+            foreach (key; game.getKeysPressed()) {
+                e.recieveKey(Config.getKeyType(key));
             }
+            e.update(this);
         }
     }
 
