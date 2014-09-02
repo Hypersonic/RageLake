@@ -1,6 +1,7 @@
 import std.string;
 import world : World;
 import display : Display;
+import action : Action;
 import util : Cell, Point, Updates, KeyType, EventType, Event;
 
 class Entity : Updates {
@@ -8,6 +9,7 @@ class Entity : Updates {
     int stamina;
     int staminaRechargeRate = 4;
     int maxStamina = 100;
+    Action desiredAction;
     World world;
     Cell cell;
 

@@ -2,6 +2,7 @@ import std.string;
 import entity;
 import player;
 import game : Game;
+import action : Action;
 import config : Config;
 
 class World {
@@ -11,9 +12,15 @@ class World {
 
     // Step all entities forwards
     void step() {
-
+        Action[] actions;
         foreach (e; entities) {
             e.update(this);
+        }
+        foreach (e; entities) {
+            if (e.desiredAction) {
+                e.desiredAction.execute(this);
+                e.desiredAction = null;
+            }
         }
     }
 
