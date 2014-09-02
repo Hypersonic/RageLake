@@ -53,7 +53,6 @@ class Game {
                 states ~= state;
             }
         } while (code != ERR);
-        display.drawDebugMessage(format("KeyStates: %s", states[0 .. $-1]));
         return states[0..$-1]; // Return all but the last Keystate, which will always be ERR
     }
 }
