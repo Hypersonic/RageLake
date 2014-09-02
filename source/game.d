@@ -4,7 +4,7 @@ import std.signals;
 import deimos.ncurses.ncurses;
 import display;
 import world;
-import util : KeyState, Point, Bounds, KeyType, EventType;
+import util : KeyState, Point, Bounds, KeyType, EventType, Event, DataType;
 import core.thread;
 
 class Game {
@@ -19,7 +19,7 @@ class Game {
         auto viewport = Bounds(Point(0,0), Point(width, height));
         display = new Display(width, height, viewport);
         world = new World(this);
-        this.connect(&this.watch);
+        this.connect(&this.watchKeys);
     }
 
     void run() {
@@ -42,9 +42,9 @@ class Game {
         }
     }
 
-    void watch(EventType event, KeyType key) {
-        if (event == EventType.KEY_PRESS) {
-        if (key == KeyType.QUIT) {
+    void watchKeys(Event event) {
+        if (event.type == EventType.KEY_PRESS) {
+        if (event.data.key == KeyType.QUIT) {
             running = false;
         }
         }
@@ -67,13 +67,15 @@ class Game {
                 states ~= state;
             }
         } while (code != ERR);
+
+        // Convert to KeyTypes and emit events
         KeyType[] types;
         foreach (state; states[0 .. $-1]) {
             auto type = Config.getKeyType(state);
             types ~= type;
-            emit(EventType.KEY_PRESS, type);
+            emit(Event(EventType.KEY_PRESS, DataType(type)));
         }
         return types;
     }
-    mixin Signal!(EventType, KeyType);
+    mixin Signal!(Event);
 }

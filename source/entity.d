@@ -1,7 +1,7 @@
 import std.string;
 import world : World;
 import display : Display;
-import util : Cell, Point, Updates, KeyType, EventType;
+import util : Cell, Point, Updates, KeyType, EventType, Event;
 
 class Entity : Updates {
     Point position;
@@ -24,7 +24,7 @@ class Entity : Updates {
         this.position = p;
     }
 
-    void watch(EventType event, KeyType key) {
+    void watch(Event event) {
     }
 
     void update(World world) {

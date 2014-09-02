@@ -43,6 +43,15 @@ enum KeyType {
     NONE
 }
 
+union DataType {
+    KeyType key;
+}
+
+struct Event {
+    EventType type;
+    DataType data;
+}
+
 interface Updates {
     void update(World world);
     void render(Display display);

@@ -1,7 +1,7 @@
 import std.string;
 import entity : Entity;
 import world : World;
-import util : KeyType, EventType;
+import util : KeyType, EventType, Event;
 
 class Player : Entity {
     this(World world) {
@@ -9,10 +9,10 @@ class Player : Entity {
         cell.glyph = '@';
     }
 
-    override void watch(EventType event, KeyType key) {
+    override void watch(Event event) {
         if (stamina >= 10) {
-        if (event == EventType.KEY_PRESS) {
-        switch (key) {
+        if (event.type == EventType.KEY_PRESS) {
+        switch (event.data.key) {
         case KeyType.MOVE_LEFT:
             this.position.x -= 1;
             stamina -= 10;
