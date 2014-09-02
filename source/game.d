@@ -41,11 +41,13 @@ class Game {
         int code;
         do {
             code = getch();
+            // Scan through the list for a dupe of this code
             bool found = false;
             foreach (key; states) {
                 if (key.keyCode == code)
                     found = true;
             }
+            // Only insert if there isn't already a copy of this code in the list
             if (!found) {
                 auto state = KeyState(code, true);
                 states ~= state;
