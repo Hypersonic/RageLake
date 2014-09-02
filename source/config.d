@@ -2,7 +2,7 @@ import util : KeyState, KeyType;
 import deimos.ncurses.ncurses;
 
 class Config {
-    static KeyType getKeyType(KeyState state) {
+    @safe static KeyType getKeyType(KeyState state) pure {
         switch (state.keyCode) {
         case KEY_LEFT:
             return KeyType.MOVE_LEFT;
