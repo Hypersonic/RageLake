@@ -7,6 +7,7 @@ abstract class Action {
 
     // Execute this action in the given world
     void execute(World w) {}
+
 }
 
 class MovementAction : Action {
@@ -20,7 +21,7 @@ class MovementAction : Action {
         staminaRequired = 10;
     }
 
-    void execute(World w) {
+    override void execute(World w) {
         if (mover.stamina >= staminaRequired) {
             mover.stamina -= staminaRequired;
             mover.position.x += x;
