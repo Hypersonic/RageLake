@@ -10,6 +10,7 @@ import core.thread;
 class Game {
     Display display;
     World world;
+    long turncount;
     bool running = true;
 
     this() {
@@ -19,14 +20,18 @@ class Game {
         auto viewport = Bounds(Point(0,0), Point(width, height));
         display = new Display(width, height, viewport);
         world = new World(this);
+        turncount = 0;
         this.connect(&this.watchKeys);
     }
 
     void run() {
         while(running) {
+            turncount++;
             auto keysPressed = getKeysPressed();
 
             display.drawDebugMessage(format("KeyTypes: %s", keysPressed));
+            display.drawDebugMessage(format("Turn: %d", turncount));
+
 
             world.step();
 
