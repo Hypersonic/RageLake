@@ -16,6 +16,12 @@ struct Cell {
 
 struct Point {
     int x, y;
+    Point opAdd(Point other) {
+        Point p = Point(0, 0);
+        p.x = this.x + other.x;
+        p.y = this.y + other.y;
+        return p;
+    }
 }
 
 struct Bounds {
