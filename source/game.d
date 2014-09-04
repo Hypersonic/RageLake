@@ -1,9 +1,11 @@
 import std.stdio;
 import std.string;
 import std.signals;
+import std.datetime;
 import deimos.ncurses.ncurses;
 import display;
 import world;
+import enemy;
 import util : KeyState, Point, Bounds, KeyType, EventType, Event, DataType;
 import core.thread;
 
@@ -26,6 +28,7 @@ class Game {
 
     void run() {
         while(running) {
+            StopWatch sw;
             turncount++;
             auto keysPressed = getKeysPressed();
 
@@ -33,7 +36,11 @@ class Game {
             display.drawDebugMessage(format("Turn: %d", turncount));
 
 
+            sw.start();
             world.step();
+            sw.stop();
+
+            display.drawDebugMessage(format("World step time (msecs): %d", sw.peek().msecs)); 
 
             // Update the viewport to be centered on the player
             auto playerpos = world.player.position;
@@ -42,7 +49,13 @@ class Game {
             display.viewport.min.y = playerpos.y - display.height / 2;
             display.viewport.max.y = playerpos.y + display.height / 2;
 
+            sw.reset();
+            sw.start();
             display.update(world);
+            sw.stop();
+
+            display.drawDebugMessage(format("Display update time (msecs): %d", sw.peek().msecs));
+
             Thread.sleep(dur!("msecs")(20));
         }
     }

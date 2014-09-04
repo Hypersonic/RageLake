@@ -1,6 +1,7 @@
 import std.string;
 import entity;
 import player;
+import enemy;
 import game : Game;
 import action : Action;
 import config : Config;
@@ -12,6 +13,7 @@ class World {
 
     // Step all entities forwards
     void step() {
+        game.display.drawDebugMessage(format("Entities: %d", entities.length));
         foreach (e; entities) {
             e.update(this);
         }
@@ -27,6 +29,6 @@ class World {
         this.game = g;
         player = new Player(this);
         entities ~= player;
-        entities ~= new Entity(this);
+        entities ~= new Enemy(this);
     }
 }
