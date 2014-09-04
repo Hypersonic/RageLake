@@ -29,6 +29,16 @@ struct Point {
         return this;
     }
 
+    Point opSub(Point other) {
+        return this + (-other);
+    }
+    
+    Point opSubAssign(Point other) {
+        this.x -= other.x;
+        this.y -= other.y;
+        return this;
+    }
+
     Point opUnary(string s)() if (s == "-") {
         return Point(-this.x, -this.y);
     }
@@ -55,6 +65,13 @@ unittest {
 
     Point p6 = Point(10, 11);
     assert(-p6 == Point(-10, -11));
+
+    Point p7 = Point(10, 10);
+    Point p8 = Point(5, 5);
+    assert(p7 - p8 == Point(5,5));
+
+    p7 -= p8;
+    assert(p7 == Point(5,5));
 }
 
 struct Bounds {
