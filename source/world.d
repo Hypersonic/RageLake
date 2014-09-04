@@ -12,7 +12,6 @@ class World {
 
     // Step all entities forwards
     void step() {
-        Action[] actions;
         foreach (e; entities) {
             e.update(this);
         }
@@ -28,5 +27,6 @@ class World {
         this.game = g;
         player = new Player(this);
         entities ~= player;
+        entities ~= new Entity(this);
     }
 }
