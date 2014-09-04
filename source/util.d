@@ -22,6 +22,12 @@ struct Point {
         p.y = this.y + other.y;
         return p;
     }
+
+    Point opAddAssign(Point other) {
+        this.x += other.x;
+        this.y += other.y;
+        return this;
+    }
 }
 
 struct Bounds {
