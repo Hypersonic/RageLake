@@ -29,6 +29,10 @@ struct Point {
         return this;
     }
 
+    Point opUnary(string s)() if (s == "-") {
+        return Point(-this.x, -this.y);
+    }
+
     bool opEquals(const Point other) {
         return this.x == other.x && this.y == other.y;
     }
@@ -48,6 +52,9 @@ unittest {
 
     p4 += p5;
     assert(p4 == Point(25, 25));
+
+    Point p6 = Point(10, 11);
+    assert(-p6 == Point(-10, -11));
 }
 
 struct Bounds {
