@@ -5,6 +5,8 @@ import action : Action, MovementAction;
 import util : KeyType, EventType, Event;
 
 class Player : Entity {
+    KeyType mostRecentKey;
+
     this(World world) {
         super(world);
         cell.glyph = '@';
@@ -12,7 +14,12 @@ class Player : Entity {
 
     override void watch(Event event) {
         if (event.type == EventType.KEY_PRESS) {
-        switch (event.data.key) {
+            this.mostRecentKey = event.data.key;
+        }
+    }
+
+    override void update(World world) {
+        switch (mostRecentKey) {
         case KeyType.MOVE_LEFT:
             desiredAction = new MovementAction(this, -1, 0);
             break;
@@ -28,10 +35,7 @@ class Player : Entity {
         default:
             break;
         }
-        }
-    }
-
-    override void update(World world) {
+        mostRecentKey = KeyType.NONE;
         this.world.game.display.drawDebugMessage(format("Stamina: %d", stamina));
         super.update(world);
     }
