@@ -11,7 +11,12 @@ class Action {
     }
 
     // Execute this action in the given world
-    void execute(World w) {}
+    void execute(World world) {}
+    
+    // Can this action execute?
+    bool canExecute(World world) {
+        return true;
+    }
 
 }
 
@@ -25,12 +30,25 @@ class MovementAction : Action {
         staminaRequired = 10;
     }
 
-    override void execute(World w) {
-        if (target.stamina >= staminaRequired) {
-            target.stamina -= staminaRequired;
-            target.position.x += x;
-            target.position.y += y;
+    override void execute(World world) {
+        target.stamina -= staminaRequired;
+        target.position += Point(x, y);
+        super.execute(world);
+    }
+
+    override bool canExecute(World world) {
+        Point targetPoint = target.position + Point(x, y);
+        bool targetClear = true;
+        // check if any entities are standing on the target position
+        foreach (entity; world.entities) {
+            if (entity != target) {
+                if (entity.position == targetPoint) {
+                    targetClear = false;
+                }
+            }
         }
-        super.execute(w);
+        // Check if we have at least staminaRequired stamina
+        bool enoughStamina = target.stamina >= staminaRequired;
+        return targetClear && enoughStamina;
     }
 }

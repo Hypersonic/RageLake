@@ -16,7 +16,7 @@ class World {
             e.update(this);
         }
         foreach (e; entities) {
-            if (e.desiredAction) {
+            if (e.desiredAction && e.desiredAction.canExecute(this)) {
                 e.desiredAction.execute(this);
                 e.desiredAction = null;
             }
