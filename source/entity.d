@@ -27,7 +27,6 @@ class Entity : Updates {
     }
 
     void watch(Event event) {
-        desiredAction = new Action(this);
     }
 
     void update(World world) {
