@@ -28,6 +28,26 @@ struct Point {
         this.y += other.y;
         return this;
     }
+
+    bool opEquals(const Point other) {
+        return this.x == other.x && this.y == other.y;
+    }
+}
+
+unittest {
+    Point p1 = Point(0, 0);
+    Point p2 = Point(0, 0);
+    assert(p1 == p2);
+
+    Point p3 = Point(10, 10);
+    assert(p1 + p3 == p3);
+
+    Point p4 = Point(12, 13);
+    Point p5 = Point(13, 12);
+    assert(p4 + p5 == Point(25, 25));
+
+    p4 += p5;
+    assert(p4 == Point(25, 25));
 }
 
 struct Bounds {
