@@ -16,6 +16,10 @@ class Config {
             keymap[k] = KeyType.MOVE_DOWN;
         foreach (k; ['q', 'Q'])
             keymap[k] = KeyType.QUIT;
+        foreach (k; [':'])
+            keymap[k] = KeyType.CONSOLE;
+        foreach (k; ['`'])
+            keymap[k] = KeyType.CANCEL;
     }
 
     KeyType getKeyType(KeyState state) pure {

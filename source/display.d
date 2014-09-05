@@ -1,5 +1,6 @@
 import std.stdio;
 import std.string;
+import std.signals;
 import deimos.ncurses.ncurses;
 import world : World;
 import util : Cell, Point, Bounds;
@@ -25,6 +26,7 @@ class Display {
                 entity.render(this);
             }
         }
+        emit(this); // At this point, anything can hook in by registering for events from display
         // Render debug messages
         auto i = 0;
         foreach (msg; debugmsgs) {
@@ -34,6 +36,11 @@ class Display {
         debugmsgs.clear();
 
         refresh();
+    }
+    mixin Signal!(Display);
+
+    void drawString(int x, int y, string str) {
+        mvprintw(y, x, toStringz(str));
     }
 
     void drawCell(Point position, Cell cell) {

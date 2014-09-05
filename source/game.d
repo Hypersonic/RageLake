@@ -5,6 +5,7 @@ import std.datetime;
 import deimos.ncurses.ncurses;
 import display;
 import world;
+import console;
 import enemy;
 import util : KeyState, Point, Bounds, KeyType, EventType, Event, DataType;
 import core.thread;
@@ -13,8 +14,10 @@ class Game {
     Display display;
     World world;
     Config config;
+    Console console;
     long turncount;
     bool running = true;
+    bool consoleMode = false;
 
     this() {
         int width, height;
@@ -24,6 +27,7 @@ class Game {
         display = new Display(width, height, viewport);
         world = new World(this);
         config = new Config();
+        console = new Console(this);
         turncount = 0;
         this.connect(&this.watchKeys);
     }
@@ -31,26 +35,28 @@ class Game {
     void run() {
         while(running) {
             StopWatch sw;
-            turncount++;
             auto keysPressed = getKeysPressed();
 
             display.drawDebugMessage(format("KeyTypes: %s", keysPressed));
             display.drawDebugMessage(format("Turn: %d", turncount));
 
+            if (!consoleMode) {
+                turncount++;
 
-            sw.start();
-            world.step();
-            sw.stop();
+                sw.start();
+                world.step();
+                sw.stop();
 
-            display.drawDebugMessage(format("World step time (msecs): %d", sw.peek().msecs)); 
+                display.drawDebugMessage(format("World step time (msecs): %d", sw.peek().msecs)); 
 
-            // Update the viewport to be centered on the player
-            auto playerpos = world.player.position;
-            display.viewport.min.x = playerpos.x - display.width / 2;
-            display.viewport.max.x = playerpos.x + display.width / 2;
-            display.viewport.min.y = playerpos.y - display.height / 2;
-            display.viewport.max.y = playerpos.y + display.height / 2;
+                // Update the viewport to be centered on the player
+                auto playerpos = world.player.position;
+                display.viewport.min.x = playerpos.x - display.width / 2;
+                display.viewport.max.x = playerpos.x + display.width / 2;
+                display.viewport.min.y = playerpos.y - display.height / 2;
+                display.viewport.max.y = playerpos.y + display.height / 2;
 
+            }
             sw.reset();
             sw.start();
             display.update(world);
@@ -64,9 +70,20 @@ class Game {
 
     void watchKeys(Event event) {
         if (event.type == EventType.KEY_PRESS) {
+        if (event.data.key == KeyType.CONSOLE) {
+            this.consoleMode = true;
+        } else
         if (event.data.key == KeyType.QUIT) {
             running = false;
         }
+        }
+    }
+
+    void emitEvent(Event event) {
+        if (!this.consoleMode) {
+            emit(event);
+        } else {
+            console.watch(event);
         }
     }
 
@@ -91,15 +108,15 @@ class Game {
         KeyType[] types;
         foreach (state; states) {
             auto type = config.getKeyType(state);
+            // Always emit a raw key press
+            auto rawKey = DataType();
+            rawKey.rawKey = state;
+            emitEvent(Event(EventType.RAW_KEY_PRESS, rawKey));
             if (type != KeyType.NONE) {
                 types ~= type;
                 auto key = DataType();
                 key.key = type;
-                emit(Event(EventType.KEY_PRESS, key));
-            } else {
-                auto rawKey = DataType();
-                rawKey.rawKey = state;
-                emit(Event(EventType.RAW_KEY_PRESS, rawKey));
+                emitEvent(Event(EventType.KEY_PRESS, key));
             }
         }
         return types;

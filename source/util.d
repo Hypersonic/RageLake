@@ -124,17 +124,19 @@ struct KeyState {
     bool pressed;
 }
 
-
 enum EventType {
     RAW_KEY_PRESS,
     KEY_PRESS
 }
+
 enum KeyType {
     MOVE_LEFT,
     MOVE_RIGHT,
     MOVE_UP,
     MOVE_DOWN,
     QUIT,
+    CONSOLE,
+    CANCEL,
     NONE
 }
 
