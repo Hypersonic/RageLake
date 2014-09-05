@@ -92,8 +92,16 @@ class Game {
         KeyType[] types;
         foreach (state; states[0 .. $-1]) {
             auto type = config.getKeyType(state);
-            types ~= type;
-            emit(Event(EventType.KEY_PRESS, DataType(type)));
+            if (type != KeyType.NONE) {
+                types ~= type;
+                auto key = DataType();
+                key.key = type;
+                emit(Event(EventType.KEY_PRESS, key));
+            } else {
+                auto rawKey = DataType();
+                rawKey.rawKey = state;
+                emit(Event(EventType.RAW_KEY_PRESS, rawKey));
+            }
         }
         return types;
     }

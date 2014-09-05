@@ -123,7 +123,9 @@ struct KeyState {
     bool pressed;
 }
 
+
 enum EventType {
+    RAW_KEY_PRESS,
     KEY_PRESS
 }
 enum KeyType {
@@ -136,8 +138,10 @@ enum KeyType {
 }
 
 union DataType {
+    KeyState rawKey;
     KeyType key;
 }
+
 
 struct Event {
     EventType type;
