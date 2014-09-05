@@ -2,6 +2,7 @@ import std.stdio;
 import std.string;
 import std.signals;
 import std.datetime;
+import std.algorithm;
 import deimos.ncurses.ncurses;
 import display;
 import world;
@@ -97,16 +98,12 @@ class Game {
                 if (key.keyCode == code)
                     found = true;
             }
-            // Only insert if there isn't already a copy of this code in the list
-            if (!found) {
-                auto state = KeyState(code, true);
-                states ~= state;
-            }
+            auto state = KeyState(code, true);
+            states ~= state;
         }
-
         // Convert to KeyTypes and emit events
         KeyType[] types;
-        foreach (state; states) {
+        foreach (state; uniq(states)) {
             auto type = config.getKeyType(state);
             // Always emit a raw key press
             auto rawKey = DataType();
