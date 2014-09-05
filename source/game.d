@@ -12,6 +12,7 @@ import core.thread;
 class Game {
     Display display;
     World world;
+    Config config;
     long turncount;
     bool running = true;
 
@@ -22,6 +23,7 @@ class Game {
         auto viewport = Bounds(Point(0,0), Point(width, height));
         display = new Display(width, height, viewport);
         world = new World(this);
+        config = new Config();
         turncount = 0;
         this.connect(&this.watchKeys);
     }
@@ -89,7 +91,7 @@ class Game {
         // Convert to KeyTypes and emit events
         KeyType[] types;
         foreach (state; states[0 .. $-1]) {
-            auto type = Config.getKeyType(state);
+            auto type = config.getKeyType(state);
             types ~= type;
             emit(Event(EventType.KEY_PRESS, DataType(type)));
         }
