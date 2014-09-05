@@ -29,10 +29,11 @@ class Entity : Updates {
     void watch(Event event) {
     }
 
-    void update(World world) {
+    Action update(World world) {
         // Recharge stamina
         stamina += staminaRechargeRate;
         if (stamina > maxStamina) stamina = maxStamina;
+        return new Action(this);
     }
 
     void render(Display display) {

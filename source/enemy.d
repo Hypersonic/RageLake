@@ -1,7 +1,7 @@
 import std.random;
 import entity : Entity;
 import world : World;
-import action : MovementAction;
+import action : Action, MovementAction;
 
 class Enemy : Entity {
     this(World w) {
@@ -9,9 +9,10 @@ class Enemy : Entity {
         cell.glyph = 'e';
     }
 
-    override void update(World world) {
+    override Action update(World world) {
         this.desiredAction = new MovementAction(this, uniform(-1, 2), uniform(-1, 2));
         this.desiredAction.staminaRequired *= 5;
         super.update(world);
+        return this.desiredAction;
     }
 }

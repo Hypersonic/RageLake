@@ -18,7 +18,7 @@ class Player : Entity {
         }
     }
 
-    override void update(World world) {
+    override Action update(World world) {
         switch (mostRecentKey) {
         case KeyType.MOVE_LEFT:
             desiredAction = new MovementAction(this, -1, 0);
@@ -33,10 +33,12 @@ class Player : Entity {
             desiredAction = new MovementAction(this, 0, 1);
             break;
         default:
+            desiredAction = new Action(this);
             break;
         }
         mostRecentKey = KeyType.NONE;
         this.world.game.display.drawDebugMessage(format("Stamina: %d", stamina));
         super.update(world);
+        return this.desiredAction;
     }
 }

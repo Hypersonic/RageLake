@@ -1,4 +1,5 @@
 import display : Display;
+import action : Action;
 import world : World;
 
 /*
@@ -149,6 +150,6 @@ struct Event {
 }
 
 interface Updates {
-    void update(World world);
+    Action update(World world);
     void render(Display display);
 }
