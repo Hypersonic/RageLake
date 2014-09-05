@@ -73,8 +73,7 @@ class Game {
     KeyType[] getKeysPressed() {
         KeyState[] states;
         int code;
-        do {
-            code = getch();
+        while ((code = getch()) != ERR){
             // Scan through the list for a dupe of this code
             bool found = false;
             foreach (key; states) {
@@ -86,11 +85,11 @@ class Game {
                 auto state = KeyState(code, true);
                 states ~= state;
             }
-        } while (code != ERR);
+        }
 
         // Convert to KeyTypes and emit events
         KeyType[] types;
-        foreach (state; states[0 .. $-1]) {
+        foreach (state; states) {
             auto type = config.getKeyType(state);
             if (type != KeyType.NONE) {
                 types ~= type;
