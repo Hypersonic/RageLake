@@ -11,14 +11,15 @@ class Console {
     string input = "";
     string[] log;
     void delegate(string[])[string] functions;
+    string[string] helpStrings;
     int height = 10;
 
     this(Game game) {
         this.game = game;
         input = "";
         game.display.connect(&this.render);
-        this.registerFunction("echo", delegate(string[] args) { this.logmsg(args.join(" ")); } );
-        this.registerFunction("openConsole", delegate(string[] args) { this.game.consoleMode = true; });
+        this.registerFunction("echo", delegate(string[] args) { this.logmsg(args.join(" ")); }, "Print all passed in arguments" );
+        this.registerFunction("openConsole", delegate(string[] args) { this.game.consoleMode = true; }, "Open the developer console");
     }
 
     void watch(Event event) {
@@ -59,8 +60,9 @@ class Console {
         fun(callcmd);
     }
 
-    void registerFunction(F)(string name, auto ref F fp) if (isCallable!F) {
+    void registerFunction(F)(string name, auto ref F fp, string help = "") if (isCallable!F) {
         functions[name] = toDelegate(fp);
+        helpStrings[name] = help;
     }
 
     void render(Display display) {

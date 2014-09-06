@@ -32,6 +32,6 @@ class World {
                 auto e = new Enemy(this);
                 e.position = player.position;
                 entities ~= e;
-                });
+                }, "Spawn an enemy at the player's position");
     }
 }
