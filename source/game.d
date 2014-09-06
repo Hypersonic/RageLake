@@ -8,6 +8,7 @@ import display;
 import world;
 import console;
 import enemy;
+import config;
 import util : Point, Bounds, EventType, Event, DataType;
 import core.thread;
 

@@ -3,8 +3,6 @@ import entity;
 import player;
 import enemy;
 import game : Game;
-import action : Action;
-import config : Config;
 
 class World {
     Entity[] entities; // In the future, this should probably be a linked list

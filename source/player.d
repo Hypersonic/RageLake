@@ -2,7 +2,6 @@ import std.string;
 import entity : Entity;
 import world : World;
 import action : Action, MovementAction;
-import util : EventType, Event;
 
 class Player : Entity {
 

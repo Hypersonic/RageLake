@@ -1,7 +1,6 @@
 import std.string;
 import std.functional;
 import std.traits;
-import std.array;
 import game;
 import util : Event, EventType, DataType;
 import display;
