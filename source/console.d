@@ -1,4 +1,7 @@
 import std.string;
+import std.functional;
+import std.traits;
+import std.array;
 import game;
 import util : Event, EventType, DataType, KeyType, KeyState;
 import display;
@@ -8,12 +11,14 @@ class Console {
     Game game;
     string input = "";
     string[] log;
+    void delegate(string[])[string] functions;
     int height = 10;
 
     this(Game game) {
         this.game = game;
         input = "";
         game.display.connect(&this.render);
+        this.registerFunction("echo", delegate(string[] args) { this.logmsg(args.join(" ")); } );
     }
 
     void watch(Event event) {
@@ -35,8 +40,25 @@ class Console {
         }
     }
 
+    void logmsg(string msg) {
+        log ~= msg;
+    }
+
     void submit(string cmd) {
-        log ~= cmd;
+        logmsg(cmd);
+        auto splitcmd = cmd.split(" ");
+        auto err = delegate(string[] s) { this.logmsg("Error, no fn found with name \"" ~ splitcmd[0] ~ "\""); };
+        auto fun = functions.get(splitcmd[0], err);
+        string[] callcmd;
+        if (splitcmd.length > 1)
+            callcmd = splitcmd[1..$];
+        else
+            callcmd = [];
+        fun(callcmd);
+    }
+
+    void registerFunction(F)(string name, auto ref F fp) if (isCallable!F) {
+        functions[name] = toDelegate(fp);
     }
 
     void render(Display display) {
