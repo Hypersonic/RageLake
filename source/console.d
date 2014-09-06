@@ -46,9 +46,13 @@ class Console {
 
     void submit(string cmd) {
         logmsg(cmd);
+        if (cmd == "") return;
         auto splitcmd = cmd.split(" ");
-        auto err = delegate(string[] s) { this.logmsg("Error, no fn found with name \"" ~ splitcmd[0] ~ "\""); };
-        auto fun = functions.get(splitcmd[0], err);
+        string cmdToCall = "";
+        if (splitcmd.length > 0)
+            cmdToCall = splitcmd[0];
+        auto err = delegate(string[] s) { this.logmsg("Error, no fn found with name \"" ~ cmdToCall ~ "\""); };
+        auto fun = functions.get(cmdToCall, err);
         string[] callcmd;
         if (splitcmd.length > 1)
             callcmd = splitcmd[1..$];
