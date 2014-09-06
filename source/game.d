@@ -29,6 +29,7 @@ class Game {
         world = new World(this);
         config = new Config();
         console = new Console(this);
+        console.registerFunction("quit", delegate(string[] s) { this.running = false; });
         turncount = 0;
         this.connect(&this.watchKeys);
     }
