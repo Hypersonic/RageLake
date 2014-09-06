@@ -30,5 +30,10 @@ class World {
         player = new Player(this);
         entities ~= player;
         entities ~= new Enemy(this);
+        game.console.registerFunction("spawnenemy", delegate(string[] s) {
+                auto e = new Enemy(this);
+                e.position = player.position;
+                entities ~= e;
+                });
     }
 }

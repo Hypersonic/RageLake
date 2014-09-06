@@ -3,7 +3,7 @@ import std.functional;
 import std.traits;
 import std.array;
 import game;
-import util : Event, EventType, DataType, KeyType, KeyState;
+import util : Event, EventType, DataType;
 import display;
 import deimos.ncurses.ncurses;
 
@@ -19,23 +19,23 @@ class Console {
         input = "";
         game.display.connect(&this.render);
         this.registerFunction("echo", delegate(string[] args) { this.logmsg(args.join(" ")); } );
+        this.registerFunction("openConsole", delegate(string[] args) { this.game.consoleMode = true; });
     }
 
     void watch(Event event) {
-        // Disable console when user hits cancel key
-        if (event.type == EventType.KEY_PRESS && event.data.key == KeyType.CANCEL) {
-            game.consoleMode = false;
-        }
-        if (event.type == EventType.RAW_KEY_PRESS) {
+        if (event.type == EventType.KEY_PRESS) {
             // When they press backspace
-            if (event.data.rawKey.keyCode == 127) {
+            if (event.data.key == 127) {
                 if (input.length > 0)
                     input = input[0 .. $-1];
-            } else if (event.data.rawKey.keyCode == 13) { // Return
+            } else if (event.data.key == 13) { // Return
+                logmsg(input);
                 submit(input);
                 input = "";
-            } else if (game.config.getKeyType(event.data.rawKey) != KeyType.CANCEL) {
-                input ~= cast(char) event.data.rawKey.keyCode;
+            } else if (event.data.key == '`') {
+                this.game.consoleMode = false;
+            } else {
+                input ~= event.data.key;
             }
         }
     }
@@ -45,7 +45,6 @@ class Console {
     }
 
     void submit(string cmd) {
-        logmsg(cmd);
         if (cmd == "") return;
         auto splitcmd = cmd.split(" ");
         string cmdToCall = "";

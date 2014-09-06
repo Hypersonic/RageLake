@@ -119,30 +119,13 @@ unittest {
     assert(b4.contains(p));
 }
 
-struct KeyState {
-    int keyCode;
-    bool pressed;
-}
-
 enum EventType {
     RAW_KEY_PRESS,
     KEY_PRESS
 }
 
-enum KeyType {
-    MOVE_LEFT,
-    MOVE_RIGHT,
-    MOVE_UP,
-    MOVE_DOWN,
-    QUIT,
-    CONSOLE,
-    CANCEL,
-    NONE
-}
-
 union DataType {
-    KeyState rawKey;
-    KeyType key;
+    char key;
 }
 
 

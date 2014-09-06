@@ -8,7 +8,7 @@ import display;
 import world;
 import console;
 import enemy;
-import util : KeyState, Point, Bounds, KeyType, EventType, Event, DataType;
+import util : Point, Bounds, EventType, Event, DataType;
 import core.thread;
 
 class Game {
@@ -26,9 +26,9 @@ class Game {
         height = 40;
         auto viewport = Bounds(Point(0,0), Point(width, height));
         display = new Display(width, height, viewport);
+        console = new Console(this);
         world = new World(this);
         config = new Config();
-        console = new Console(this);
         console.registerFunction("quit", delegate(string[] s) { this.running = false; });
         turncount = 0;
         this.connect(&this.watchKeys);
@@ -72,12 +72,8 @@ class Game {
 
     void watchKeys(Event event) {
         if (event.type == EventType.KEY_PRESS) {
-        if (event.data.key == KeyType.CONSOLE) {
-            this.consoleMode = true;
-        } else
-        if (event.data.key == KeyType.QUIT) {
-            running = false;
-        }
+            auto cmd = config.getCommand(event.data.key);
+            console.submit(cmd);
         }
     }
 
@@ -89,35 +85,20 @@ class Game {
         }
     }
 
-    KeyType[] getKeysPressed() {
-        KeyState[] states;
+    char[] getKeysPressed() {
+        char[] states;
+        char[] emitted;
         int code;
         while ((code = getch()) != ERR){
-            // Scan through the list for a dupe of this code
-            bool found = false;
-            foreach (key; states) {
-                if (key.keyCode == code)
-                    found = true;
-            }
-            auto state = KeyState(code, true);
-            states ~= state;
+            states ~= code;
         }
-        // Convert to KeyTypes and emit events
-        KeyType[] types;
         foreach (state; uniq(states)) {
-            auto type = config.getKeyType(state);
-            // Always emit a raw key press
-            auto rawKey = DataType();
-            rawKey.rawKey = state;
-            emitEvent(Event(EventType.RAW_KEY_PRESS, rawKey));
-            if (type != KeyType.NONE) {
-                types ~= type;
-                auto key = DataType();
-                key.key = type;
-                emitEvent(Event(EventType.KEY_PRESS, key));
-            }
+            auto key = DataType();
+            key.key = cast(char) state;
+            emitEvent(Event(EventType.KEY_PRESS, key));
+            emitted ~= cast(char) state;
         }
-        return types;
+        return emitted;
     }
     mixin Signal!(Event);
 }
