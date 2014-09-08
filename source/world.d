@@ -41,8 +41,10 @@ class World {
                         break;
                     }
                 }
-                action.execute(this);
-                action.target.desiredAction = null;
+                if (action.canExecute(this)) {
+                    action.execute(this);
+                    action.target.desiredAction = null;
+                }
             }
         }
     }

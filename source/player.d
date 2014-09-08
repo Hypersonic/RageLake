@@ -26,6 +26,7 @@ class Player : Entity {
 
     override Action update(World world) {
         this.world.game.display.drawDebugMessage(format("Stamina: %d", stamina));
+        this.world.game.display.drawDebugMessage(format("HP: %d", health));
         super.update(world);
         return this.desiredAction;
     }

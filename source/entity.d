@@ -11,6 +11,7 @@ class Entity : Updates {
     int maxStamina = 100;
     int health = 10;
     int maxHealth = 10;
+    bool alive = true;
     Action desiredAction;
     World world;
     Cell cell;
@@ -41,6 +42,7 @@ class Entity : Updates {
     }
 
     void die() {
+        alive = false;
         normalColor = Color.UNIMPORTANT;
     }
 

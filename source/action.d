@@ -52,7 +52,8 @@ class MovementAction : Action {
         // If we the target spot is taken, set our alternate action
         if (!targetClear)
             this.alternate = new AttackAction(target, x, y);
-        return targetClear && enoughStamina;
+
+        return targetClear && enoughStamina && target.alive;
     }
 }
 
@@ -81,6 +82,7 @@ class AttackAction : Action {
     }
 
     override bool canExecute(World world) {
-        return target.stamina >= staminaRequired; // All we need is enough stamina
+        // All we need is enough stamina and our target being alive
+        return target.stamina >= staminaRequired && target.alive;
     }
 }
