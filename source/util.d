@@ -1,6 +1,7 @@
 import display : Display;
 import action : Action;
 import world : World;
+import deimos.ncurses.ncurses;
 
 /*
  * Represents a cell in a terminal-like display.
@@ -9,10 +10,20 @@ import world : World;
  */
 struct Cell {
     char glyph;
+    Color color = Color.NORMAL;
 
     this(char glyph) {
         this.glyph = glyph;
     }
+}
+
+enum Color {
+    NORMAL,
+    HEALING,
+    TAKING_DAMAGE,
+    UNIMPORTANT,
+    ENEMY,
+    PLAYER
 }
 
 struct Point {
