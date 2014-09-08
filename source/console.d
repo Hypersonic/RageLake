@@ -60,7 +60,8 @@ class Console {
         fun(callcmd);
     }
 
-    void registerFunction(F)(string name, auto ref F fp, string help = "") if (isCallable!F) {
+    // Bind a function to a name, along with an optional help string
+    @safe void registerFunction(F)(string name, auto ref F fp, string help = "") pure nothrow if (isCallable!F) {
         functions[name] = toDelegate(fp);
         helpStrings[name] = help;
     }
