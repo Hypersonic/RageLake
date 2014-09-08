@@ -18,7 +18,7 @@ struct Cell {
 }
 
 enum Color {
-    NORMAL,
+    NORMAL = 1,
     HEALING,
     TAKING_DAMAGE,
     UNIMPORTANT,

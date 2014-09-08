@@ -73,7 +73,7 @@ class Display {
         intrflush(stdscr, false);
         keypad(stdscr, false);
 
-        init_pair(Color.NORMAL, COLOR_YELLOW, COLOR_BLACK);
+        init_pair(Color.NORMAL, COLOR_WHITE, COLOR_BLACK);
         init_pair(Color.HEALING, COLOR_GREEN, COLOR_BLACK);
         init_pair(Color.TAKING_DAMAGE, COLOR_WHITE, COLOR_RED);
         init_pair(Color.UNIMPORTANT, COLOR_WHITE, COLOR_BLACK);
