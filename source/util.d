@@ -1,7 +1,6 @@
 import display : Display;
 import action : Action;
 import world : World;
-import deimos.ncurses.ncurses;
 
 /*
  * Represents a cell in a terminal-like display.
