@@ -9,6 +9,8 @@ class Entity : Updates {
     int stamina;
     int staminaRechargeRate = 4;
     int maxStamina = 100;
+    int health = 10;
+    int maxHealth = 10;
     Action desiredAction;
     World world;
     Cell cell;
