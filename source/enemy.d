@@ -2,11 +2,13 @@ import std.random;
 import entity : Entity;
 import world : World;
 import action : Action, MovementAction;
+import util : Color;
 
 class Enemy : Entity {
     this(World w) {
         super(w);
         cell.glyph = 'e';
+        cell.color = Color.ENEMY;
     }
 
     override Action update(World world) {

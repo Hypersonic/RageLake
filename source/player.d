@@ -2,12 +2,14 @@ import std.string;
 import entity : Entity;
 import world : World;
 import action : Action, MovementAction;
+import util : Color;
 
 class Player : Entity {
 
     this(World world) {
         super(world);
         cell.glyph = '@';
+        cell.color = Color.PLAYER;
         this.world.game.console.registerFunction("up", delegate(string[] s) {
                 this.desiredAction = new MovementAction(this, 0, -1);
                 });
