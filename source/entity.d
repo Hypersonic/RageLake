@@ -2,7 +2,7 @@ import std.string;
 import world : World;
 import display : Display;
 import action : Action;
-import util : Cell, Point, Updates, Event;
+import util : Cell, Point, Updates, Event, Color;
 
 class Entity : Updates {
     Point position;
@@ -14,6 +14,7 @@ class Entity : Updates {
     Action desiredAction;
     World world;
     Cell cell;
+    Color normalColor = Color.NORMAL;
 
     this(World world) {
         this.world = world;
@@ -31,10 +32,23 @@ class Entity : Updates {
     void watch(Event event) {
     }
 
+    void hit(int damage) {
+        this.cell.color = Color.TAKING_DAMAGE;
+        this.health -= damage;
+        if (this.health <= 0) {
+            this.die();
+        }
+    }
+
+    void die() {
+        normalColor = Color.UNIMPORTANT;
+    }
+
     Action update(World world) {
         // Recharge stamina
         stamina += staminaRechargeRate;
         if (stamina > maxStamina) stamina = maxStamina;
+        if (this.stamina == this.maxStamina) cell.color = normalColor;
         return new Action(this);
     }
 

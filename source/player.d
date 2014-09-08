@@ -9,7 +9,7 @@ class Player : Entity {
     this(World world) {
         super(world);
         cell.glyph = '@';
-        cell.color = Color.PLAYER;
+        normalColor = Color.PLAYER;
         this.world.game.console.registerFunction("up", delegate(string[] s) {
                 this.desiredAction = new MovementAction(this, 0, -1);
                 });

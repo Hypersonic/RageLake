@@ -34,10 +34,15 @@ class World {
         if (actions.length == requiredActions) {
             game.turncount++;
             foreach (action; actions) {
-                if (action.canExecute(this)) {
-                    action.execute(this);
-                    action.target.desiredAction = null;
+                while (!action.canExecute(this)) {
+                    if (action.alternate) {
+                        action = action.alternate;
+                    } else {
+                        break;
+                    }
                 }
+                action.execute(this);
+                action.target.desiredAction = null;
             }
         }
     }

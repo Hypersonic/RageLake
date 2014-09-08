@@ -1,10 +1,10 @@
 import world;
 import entity;
 
-// The vanilla action is abstract, all actual actions should be subclasses
 class Action {
     Entity target;
     int staminaRequired;
+    Action alternate; // An alternate action that can be attempted if this one cannot execute
 
     this(Entity target) {
         this.target = target;
@@ -49,6 +49,38 @@ class MovementAction : Action {
         }
         // Check if we have at least staminaRequired stamina
         bool enoughStamina = target.stamina >= staminaRequired;
+        // If we the target spot is taken, set our alternate action
+        if (!targetClear)
+            this.alternate = new AttackAction(target, x, y);
         return targetClear && enoughStamina;
+    }
+}
+
+class AttackAction : Action {
+    int x, y;
+
+    this(Entity target, int x, int y) {
+        super(target);
+        this.x = x;
+        this.y = y;
+        staminaRequired = 10;
+    }
+    
+    override void execute(World world) {
+        target.stamina -= staminaRequired;
+        Entity entAtLocation;
+        Point location = target.position + Point(x, y);
+        foreach (entity; world.entities) {
+            if (entity.position == location) {
+                entAtLocation = entity;
+            }
+        }
+        if (entAtLocation) {
+            entAtLocation.hit(1); // Do 1 damage to the target
+        }
+    }
+
+    override bool canExecute(World world) {
+        return target.stamina >= staminaRequired; // All we need is enough stamina
     }
 }

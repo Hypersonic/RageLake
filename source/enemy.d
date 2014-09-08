@@ -8,7 +8,7 @@ class Enemy : Entity {
     this(World w) {
         super(w);
         cell.glyph = 'e';
-        cell.color = Color.ENEMY;
+        normalColor = Color.ENEMY;
     }
 
     override Action update(World world) {
