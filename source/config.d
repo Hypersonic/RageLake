@@ -47,15 +47,15 @@ class Config {
                 });
     }
 
-    void bindKey(char keyCode, string command) {
+    @safe void bindKey(char keyCode, string command) pure nothrow {
         keybinds[keyCode] = command;
     }
 
-    void unbindKey(char keyCode) {
+    @safe void unbindKey(char keyCode) pure nothrow {
         keybinds.remove(keyCode);
     }
 
-    string getCommand(char keyCode) {
+    @trusted string getCommand(char keyCode) pure {
         return keybinds.get(keyCode, "");
     }
 }
