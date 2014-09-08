@@ -65,7 +65,7 @@ class Display {
         nonl();
         nodelay(stdscr, true);
         intrflush(stdscr, false);
-        keypad(stdscr, true);
+        keypad(stdscr, false);
     }
 
     ~this() {

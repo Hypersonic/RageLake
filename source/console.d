@@ -32,7 +32,7 @@ class Console {
                 logmsg(input);
                 submit(input);
                 input = "";
-            } else if (event.data.key == '`') {
+            } else if (event.data.key == 27) { // ESC
                 this.game.consoleMode = false;
             } else {
                 input ~= event.data.key;
