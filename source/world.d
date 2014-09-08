@@ -32,6 +32,7 @@ class World {
         }
         // only execute actions if we have one for every entity that can act
         if (actions.length == requiredActions) {
+            game.turncount++;
             foreach (action; actions) {
                 if (action.canExecute(this)) {
                     action.execute(this);

@@ -44,8 +44,6 @@ class Game {
             display.drawDebugMessage(format("Turn: %d", turncount));
 
             if (!consoleMode) {
-                turncount++;
-
                 sw.start();
                 world.step();
                 sw.stop();
