@@ -2,6 +2,7 @@ import std.string;
 import entity;
 import player;
 import enemy;
+import action;
 import game : Game;
 
 class World {
@@ -11,14 +12,31 @@ class World {
 
     // Step all entities forwards
     void step() {
+        Action[] actions;
         game.display.drawDebugMessage(format("Entities: %d", entities.length));
+        auto requiredActions = entities.length;
         foreach (e; entities) {
             e.update(this);
         }
         foreach (e; entities) {
-            if (e.desiredAction && e.desiredAction.canExecute(this)) {
-                e.desiredAction.execute(this);
-                e.desiredAction = null;
+            // Only able to move if we're at maximum stamina;
+            // If any entity is at maximum stamina, it must take an action
+            // This effectively has "cooldown" for actions,
+            // as well as enforcing a "maximum" on the intensity of the action an entity can take
+            if (e.stamina < e.maxStamina) {
+                requiredActions--;
+            } else
+            if (e.desiredAction) {
+                actions ~= e.desiredAction;
+            }
+        }
+        // only execute actions if we have one for every entity that can act
+        if (actions.length == requiredActions) {
+            foreach (action; actions) {
+                if (action.canExecute(this)) {
+                    action.execute(this);
+                    action.target.desiredAction = null;
+                }
             }
         }
     }
