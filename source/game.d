@@ -29,7 +29,7 @@ class Game {
         display = new Display(width, height, viewport);
         console = new Console(this);
         world = new World(this);
-        config = new Config();
+        config = new Config(this);
         console.registerFunction("quit", delegate(string[] s) { this.running = false; }, "Exit the game");
         turncount = 0;
         this.connect(&this.watchKeys);
