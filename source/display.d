@@ -16,10 +16,17 @@ class Display {
 
     void update(ref World world) {
         erase();
+
+        // Get the window bounds
+        getmaxyx(stdscr, this.height, this.width);
+
         attrset(COLOR_PAIR(Color.NORMAL));
         foreach (i; 0 .. width) {
             foreach (j; 0 .. height) {
-                drawCell(Point(i, j), Cell('.'));
+                auto p = Point(i, j);
+                if (viewport.contains(p)) {
+                    drawCell(p, Cell('.'));
+                }
             }
         }
         foreach (entity; world.entities) {
@@ -31,6 +38,8 @@ class Display {
         emit(this); // At this point, anything can hook in by registering for events from display
         // Render debug messages
         auto i = 0;
+        drawDebugMessage(format("Width: %d", width));
+        drawDebugMessage(format("Height: %d", height));
         attrset(COLOR_PAIR(Color.NORMAL));
         foreach (msg; debugmsgs) {
             i++;
@@ -58,9 +67,7 @@ class Display {
         debugmsgs ~= str;
     }
 
-    this(int width, int height, Bounds view) {
-        this.width = width;
-        this.height = height;
+    this(Bounds view) {
         this.viewport = view;
 
         // init ncurses
@@ -72,6 +79,10 @@ class Display {
         nodelay(stdscr, true);
         intrflush(stdscr, false);
         keypad(stdscr, false);
+
+        // Get the window bounds
+        getmaxyx(stdscr, this.height, this.width);
+        writeln(); // Writeln to flush buffers
 
         init_pair(Color.NORMAL, COLOR_WHITE, COLOR_BLACK);
         init_pair(Color.HEALING, COLOR_GREEN, COLOR_BLACK);

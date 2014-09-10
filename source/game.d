@@ -22,11 +22,8 @@ class Game {
     bool consoleMode = false;
 
     this() {
-        int width, height;
-        width = 80;
-        height = 40;
-        auto viewport = Bounds(Point(0,0), Point(width, height));
-        display = new Display(width, height, viewport);
+        auto viewport = Bounds(Point(0,0), Point(10, 10));
+        display = new Display(viewport);
         console = new Console(this);
         world = new World(this);
         config = new Config(this);
