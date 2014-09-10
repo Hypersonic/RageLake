@@ -5,10 +5,6 @@ import deimos.ncurses.ncurses;
 import world : World;
 import util : Cell, Point, Bounds, Color;
 
-
-/*
- * A grid of glyphs
- */
 class Display {
     int width, height;
     string[] debugmsgs;
