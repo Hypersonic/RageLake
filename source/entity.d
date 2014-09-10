@@ -22,15 +22,11 @@ class Entity : Updates {
         this.position = Point(0, 0);
         this.cell = Cell('c');
         stamina = maxStamina;
-        world.game.connect(&this.watch);
     }
 
     this(World world, Point p) {
         this(world);
         this.position = p;
-    }
-
-    void watch(Event event) {
     }
 
     void hit(int damage) {
