@@ -26,7 +26,7 @@ class Player : Entity {
                 this.alive = true;
                 this.normalColor = Color.PLAYER;
                 this.health = this.maxHealth;
-                });
+                }, "LIVE, Liiiiiiiive!");
     }
 
     override Action update(World world) {
