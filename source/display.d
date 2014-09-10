@@ -36,10 +36,10 @@ class Display {
             }
         }
         emit(this); // At this point, anything can hook in by registering for events from display
-        // Render debug messages
-        auto i = 0;
         drawDebugMessage(format("Width: %d", width));
         drawDebugMessage(format("Height: %d", height));
+        // Render debug messages
+        auto i = 0;
         attrset(COLOR_PAIR(Color.NORMAL));
         foreach (msg; debugmsgs) {
             i++;
