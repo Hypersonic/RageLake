@@ -22,6 +22,11 @@ class Player : Entity {
         this.world.game.console.registerFunction("right", delegate(string[] s) {
                 this.desiredAction = new MovementAction(this, 1, 0);
                 });
+        this.world.game.console.registerFunction("phoenix", delegate(string[] s) {
+                this.alive = true;
+                this.normalColor = Color.PLAYER;
+                this.health = this.maxHealth;
+                });
     }
 
     override Action update(World world) {
