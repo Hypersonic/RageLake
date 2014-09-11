@@ -20,6 +20,14 @@ class Console {
         game.display.connect(&this.render);
         this.registerFunction("echo", delegate(string[] args) { this.logmsg(args.join(" ")); }, "Print all passed in arguments" );
         this.registerFunction("openConsole", delegate(string[] args) { this.game.consoleMode = true; }, "Open the developer console");
+        this.registerFunction("help", delegate(string[] args) {
+                if (args.length == 0) {
+                    this.logmsg("Whadaya want help with?");
+                    return;
+                }
+                auto help = helpStrings.get(args[0], "No such command");
+                this.logmsg(args[0] ~ ": " ~ help);
+                }, "Ask for info about a command");
     }
 
     void watch(Event event) {
