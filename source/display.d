@@ -37,8 +37,8 @@ class Display {
         // Render debug messages
         auto i = 0;
         foreach (msg; debugmsgs) {
-            i++;
             drawString(0, i, msg);
+            i++;
         }
         debugmsgs.clear();
 
