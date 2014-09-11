@@ -11,12 +11,12 @@ class Display {
     Bounds viewport;
 
     void update(ref World world) {
-        erase();
-
         // Get the window bounds
         getmaxyx(stdscr, this.height, this.width);
 
-        attrset(COLOR_PAIR(Color.NORMAL));
+        erase();
+
+        attron(COLOR_PAIR(Color.NORMAL));
         foreach (i; 0 .. width) {
             foreach (j; 0 .. height) {
                 auto p = Point(i, j);
@@ -25,8 +25,8 @@ class Display {
                 }
             }
         }
+        attroff(COLOR_PAIR(Color.NORMAL));
         foreach (entity; world.entities) {
-            attrset(COLOR_PAIR(Color.NORMAL));
             if (viewport.contains(entity.position)) {
                 entity.render(this);
             }
@@ -36,10 +36,9 @@ class Display {
         drawDebugMessage(format("Height: %d", height));
         // Render debug messages
         auto i = 0;
-        attrset(COLOR_PAIR(Color.NORMAL));
         foreach (msg; debugmsgs) {
             i++;
-            mvprintw(i, 0, toStringz(msg));
+            drawString(0, i, msg);
         }
         debugmsgs.clear();
 
@@ -48,15 +47,17 @@ class Display {
     mixin Signal!(Display);
 
     void drawString(int x, int y, string str, Color color = Color.NORMAL) {
-        attrset(COLOR_PAIR(color));
+        attron(COLOR_PAIR(color));
         mvprintw(y, x, toStringz(str));
+        attroff(COLOR_PAIR(color));
     }
 
     void drawCell(Point position, Cell cell) {
         // There's probably a much more efficient way to convert from a character to a c-string
         auto glyph = toStringz("" ~ cell.glyph);
-        attrset(COLOR_PAIR(cell.color));
+        attron(COLOR_PAIR(cell.color));
         mvprintw(position.y - viewport.min.y, position.x - viewport.min.x, glyph);
+        attroff(COLOR_PAIR(cell.color));
     }
     
     void drawDebugMessage(string str) {

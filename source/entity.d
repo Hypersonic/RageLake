@@ -51,7 +51,8 @@ class Entity : Updates {
     }
 
     void render(Display display) {
-        display.drawCell(this.position, this.cell);
+        if (display.viewport.contains(this.position)) {
+            display.drawCell(this.position, this.cell);
+        }
     }
-
 }
