@@ -31,7 +31,7 @@ class Config {
                         g.console.logmsg("Error, `bind` requires first argument to be a character, got \"" ~ s[0] ~ "\"");
                         return;
                     }
-                    this.bindKey(s[0][0], s[1]);
+                    this.bindKey(s[0][0], join(s[1..$], " "));
                 });
         g.console.registerFunction("unbind",
                 delegate(string[] s) {
