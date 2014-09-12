@@ -85,6 +85,7 @@ class Console {
     }
 
     void render(Display display) {
+        if (!game.consoleMode) return;
         int x = display.width;
         int y = 0;
         auto usedlog = log;
