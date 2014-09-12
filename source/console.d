@@ -2,7 +2,7 @@ import std.string;
 import std.functional;
 import std.traits;
 import game;
-import util : Event, EventType, DataType;
+import event : Event, EventType, DataType;
 import display;
 import deimos.ncurses.ncurses;
 
@@ -17,6 +17,7 @@ class Console {
     this(Game game) {
         this.game = game;
         input = "";
+        game.events.connect(&this.watch);
         game.display.connect(&this.render);
         this.registerFunction("echo", delegate(string[] args) { this.logmsg(args.join(" ")); }, "Print all passed in arguments" );
         this.registerFunction("openConsole", delegate(string[] args) { this.game.consoleMode = true; }, "Open the developer console");
@@ -31,19 +32,21 @@ class Console {
     }
 
     void watch(Event event) {
-        if (event.type == EventType.KEY_PRESS) {
-            // When they press backspace
-            if (event.data.key == 127) {
-                if (input.length > 0)
-                    input = input[0 .. $-1];
-            } else if (event.data.key == 13) { // Return
-                logmsg(input);
-                submit(input);
-                input = "";
-            } else if (event.data.key == 27) { // ESC
-                this.game.consoleMode = false;
-            } else {
-                input ~= event.data.key;
+        if (game.consoleMode) {
+            if (event.type == EventType.KEY_PRESS) {
+                // When they press backspace
+                if (event.data.key == 127) {
+                    if (input.length > 0)
+                        input = input[0 .. $-1];
+                } else if (event.data.key == 13) { // Return
+                    logmsg(input);
+                    submit(input);
+                    input = "";
+                } else if (event.data.key == 27) { // ESC
+                    this.game.consoleMode = false;
+                } else {
+                    input ~= event.data.key;
+                }
             }
         }
     }

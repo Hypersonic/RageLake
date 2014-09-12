@@ -2,7 +2,8 @@ import std.string;
 import world : World;
 import display : Display;
 import action : Action;
-import util : Cell, Point, Updates, Event, Color;
+import util : Cell, Point, Updates, Color;
+import event : Event;
 
 class Entity : Updates {
     Point position;

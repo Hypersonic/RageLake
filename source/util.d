@@ -129,20 +129,6 @@ unittest {
     assert(b4.contains(p));
 }
 
-enum EventType {
-    RAW_KEY_PRESS,
-    KEY_PRESS
-}
-
-union DataType {
-    char key;
-}
-
-
-struct Event {
-    EventType type;
-    DataType data;
-}
 
 interface Updates {
     // Return the action this thing would like to take

@@ -9,10 +9,12 @@ import world;
 import console;
 import enemy;
 import config;
-import util : Point, Bounds, EventType, Event, DataType;
+import util : Point, Bounds;
+import event : EventManager, Event, EventType, DataType;
 import core.thread;
 
 class Game {
+    EventManager events;
     Display display;
     World world;
     Config config;
@@ -23,13 +25,14 @@ class Game {
 
     this() {
         auto viewport = Bounds(Point(0,0), Point(10, 10));
+        events = new EventManager(this);
         display = new Display(viewport);
         console = new Console(this);
         world = new World(this);
         config = new Config(this);
         console.registerFunction("quit", delegate(string[] s) { this.running = false; }, "Exit the game");
         turncount = 0;
-        this.connect(&this.watchKeys);
+        events.connect(&this.watchKeys);
     }
 
     void run() {
@@ -73,14 +76,6 @@ class Game {
         }
     }
 
-    void emitEvent(Event event) {
-        if (!this.consoleMode) {
-            emit(event);
-        } else {
-            console.watch(event);
-        }
-    }
-
     char[] getKeysPressed() {
         char[] states;
         char[] emitted;
@@ -91,7 +86,7 @@ class Game {
         foreach (state; uniq(states)) {
             auto key = DataType();
             key.key = cast(char) state;
-            emitEvent(Event(EventType.KEY_PRESS, key));
+            events.throwEvent(Event(EventType.KEY_PRESS, key));
             emitted ~= cast(char) state;
         }
         return emitted;
