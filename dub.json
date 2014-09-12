@@ -1,6 +1,6 @@
 {
 	"name": "ragelake",
-	"description": "A simple rougelike in D",
+	"description": "A simple roguelike in D",
 	"copyright": "Copyright © 2014, Josh Hofing",
 	"authors": ["Josh Hofing"],
 	"dependencies": {
