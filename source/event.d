@@ -1,20 +1,12 @@
 import std.signals;
+import std.variant;
 import game : Game;
 
-enum EventType {
-    RAW_KEY_PRESS,
-    KEY_PRESS
-}
-
-union DataType {
+struct KeyPress {
     char key;
 }
 
-
-struct Event {
-    EventType type;
-    DataType data;
-}
+alias Event = Algebraic!(KeyPress);
 
 class EventManager {
     Game game;

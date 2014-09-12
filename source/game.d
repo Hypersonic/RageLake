@@ -1,5 +1,6 @@
 import std.stdio;
 import std.string;
+import std.variant;
 import std.signals;
 import std.datetime;
 import std.algorithm;
@@ -10,7 +11,7 @@ import console;
 import enemy;
 import config;
 import util : Point, Bounds;
-import event : EventManager, Event, EventType, DataType;
+import event : EventManager, Event;
 import core.thread;
 
 class Game {
@@ -70,10 +71,10 @@ class Game {
     }
 
     void watchKeys(Event event) {
-        if (event.type == EventType.KEY_PRESS) {
-            auto cmd = config.getCommand(event.data.key);
-            console.submit(cmd);
-        }
+        event.tryVisit!((KeyPress kp) {
+                                        auto cmd = config.getCommand(kp.key);
+                                        console.submit(cmd);
+                                      })();
     }
 
     char[] getKeysPressed() {
@@ -84,9 +85,8 @@ class Game {
             states ~= code;
         }
         foreach (state; uniq(states)) {
-            auto key = DataType();
-            key.key = cast(char) state;
-            events.throwEvent(Event(EventType.KEY_PRESS, key));
+            Event e = KeyPress(cast(char) state);
+            events.throwEvent(e);
             emitted ~= cast(char) state;
         }
         return emitted;

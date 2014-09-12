@@ -1,8 +1,9 @@
 import std.string;
+import std.variant;
 import std.functional;
 import std.traits;
 import game;
-import event : Event, EventType, DataType;
+import event : Event, KeyPress;
 import display;
 import deimos.ncurses.ncurses;
 
@@ -32,21 +33,27 @@ class Console {
     }
 
     void watch(Event event) {
+        event.tryVisit!((KeyPress kp) => this.keyPressed(kp)
+                                                            )();
+    }
+
+    void keyPressed(KeyPress kp) {
         if (game.consoleMode) {
-            if (event.type == EventType.KEY_PRESS) {
-                // When they press backspace
-                if (event.data.key == 127) {
-                    if (input.length > 0)
-                        input = input[0 .. $-1];
-                } else if (event.data.key == 13) { // Return
+            switch (kp.key) {
+                case 127: // Backspace
+                    if (input.length > 0) input = input[0 .. $-1];
+                    break;
+                case 13: // Return
                     logmsg(input);
                     submit(input);
                     input = "";
-                } else if (event.data.key == 27) { // ESC
+                    break;
+                case 27: // ESC
                     this.game.consoleMode = false;
-                } else {
-                    input ~= event.data.key;
-                }
+                    break;
+                default:
+                    input ~= kp.key;
+                    break;
             }
         }
     }
