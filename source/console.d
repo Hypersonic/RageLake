@@ -30,6 +30,17 @@ class Console {
                 auto help = helpStrings.get(args[0], "No such command");
                 this.logmsg(args[0] ~ ": " ~ help);
                 }, "Ask for info about a command");
+        this.registerFunction("alias", delegate(string[] args) {
+                if (args.length < 2) {
+                    this.logmsg("You need to specify at least 2 arguments");
+                    return;
+                }
+                this.registerFunction(args[0], delegate(string[] subargs) {
+                        foreach (subcmd; args[1..$].join(" ").split(";")) {
+                            this.submit(subcmd);
+                        }
+                    });
+                });
     }
 
     void watch(Event event) {
