@@ -44,8 +44,8 @@ class Console {
     }
 
     void watch(Event event) {
-        event.tryVisit!((KeyPress kp) => this.keyPressed(kp)
-                                                            )();
+        event.tryVisit!((KeyPress kp) => this.keyPressed(kp),
+                        () {}                               )();
     }
 
     void keyPressed(KeyPress kp) {
