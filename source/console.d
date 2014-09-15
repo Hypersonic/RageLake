@@ -36,6 +36,7 @@ class Console {
                     return;
                 }
                 this.registerFunction(args[0], delegate(string[] subargs) {
+                    // Submit commands split by semicolons
                         foreach (subcmd; args[1..$].join(" ").split(";")) {
                             this.submit(subcmd);
                         }
@@ -44,28 +45,26 @@ class Console {
     }
 
     void watch(Event event) {
-        event.tryVisit!((KeyPress kp) => this.keyPressed(kp),
+        event.tryVisit!((KeyPress kp) { if (game.consoleMode) this.keyPressed(kp); },
                         () {}                               )();
     }
 
     void keyPressed(KeyPress kp) {
-        if (game.consoleMode) {
-            switch (kp.key) {
-                case 127: // Backspace
-                    if (input.length > 0) input = input[0 .. $-1];
-                    break;
-                case 13: // Return
-                    logmsg(input);
-                    submit(input);
-                    input = "";
-                    break;
-                case 27: // ESC
-                    this.game.consoleMode = false;
-                    break;
-                default:
-                    input ~= kp.key;
-                    break;
-            }
+        switch (kp.key) {
+            case 127: // Backspace
+                if (input.length > 0) input = input[0 .. $-1];
+                break;
+            case 13: // Return
+                logmsg(input);
+                submit(input);
+                input = "";
+                break;
+            case 27: // ESC
+                this.game.consoleMode = false;
+                break;
+            default:
+                input ~= kp.key;
+                break;
         }
     }
 
