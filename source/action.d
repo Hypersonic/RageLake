@@ -1,5 +1,6 @@
 import world;
 import entity;
+import event : Movement;
 
 class Action {
     Entity target;
@@ -32,7 +33,11 @@ class MovementAction : Action {
 
     override void execute(World world) {
         target.stamina -= staminaRequired;
-        target.position += Point(x, y);
+        auto oldPosition = target.position;
+        auto newPosition = oldPosition + Point(x, y);
+        target.position = newPosition;
+        Event e = Movement(target, oldPosition, newPosition);
+        target.world.game.events.throwEvent(e);
         super.execute(world);
     }
 

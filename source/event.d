@@ -2,12 +2,20 @@ import std.signals;
 import std.variant;
 import std.string;
 import game : Game;
+import entity : Entity;
+import util : Point;
 
 struct KeyPress {
     char key;
 }
 
-alias Event = Algebraic!(KeyPress);
+struct Movement {
+    Entity entity;
+    Point from;
+    Point to;
+}
+
+alias Event = Algebraic!(KeyPress, Movement);
 
 class EventManager {
     Game game;
