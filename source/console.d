@@ -41,7 +41,7 @@ class Console {
                             this.submit(subcmd);
                         }
                     });
-                });
+                }, "Alias a command name to a `;` delimited series of commands");
     }
 
     void watch(Event event) {
