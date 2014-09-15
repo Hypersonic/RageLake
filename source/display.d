@@ -16,16 +16,20 @@ class Display {
 
         erase();
 
-        attron(COLOR_PAIR(Color.NORMAL));
-        foreach (i; 0 .. width) {
-            foreach (j; 0 .. height) {
-                auto p = Point(i, j);
-                if (viewport.contains(p)) {
-                    drawCell(p, Cell('.'));
+        // Draw background grid
+        {
+            attron(COLOR_PAIR(Color.NORMAL));
+            scope (exit) attroff(COLOR_PAIR(Color.NORMAL));
+            foreach (i; 0 .. width) {
+                foreach (j; 0 .. height) {
+                    auto p = Point(i, j);
+                    if (viewport.contains(p)) {
+                        drawCell(p, Cell('.'));
+                    }
                 }
             }
         }
-        attroff(COLOR_PAIR(Color.NORMAL));
+
         foreach (entity; world.entities) {
             if (viewport.contains(entity.position)) {
                 entity.render(this);
@@ -48,16 +52,16 @@ class Display {
 
     void drawString(int x, int y, string str, Color color = Color.NORMAL) {
         attron(COLOR_PAIR(color));
+        scope (exit) attroff(COLOR_PAIR(color));
         mvprintw(y, x, toStringz(str));
-        attroff(COLOR_PAIR(color));
     }
 
     void drawCell(Point position, Cell cell) {
         // There's probably a much more efficient way to convert from a character to a c-string
         auto glyph = toStringz("" ~ cell.glyph);
         attron(COLOR_PAIR(cell.color));
+        scope (exit) attroff(COLOR_PAIR(cell.color));
         mvprintw(position.y - viewport.min.y, position.x - viewport.min.x, glyph);
-        attroff(COLOR_PAIR(cell.color));
     }
     
     void drawDebugMessage(string str) {
