@@ -9,11 +9,11 @@ import deimos.ncurses.ncurses;
 
 class Console {
     Game game;
-    string input = "";
-    string[] log;
-    void delegate(string[])[string] functions;
-    string[string] helpStrings;
-    int height = 10;
+    private string input = "";
+    private string[] log;
+    private void delegate(string[])[string] functions;
+    private string[string] helpStrings;
+    private int height = 10;
 
     this(Game game) {
         this.game = game;
