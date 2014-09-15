@@ -36,8 +36,6 @@ class Display {
             }
         }
         emit(this); // At this point, anything can hook in by registering for events from display
-        drawDebugMessage(format("Width: %d", width));
-        drawDebugMessage(format("Height: %d", height));
         // Render debug messages
         auto i = 0;
         foreach (msg; debugmsgs) {
