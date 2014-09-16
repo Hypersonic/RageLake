@@ -19,7 +19,7 @@ alias Event = Algebraic!(KeyPress, Movement);
 
 class EventManager {
     Game game;
-    Event[] events;
+    private Event[] events;
 
     this(Game game) {
         this.game = game;
