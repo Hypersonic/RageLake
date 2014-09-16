@@ -16,7 +16,7 @@ class Entity : Updates {
     Action desiredAction;
     World world;
     Cell cell;
-    Color normalColor = Color.NORMAL;
+    protected Color normalColor = Color.NORMAL;
 
     this(World world) {
         this.world = world;
