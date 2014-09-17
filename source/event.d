@@ -4,6 +4,7 @@ import std.string;
 import game : Game;
 import entity : Entity;
 import util : Point;
+import logger;
 
 struct KeyPress {
     char key;
@@ -29,8 +30,9 @@ class EventManager {
         events ~= event;
         try {
             emit(event);
+            log("Emitted Event", event);
         } catch (Exception e) {
-            game.console.logmsg(format("Error emitting Event %s: %s", event, e.msg));
+            log("Error emitting Event", event, ":", e.msg);
         }
     }
 
