@@ -1,3 +1,7 @@
+import std.stdio;
+import std.datetime;
+import std.file;
+import std.path;
 import std.string;
 
 class Logger {
@@ -18,6 +22,17 @@ class Logger {
         messages ~= s;
     }
 
+    void saveToFile() {
+        auto path = relativePath("logs");
+        if (!exists(path))
+            mkdir(path);
+        auto filename = path ~ '/' ~ Clock.currTime.toISOString() ~ ".log";
+        auto f = File(filename, "w");
+        foreach (line; messages) {
+            f.writeln(line);
+        }
+        // f is closed as we exit scope
+    }
 }
 
 void log(S...) (S args) {
