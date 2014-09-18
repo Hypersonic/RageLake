@@ -10,7 +10,6 @@ import world;
 import console;
 import enemy;
 import config;
-import logger;
 import util : Point, Bounds;
 import event : EventManager, Event;
 import core.thread;
@@ -69,8 +68,6 @@ class Game {
 
             Thread.sleep(dur!("msecs")(20));
         }
-        Logger.getInstance().saveToFile(); // Dump the log to a file
-        
     }
 
     void watchKeys(Event event) {

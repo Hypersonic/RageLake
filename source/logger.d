@@ -7,8 +7,17 @@ import std.string;
 class Logger {
     static Logger instance;
     string[] messages;
+    File logFile;
 
-    this() {}
+    this() {
+        auto path = relativePath("logs");
+        if (!exists(path))
+            mkdir(path);
+        // Pick the name based on the current time
+        auto time = Clock.currTime;
+        auto filename = path ~ '/' ~ time.toISOString() ~ ".log";
+        logFile = File(filename, "w");
+    }
 
     // TODO: Replace this with the really awesome thread-lock safe singleton pattern from DConf 2014
     static Logger getInstance() {
@@ -20,18 +29,7 @@ class Logger {
 
     void log(string s) {
         messages ~= s;
-    }
-
-    void saveToFile() {
-        auto path = relativePath("logs");
-        if (!exists(path))
-            mkdir(path);
-        auto filename = path ~ '/' ~ Clock.currTime.toISOString() ~ ".log";
-        auto f = File(filename, "w");
-        foreach (line; messages) {
-            f.writeln(line);
-        }
-        // f is closed as we exit scope
+        logFile.writeln(s); // Put the line 
     }
 }
 
