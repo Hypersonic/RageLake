@@ -2,6 +2,7 @@ import std.string;
 import std.variant;
 import std.functional;
 import std.traits;
+import std.algorithm;
 import game;
 import event : Event, KeyPress;
 import display;
@@ -102,11 +103,8 @@ class Console {
         if (!game.consoleMode) return;
         int x = display.width;
         int y = 0;
-        auto usedlog = log;
-        if (usedlog.length > this.height) {
-            usedlog = usedlog[$-this.height..$];
-        }
-        foreach (msg; usedlog) {
+        int height = min(this.height, log.length);
+        foreach (msg; log[$-height .. $]) {
             display.drawString(cast(int) (x - msg.length), y, msg);
             y++;
         }
