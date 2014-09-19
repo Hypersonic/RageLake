@@ -8,7 +8,6 @@ import deimos.ncurses.ncurses;
 
 class Display {
     int width, height;
-    DisplayLogger displayLog;
     Bounds viewport;
 
     void update(ref World world) {
@@ -80,7 +79,7 @@ class Display {
         init_pair(Color.ENEMY, COLOR_RED, COLOR_BLACK);
         init_pair(Color.PLAYER, COLOR_GREEN, COLOR_BLACK);
 
-        displayLog = new DisplayLogger();
+        auto displayLog = new DisplayLogger();
         registerLogger(displayLog);
         this.connect(&displayLog.update); // Register display logger for updates
     }
