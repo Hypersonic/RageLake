@@ -51,7 +51,9 @@ void log(LogLevel level, string file = __FILE__, int line = __LINE__, T, S...) (
         try {
             logmsg = format(fmt, args);
         } catch (Exception e) {
+            // log the error, then throw it again so the program dies.
             logFatal("Error encountered formatting log message: %s", e.msg);
+            throw e;
         }
     }
     foreach (logger; loggers) {
