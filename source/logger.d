@@ -33,8 +33,8 @@ class Logger {
     }
 }
 
-void log(S...) (S args) {
-    string logmsg = "";
+void log(string file = __FILE__, int line = __LINE__, S...) (lazy S args) {
+    string logmsg = file ~ "," ~ line ~ ": ";
     foreach (e; args) {
         logmsg ~= format("%s ", e);
     }
