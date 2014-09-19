@@ -38,7 +38,19 @@ public void unregisterLogger(Logger logger) {
     }
 }
 void log(LogLevel level, string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) {
-    auto logmsg = format(fmt, args);
+    string logmsg;
+    // If they only specify a string, and it has formatting characters in it, there will be an unexpected crash
+    // Therefore, we check the length of the args at compile time to avoid that case
+    // There is still a crash if they do not put the right number of formatting characters, but that's an expected crash
+    static if (args.length == 0) {
+        logmsg = fmt;
+    } else {
+        try {
+            logmsg = format(fmt, args);
+        } catch (Exception e) {
+            logFatal("Error encountered formatting log message: %s. Did you put the wrong number of format specifiers for the number of args you passed in?", e.msg);
+        }
+    }
     foreach (logger; loggers) {
         if (logger.acceptsLevel(level)) {
             auto line = LogLine(file, line, logmsg);
