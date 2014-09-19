@@ -5,6 +5,7 @@ import std.traits;
 import game;
 import event : Event, KeyPress;
 import display;
+import logger;
 import deimos.ncurses.ncurses;
 
 class Console {
@@ -20,6 +21,9 @@ class Console {
         input = "";
         game.events.connect(&this.watch);
         game.display.connect(&this.render);
+
+        auto consoleLogger = new ConsoleLogger();
+
         this.registerFunction("echo", delegate(string[] args) { this.logmsg(args.join(" ")); }, "Print all passed in arguments" );
         this.registerFunction("openConsole", delegate(string[] args) { this.game.consoleMode = true; }, "Open the developer console");
         this.registerFunction("help", delegate(string[] args) {
@@ -108,5 +112,16 @@ class Console {
         }
         auto instr = ":> " ~ input;
         display.drawString(cast(int) (x - instr.length), y, instr);
+    }
+
+    class ConsoleLogger : Logger {
+        this() {
+            this.minLevel = LogLevel.error;
+            registerLogger(this);
+        }
+
+        override void log(ref LogLine line) {
+            logmsg(line.msg);
+        }
     }
 }
