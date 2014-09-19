@@ -30,9 +30,9 @@ class EventManager {
         events ~= event;
         try {
             emit(event);
-            log("Emitted Event", event);
+            logInfo("Emitted Event %s", event);
         } catch (Exception e) {
-            log("Error emitting Event", event, ":", e.msg);
+            logError("Error emitting Event %s : %s", event, e.msg);
         }
     }
 
