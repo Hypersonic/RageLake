@@ -2,6 +2,7 @@ import std.stdio;
 import std.string;
 
 enum LogLevel {
+    update, // Used for constant updates (logging framerate, etc) that may be displayed directly on screen
     trace, // Used when no stack traces are available
     debug_, // Used for debugging verbose things (_ to make D not make it a debug scope) 
     diagnostic, // Used to display extended user information (for detailed error info)
@@ -21,7 +22,7 @@ struct LogLine {
 
 class Logger {
     LogLevel minLevel = LogLevel.info;
-    final bool acceptsLevel(LogLevel level) nothrow pure @safe { return level >= this.minLevel; }
+    bool acceptsLevel(LogLevel level) nothrow pure @safe { return level >= this.minLevel; }
     abstract void log(ref LogLine line) {}
 }
 
@@ -39,12 +40,15 @@ public void unregisterLogger(Logger logger) {
 void log(LogLevel level, string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) {
     auto logmsg = format(fmt, args);
     foreach (logger; loggers) {
-        auto line = LogLine(file, line, logmsg);
-        logger.log(line);
+        if (logger.acceptsLevel(level)) {
+            auto line = LogLine(file, line, logmsg);
+            logger.log(line);
+        }
     }
 }
 
 // functions for each log level
+void logUpdate(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.update, file, line, T, S)(fmt, args); }
 void logTrace(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.trace, file, line, T, S)(fmt, args); }
 void logDebug(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.debug_, file, line, T, S)(fmt, args); }
 void logDiagnostic(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.diagnostic, file, line, T, S)(fmt, args); }

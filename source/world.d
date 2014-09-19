@@ -3,6 +3,7 @@ import entity;
 import player;
 import enemy;
 import action;
+import logger;
 import game : Game;
 
 class World {
@@ -13,7 +14,7 @@ class World {
     // Step all entities forwards
     void step() {
         Action[] actions;
-        game.display.drawDebugMessage(format("Entities: %d", entities.length));
+        logUpdate("Entities: %d", entities.length);
         auto requiredActions = entities.length;
         foreach (e; entities) {
             e.update(this);

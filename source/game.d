@@ -10,6 +10,7 @@ import world;
 import console;
 import enemy;
 import config;
+import logger;
 import util : Point, Bounds;
 import event : EventManager, Event;
 import core.thread;
@@ -41,15 +42,15 @@ class Game {
             StopWatch sw;
             auto keysPressed = getKeysPressed();
 
-            display.drawDebugMessage(format("KeyTypes: %s", keysPressed));
-            display.drawDebugMessage(format("Turn: %d", turncount));
+            logUpdate("KeyTypes: %s", keysPressed);
+            logUpdate("Turn: %d", turncount);
 
             if (!consoleMode) {
                 sw.start();
                 world.step();
                 sw.stop();
 
-                display.drawDebugMessage(format("World step time (msecs): %d", sw.peek().msecs)); 
+                logUpdate("World step time (msecs): %d", sw.peek().msecs); 
 
                 // Update the viewport to be centered on the player
                 auto playerpos = world.player.position;
@@ -64,7 +65,7 @@ class Game {
             display.update(world);
             sw.stop();
 
-            display.drawDebugMessage(format("Display update time (msecs): %d", sw.peek().msecs));
+            logUpdate("Display update time (msecs): %d", sw.peek().msecs);
 
             Thread.sleep(dur!("msecs")(20));
         }

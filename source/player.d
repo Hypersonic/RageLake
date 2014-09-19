@@ -1,6 +1,6 @@
-import std.string;
 import entity : Entity;
 import world : World;
+import logger;
 import action : Action, MovementAction;
 import util : Color;
 
@@ -30,8 +30,8 @@ class Player : Entity {
     }
 
     override Action update(World world) {
-        this.world.game.display.drawDebugMessage(format("Stamina: %d", stamina));
-        this.world.game.display.drawDebugMessage(format("HP: %d", health));
+        logUpdate("Stamina: %d", stamina);
+        logUpdate("HP: %d", health);
         super.update(world);
         return this.desiredAction;
     }

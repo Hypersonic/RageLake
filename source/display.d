@@ -1,13 +1,14 @@
 import std.stdio;
 import std.string;
 import std.signals;
-import deimos.ncurses.ncurses;
+import logger;
 import world : World;
 import util : Cell, Point, Bounds, Color;
+import deimos.ncurses.ncurses;
 
 class Display {
     int width, height;
-    string[] debugmsgs;
+    DisplayLogger displayLog;
     Bounds viewport;
 
     void update(ref World world) {
@@ -36,13 +37,6 @@ class Display {
             }
         }
         emit(this); // At this point, anything can hook in by registering for events from display
-        // Render debug messages
-        auto i = 0;
-        foreach (msg; debugmsgs) {
-            drawString(0, i, msg);
-            i++;
-        }
-        debugmsgs.clear();
 
         refresh();
     }
@@ -62,10 +56,6 @@ class Display {
         mvprintw(position.y - viewport.min.y, position.x - viewport.min.x, glyph);
     }
     
-    void drawDebugMessage(string str) {
-        debugmsgs ~= str;
-    }
-
     this(Bounds view) {
         this.viewport = view;
 
@@ -89,9 +79,38 @@ class Display {
         init_pair(Color.UNIMPORTANT, COLOR_WHITE, COLOR_BLACK);
         init_pair(Color.ENEMY, COLOR_RED, COLOR_BLACK);
         init_pair(Color.PLAYER, COLOR_GREEN, COLOR_BLACK);
+
+        displayLog = new DisplayLogger();
+        registerLogger(displayLog);
+        this.connect(&displayLog.update); // Register display logger for updates
     }
 
     ~this() {
         endwin();
+    }
+
+    class DisplayLogger : Logger {
+        LogLine[] lines;
+        this() {
+            this.minLevel = LogLevel.update;
+        }
+
+        override bool acceptsLevel(LogLevel level) {
+            return level == this.minLevel;
+        }
+
+        override void log(ref LogLine line) {
+            lines ~= line;
+        }
+
+        // Update the display. This will be registered to the display's event listener
+        void update(Display display) {
+            auto i = 0;
+            foreach (line; lines) {
+                display.drawString(0, i, line.msg);
+                i++;
+            }
+            lines.clear();
+        }
     }
 }
