@@ -80,7 +80,6 @@ class Display {
         init_pair(Color.PLAYER, COLOR_GREEN, COLOR_BLACK);
 
         auto displayLog = new DisplayLogger();
-        registerLogger(displayLog);
         this.connect(&displayLog.update); // Register display logger for updates
     }
 
@@ -92,6 +91,7 @@ class Display {
         LogLine[] lines;
         this() {
             this.minLevel = LogLevel.update;
+            registerLogger(this);
         }
 
         override bool acceptsLevel(LogLevel level) {
