@@ -1,5 +1,8 @@
 import std.stdio;
+import std.traits;
+import std.conv;
 import std.string;
+import std.algorithm;
 
 enum LogLevel {
     update, // Used for constant updates (logging framerate, etc) that may be displayed directly on screen
@@ -48,7 +51,7 @@ void log(LogLevel level, string file = __FILE__, int line = __LINE__, T, S...) (
         try {
             logmsg = format(fmt, args);
         } catch (Exception e) {
-            logFatal("Error encountered formatting log message: %s. Did you put the wrong number of format specifiers for the number of args you passed in?", e.msg);
+            logFatal("Error encountered formatting log message: %s", e.msg);
         }
     }
     foreach (logger; loggers) {
@@ -59,13 +62,25 @@ void log(LogLevel level, string file = __FILE__, int line = __LINE__, T, S...) (
     }
 }
 
-// functions for each log level
-void logUpdate(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.update, file, line, T, S)(fmt, args); }
-void logTrace(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.trace, file, line, T, S)(fmt, args); }
-void logDebug(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.debug_, file, line, T, S)(fmt, args); }
-void logDiagnostic(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.diagnostic, file, line, T, S)(fmt, args); }
-void logInfo(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.info, file, line, T, S)(fmt, args); }
-void logWarn(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.warn, file, line, T, S)(fmt, args); }
-void logError(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.error, file, line, T, S)(fmt, args); }
-void logCritical(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.critical, file, line, T, S)(fmt, args); }
-void logFatal(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.fatal, file, line, T, S)(fmt, args); }
+/*
+ * Templates to generate logging functions automatically for each log level
+ */
+/*
+ * Using the specified format, create functions for all of the elements of TL.
+ * In the format, all instances of $ will be replaced by the name of the element, but it will be converted from snake_case to CamelCase.
+ * % will be replaced with the name of the element, as it appears in the enum that TL is from
+ */
+mixin template FunctionsFor(string F, TL...) {
+    static if (TL.length > 1) {
+        mixin FunctionsFor!(F, TL[1..$]); 
+    }
+    mixin MakeFunction!(F, TL[0]);
+}
+mixin template MakeFunction(string F, alias T) {
+    // Convert $ and % as specified above.
+    mixin(translate(F, ['$' : T.to!(string).split("_").map!(capitalize)().join(""), '%' : T.to!string]));
+}
+
+
+// generate functions for each log level
+mixin FunctionsFor!("void log$(string file = __FILE__, int line = __LINE__, T, S...) (T fmt, lazy S args) { log!(LogLevel.%, file, line, T, S)(fmt, args); }", EnumMembers!LogLevel);
