@@ -80,7 +80,12 @@ mixin template FunctionsFor(string F, TL...) {
 }
 mixin template MakeFunction(string F, alias T) {
     // Convert $ and % as specified above.
-    mixin(translate(F, ['$' : T.to!(string).split("_").map!(capitalize)().join(""), '%' : T.to!string]));
+    mixin(translate(F, ['$' : T.to!(string).toCamelCase(), '%' : T.to!string]));
+}
+
+// Utility function to convert a string from sake_case to CamelCase
+string toCamelCase(string s) pure {
+    return s.split("_").map!(capitalize)().join("");
 }
 
 
