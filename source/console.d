@@ -85,12 +85,12 @@ class Console {
             cmdToCall = splitcmd[0];
         auto err = delegate(string[] s) { this.logmsg("Error, no fn found with name \"" ~ cmdToCall ~ "\""); };
         auto fun = functions.get(cmdToCall, err);
-        string[] callcmd;
+        string[] args;
         if (splitcmd.length > 1)
-            callcmd = splitcmd[1..$];
+            args = splitcmd[1..$];
         else
-            callcmd = [];
-        fun(callcmd);
+            args = [];
+        fun(args);
     }
 
     // Bind a function to a name, along with an optional help string
