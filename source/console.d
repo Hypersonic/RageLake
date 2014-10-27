@@ -83,7 +83,19 @@ class Console {
         string cmdToCall = "";
         if (splitcmd.length > 0)
             cmdToCall = splitcmd[0];
-        auto err = delegate(string[] s) { this.logmsg("Error, no fn found with name \"" ~ cmdToCall ~ "\""); };
+        auto err = delegate(string[] s) {
+            // If we have an error, try splitting on ; and submitting each of those (if we have more than one)
+            auto cmds = cmd.split(";");
+            // If we have more than one subcmd (ie, there's a semicolon in our input), run each of those in order
+            if (cmds.length > 1) {
+                foreach (cmd; cmds) {
+                    submit(cmd.strip());
+                }
+            } else {
+                // Otherwise, we're just stuck in an error. Let 'em know.
+                this.logmsg("Error, no fn found with name \"" ~ cmdToCall ~ "\"");
+            }
+        };
         auto fun = functions.get(cmdToCall, err);
         string[] args;
         if (splitcmd.length > 1)
