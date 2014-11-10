@@ -12,7 +12,7 @@ class Map {
         foreach (i; 0 .. width) {
             Tile[] row;
             foreach (j; 0 .. height) {
-                row ~= Tile( dice(20, 3) == 0 ? TileType.FLOOR_TILE : TileType.WALL_TILE);
+                row ~= Tile( dice(30, 3) == 0 ? TileType.FLOOR_TILE : TileType.WALL_TILE);
             }
             this.tiles ~= row;
         }
