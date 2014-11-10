@@ -110,8 +110,8 @@ struct Bounds {
         return max.y - min.y;
     }
     @safe bool contains(Point p) pure {
-        return (min.x <= p.x && p.x <= max.x
-             && min.y <= p.y && p.y <= max.y);
+        return (min.x <= p.x && p.x < max.x
+             && min.y <= p.y && p.y < max.y);
     }
 }
 
