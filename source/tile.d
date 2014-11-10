@@ -1,3 +1,5 @@
+import util;
+
 enum TileType {
     FLOOR_TILE,
     WALL_TILE
@@ -5,12 +7,12 @@ enum TileType {
 
 struct Tile {
     TileType type;
-    @property char glyph() {
+    @property Cell cell() {
         final switch(type) {
             case TileType.FLOOR_TILE:
-                return '.';
+                return Cell('.', Color.UNIMPORTANT);
             case TileType.WALL_TILE:
-                return '#';
+                return Cell('#', Color.NORMAL);
         }
     }
 }

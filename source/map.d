@@ -35,7 +35,7 @@ class Map {
         foreach(x; bounds.min.x .. bounds.max.x) {
             foreach(y; bounds.min.y .. bounds.max.y) {
                 auto tile = tiles[x][y];
-                auto cell = Cell(tile.glyph);
+                auto cell = tile.cell;
                 d.drawCell(Point(cast(int) x, cast(int) y), cell);
             }
         }

@@ -11,9 +11,6 @@ struct Cell {
     char glyph;
     Color color = Color.NORMAL;
 
-    this(char glyph) {
-        this.glyph = glyph;
-    }
 }
 
 enum Color : short {
