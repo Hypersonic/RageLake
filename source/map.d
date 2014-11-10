@@ -1,6 +1,8 @@
 import std.random;
+import std.algorithm;
 
 import tile;
+import display;
 import util : Point, Bounds;
 
 class Map {
@@ -23,6 +25,16 @@ class Map {
             return tiles[p.x][p.y];
         } else {
             return Tile(TileType.WALL_TILE);
+        }
+    }
+
+    void render(Display d) {
+        foreach(x; 0 .. min(tiles.length, d.viewport.width)) {
+            foreach(y; 0 .. min(tiles[x].length, d.viewport.height)) {
+                auto tile = tiles[x][y];
+                auto cell = Cell(tile.glyph);
+                d.drawCell(Point(cast(int) x, cast(int) y), cell);
+            }
         }
     }
 }
