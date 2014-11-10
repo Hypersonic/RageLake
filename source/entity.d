@@ -22,6 +22,7 @@ class Entity : Updates {
         this.world = world;
         this.position = Point(0, 0);
         this.cell = Cell('c');
+        this.world.game.display.connect(&render);
         stamina = maxStamina;
     }
 

@@ -1,6 +1,7 @@
 import world;
 import entity;
 import event : Movement;
+import tile;
 
 class Action {
     Entity target;
@@ -44,6 +45,11 @@ class MovementAction : Action {
     override bool canExecute(World world) {
         Point targetPoint = target.position + Point(x, y);
         bool targetClear = true;
+
+        // Check if the target tile is not a wall
+        if (world.map.getTile(targetPoint).type == TileType.WALL_TILE) {
+            targetClear = false;
+        }
         // check if any entities are standing on the target position
         foreach (entity; world.entities) {
             if (entity != target) {
@@ -52,6 +58,7 @@ class MovementAction : Action {
                 }
             }
         }
+
         // Check if we have at least staminaRequired stamina
         bool enoughStamina = target.stamina >= staminaRequired;
         // If we the target spot is taken, set our alternate action

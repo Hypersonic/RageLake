@@ -1,15 +1,19 @@
 import std.string;
+import map;
 import entity;
 import player;
 import enemy;
 import action;
 import logger;
 import game : Game;
+import util : Point;
+import tile;
 
 class World {
     Entity[] entities; // In the future, this should probably be a linked list
     Player player;
     Game game;
+    Map map;
 
     // Step all entities forwards
     void step() {
@@ -52,13 +56,28 @@ class World {
 
     this(Game g) {
         this.game = g;
+        this.map = new Map();
+
+        game.display.connect(&this.render);
+
         player = new Player(this);
         entities ~= player;
         entities ~= new Enemy(this);
+
+
         game.console.registerFunction("spawnenemy", delegate(string[] s) {
                 auto e = new Enemy(this);
                 e.position = player.position;
                 entities ~= e;
                 }, "Spawn an enemy at the player's position");
+    }
+
+    void render(Display d) {
+        foreach(x, row; map.tiles) {
+            foreach(y, tile; row) {
+                auto cell = Cell(tile.type == TileType.FLOOR_TILE ? '.' : '#');
+                d.drawCell(Point(cast(int) x, cast(int) y), cell);
+            }
+        }
     }
 }

@@ -16,25 +16,6 @@ class Display {
 
         erase();
 
-        // Draw background grid
-        {
-            attron(COLOR_PAIR(Color.NORMAL));
-            scope (exit) attroff(COLOR_PAIR(Color.NORMAL));
-            foreach (i; 0 .. width) {
-                foreach (j; 0 .. height) {
-                    auto p = Point(i, j);
-                    if (viewport.contains(p)) {
-                        drawCell(p, Cell('.'));
-                    }
-                }
-            }
-        }
-
-        foreach (entity; world.entities) {
-            if (viewport.contains(entity.position)) {
-                entity.render(this);
-            }
-        }
         emit(this); // At this point, anything can hook in by registering for events from display
 
         refresh();
@@ -48,11 +29,13 @@ class Display {
     }
 
     void drawCell(Point position, Cell cell) {
-        // There's probably a much more efficient way to convert from a character to a c-string
-        auto glyph = toStringz("" ~ cell.glyph);
-        attron(COLOR_PAIR(cell.color));
-        scope (exit) attroff(COLOR_PAIR(cell.color));
-        mvprintw(position.y - viewport.min.y, position.x - viewport.min.x, glyph);
+        if (viewport.contains(position)) {
+            // There's probably a much more efficient way to convert from a character to a c-string
+            auto glyph = toStringz("" ~ cell.glyph);
+            attron(COLOR_PAIR(cell.color));
+            scope (exit) attroff(COLOR_PAIR(cell.color));
+            mvprintw(position.y - viewport.min.y, position.x - viewport.min.x, glyph);
+        }
     }
     
     this(Bounds view) {
