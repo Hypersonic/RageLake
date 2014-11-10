@@ -1,4 +1,5 @@
 import std.string;
+import std.algorithm;
 import map;
 import entity;
 import player;
@@ -73,8 +74,9 @@ class World {
     }
 
     void render(Display d) {
-        foreach(x, row; map.tiles) {
-            foreach(y, tile; row) {
+        foreach(x; 0 .. min(map.tiles.length, d.viewport.width)) {
+            foreach(y; 0 .. min(map.tiles[x].length, d.viewport.height)) {
+                auto tile = map.tiles[x][y];
                 auto cell = Cell(tile.type == TileType.FLOOR_TILE ? '.' : '#');
                 d.drawCell(Point(cast(int) x, cast(int) y), cell);
             }
