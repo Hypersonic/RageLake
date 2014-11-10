@@ -49,15 +49,21 @@ class MovementAction : Action {
         // Check if the target tile is not a wall
         if (world.map.getTile(targetPoint).type == TileType.WALL_TILE) {
             targetClear = false;
+            // Jump ahead and skip checking entities -- We've already decided we can't move 
+            goto target_found;
         }
         // check if any entities are standing on the target position
         foreach (entity; world.entities) {
             if (entity != target) {
                 if (entity.position == targetPoint) {
                     targetClear = false;
+                    // Jump ahead to skip any further entity checks
+                    goto target_found;
                 }
             }
         }
+
+target_found:
 
         // Check if we have at least staminaRequired stamina
         bool enoughStamina = target.stamina >= staminaRequired;
