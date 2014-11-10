@@ -102,6 +102,13 @@ struct Bounds {
         this.min = min;
         this.max = max;
     }
+
+    @property int width() {
+        return max.x - min.x;
+    }
+    @property int height() {
+        return max.y - min.y;
+    }
     @safe bool contains(Point p) pure {
         return (min.x <= p.x && p.x <= max.x
              && min.y <= p.y && p.y <= max.y);
