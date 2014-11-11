@@ -1,4 +1,4 @@
-import display : Display;
+import display;
 import action : Action;
 import world : World;
 
@@ -138,5 +138,5 @@ interface Updates {
     // Return the action this thing would like to take
     Action update(World world);
     // Render this thing to the display
-    void render(Display display);
+    void render(RenderDepth rd, Display display);
 }

@@ -1,6 +1,6 @@
 import std.string;
 import world : World;
-import display : Display;
+import display;
 import action : Action;
 import util : Cell, Point, Updates, Color;
 import event : Event;
@@ -52,7 +52,8 @@ class Entity : Updates {
         return new Action(this);
     }
 
-    void render(Display display) {
+    void render(RenderDepth rd, Display display) {
+        if (rd != RenderDepth.FG) return;
         if (display.viewport.contains(this.position)) {
             display.drawCell(this.position, this.cell);
         }

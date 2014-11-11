@@ -5,6 +5,7 @@ import player;
 import enemy;
 import action;
 import logger;
+import display;
 import game : Game;
 import util : Point;
 import tile;
@@ -72,7 +73,7 @@ class World {
                 }, "Spawn an enemy at the player's position");
     }
 
-    void render(Display d) {
-        map.render(d);
+    void render(RenderDepth rd, Display d) {
+        map.render(rd, d);
     }
 }

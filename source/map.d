@@ -31,7 +31,8 @@ class Map {
         }
     }
 
-    void render(Display d) {
+    void render(RenderDepth rd, Display d) {
+        if (rd != RenderDepth.BG) return;
         foreach(x; bounds.min.x .. bounds.max.x) {
             foreach(y; bounds.min.y .. bounds.max.y) {
                 auto tile = tiles[x][y];

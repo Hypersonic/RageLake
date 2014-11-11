@@ -99,7 +99,8 @@ class Console {
         helpStrings[name] = help;
     }
 
-    void render(Display display) {
+    void render(RenderDepth rd, Display display) {
+        if (rd != RenderDepth.OVERLAY) return;
         if (!game.consoleMode) return;
         int x = display.width;
         int y = 0;

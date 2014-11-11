@@ -1,10 +1,17 @@
 import std.stdio;
 import std.string;
 import std.signals;
+import std.traits;
 import logger;
 import world : World;
 import util : Cell, Point, Bounds, Color;
 import deimos.ncurses.ncurses;
+
+enum RenderDepth {
+    BG,
+    FG,
+    OVERLAY
+}
 
 class Display {
     int width, height;
@@ -16,11 +23,14 @@ class Display {
 
         erase();
 
-        emit(this); // At this point, anything can hook in by registering for events from display
+        // At this point, anything can hook in by registering for events from display
+        emit(RenderDepth.BG, this);
+        emit(RenderDepth.FG, this);
+        emit(RenderDepth.OVERLAY, this);
 
         refresh();
     }
-    mixin Signal!(Display);
+    mixin Signal!(RenderDepth, Display);
 
     void drawString(int x, int y, string str, Color color = Color.NORMAL) {
         attron(COLOR_PAIR(color));
@@ -86,7 +96,8 @@ class Display {
         }
 
         // Update the display. This will be registered to the display's event listener
-        void update(Display display) {
+        void update(RenderDepth rd, Display display) {
+            if (rd != RenderDepth.OVERLAY) return;
             auto i = 0;
             foreach (line; lines) {
                 display.drawString(0, i, line.msg);
