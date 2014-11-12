@@ -15,7 +15,9 @@ class Map {
         foreach (i; 0 .. bounds.width + 1) {
             Tile[] row;
             foreach (j; 0 .. bounds.height + 1) {
-                row ~= dice(30, 3) == 0 ? new FloorTile : new WallTile;
+                Tile[] tile_choices = [new FloorTile, new WallTile];
+                auto tile_chances = [30, 3];
+                row ~= tile_choices[dice(tile_chances)];
             }
             this.tiles ~= row;
         }
