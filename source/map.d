@@ -15,7 +15,7 @@ class Map {
         foreach (i; 0 .. bounds.width + 1) {
             Tile[] row;
             foreach (j; 0 .. bounds.height + 1) {
-                row ~= Tile( dice(30, 3) == 0 ? TileType.FLOOR_TILE : TileType.WALL_TILE);
+                row ~= dice(30, 3) == 0 ? new FloorTile : new WallTile;
             }
             this.tiles ~= row;
         }
@@ -27,7 +27,7 @@ class Map {
             return tiles[p.x][p.y];
         } else {
             logError("%s is outside %s", p, bounds);
-            return Tile(TileType.WALL_TILE);
+            return new Tile;
         }
     }
 

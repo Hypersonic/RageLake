@@ -2,6 +2,7 @@ import world;
 import entity;
 import event : Movement;
 import tile;
+import logger;
 
 class Action {
     Entity target;
@@ -47,7 +48,8 @@ class MovementAction : Action {
         bool targetClear = true;
 
         // Check if the target tile is not a wall
-        if (world.map.getTile(targetPoint).type == TileType.WALL_TILE) {
+        if (!target.canTraverse(world.map.getTile(targetPoint))) {
+            logError("%s", world.map.getTile(targetPoint));
             targetClear = false;
             // Jump ahead and skip checking entities -- We've already decided we can't move 
             goto target_found;

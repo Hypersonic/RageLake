@@ -1,18 +1,35 @@
 import util;
 
 enum TileType {
-    FLOOR_TILE,
-    WALL_TILE
+    NONE,
+    FLOOR,
+    WALL,
 }
 
-struct Tile {
-    TileType type;
+class Tile {
+    TileType type = TileType.NONE;
+
     @property Cell cell() {
-        final switch(type) {
-            case TileType.FLOOR_TILE:
-                return Cell('.', Color.UNIMPORTANT);
-            case TileType.WALL_TILE:
-                return Cell('#', Color.NORMAL);
-        }
+        return Cell(' ', Color.UNIMPORTANT);
+    }
+}
+
+class FloorTile : Tile {
+    @property this() {
+        this.type = TileType.FLOOR;
+    }
+
+    override @property Cell cell() {
+        return Cell('.', Color.UNIMPORTANT);
+    }
+}
+
+class WallTile : Tile {
+    this() {
+        this.type = TileType.WALL;
+    }
+
+    override @property Cell cell() {
+        return Cell('#', Color.NORMAL);
     }
 }

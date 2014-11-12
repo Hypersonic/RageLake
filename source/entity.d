@@ -1,5 +1,6 @@
 import std.string;
 import world : World;
+import tile;
 import display;
 import action : Action;
 import util : Cell, Point, Updates, Color;
@@ -50,6 +51,10 @@ class Entity : Updates {
         if (stamina > maxStamina) stamina = maxStamina;
         if (this.stamina == this.maxStamina) cell.color = normalColor;
         return new Action(this);
+    }
+
+    bool canTraverse(Tile tile) {
+        return tile.type == TileType.FLOOR;
     }
 
     void render(RenderDepth rd, Display display) {
