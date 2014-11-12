@@ -49,7 +49,6 @@ class MovementAction : Action {
 
         // Check if the target tile is not a wall
         if (!target.canTraverse(world.map.getTile(targetPoint))) {
-            logError("%s", world.map.getTile(targetPoint));
             targetClear = false;
             // Jump ahead and skip checking entities -- We've already decided we can't move 
             goto target_found;
