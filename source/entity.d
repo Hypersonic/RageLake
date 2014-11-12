@@ -33,10 +33,12 @@ class Entity : Updates {
     }
 
     void hit(int damage) {
-        this.cell.color = Color.TAKING_DAMAGE;
-        this.health -= damage;
-        if (this.health <= 0) {
-            this.die();
+        if (alive) {
+            this.cell.color = Color.TAKING_DAMAGE;
+            this.health -= damage;
+            if (this.health <= 0) {
+                this.die();
+            }
         }
     }
 
