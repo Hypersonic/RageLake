@@ -54,7 +54,7 @@ class Entity : Updates {
     }
 
     bool canTraverse(Tile tile) {
-        return tile.type == TileType.FLOOR;
+        return typeid(tile) == typeid(FloorTile);
     }
 
     void render(RenderDepth rd, Display display) {
