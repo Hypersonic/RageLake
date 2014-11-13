@@ -12,6 +12,7 @@ class Map {
 
     this(int width = 100, int height = 100) {
         this.bounds = Bounds(Point(0, 0), Point(width, height));
+        // TODO: Factor this to a seperate, proper generator function
         foreach (i; 0 .. bounds.width + 1) {
             Tile[] row;
             foreach (j; 0 .. bounds.height + 1) {
