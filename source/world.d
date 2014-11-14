@@ -60,29 +60,31 @@ class World {
     this(Game g) {
         this.game = g;
 
-        // Render a string explaining that we're generating a map
-        auto updateStr = "Generating map, please wait...";
-        g.display.drawString(g.display.width / 3, 10, updateStr);
-        g.display.forceRefresh();
-
-        this.map = new Map(new RandomWalkMapGenerator());
-
-        game.display.connect(&this.render);
-
         player = new Player(this);
         entities ~= player;
         entities ~= new Enemy(this);
 
 
+        this.map = new Map(this, new RandomWalkMapGenerator());
+
+        game.display.connect(&this.render);
+
+
+        auto regenmap = delegate(string[] s) {
+                // Render a string explaining that we're generating a map
+                auto updateStr = "Generating map, please wait...";
+                g.display.drawString(g.display.width / 3, 10, updateStr);
+                g.display.forceRefresh();
+                this.map = new Map(this, new RandomWalkMapGenerator());
+            };
+        regenmap([]);
+        
         game.console.registerFunction("spawnenemy", delegate(string[] s) {
                 auto e = new Enemy(this);
                 e.position = player.position;
                 entities ~= e;
                 }, "Spawn an enemy at the player's position");
-
-        game.console.registerFunction("regeneratemap", delegate(string[] s) {
-                this.map = new Map(new RandomWalkMapGenerator());
-                }, "Regenerate the map");
+        game.console.registerFunction("regeneratemap", regenmap, "Regenerate the map");
     }
 
     void render(RenderDepth rd, Display d) {

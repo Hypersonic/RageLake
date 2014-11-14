@@ -8,18 +8,18 @@ import util;
 
 class RandomWalkMapGenerator : MapGenerator {
     void generate(ref Map map) {
-        auto curr = Point(0, 0);
+        auto curr = Point(1, 1);
         Point[] points;
         while (points.length < map.bounds.width * map.bounds.height) {
             points ~= curr;
             Point[] movementChoices;
             if (map.bounds.min.x + 1 < curr.x)
                 movementChoices ~= Point(-1, 0);
-            if (curr.x < map.bounds.max.x)
+            if (curr.x < map.bounds.max.x - 2)
                 movementChoices ~= Point(1, 0);
             if (map.bounds.min.y + 1 < curr.y)
                 movementChoices ~= Point(0, -1);
-            if (curr.y < map.bounds.max.y)
+            if (curr.y < map.bounds.max.y - 2)
                 movementChoices ~= Point(0, 1);
             logDebug("Movement choices: %s", movementChoices);
             auto choiceIndex = uniform(0, movementChoices.length);
@@ -58,6 +58,11 @@ class RandomWalkMapGenerator : MapGenerator {
         }
 
         map.tiles = tiles;
+
+        // move each entity to a valid position
+        foreach (entity; map.world.entities) {
+            entity.position = points[uniform(0, points.length)];
+        }
 
     }
 }

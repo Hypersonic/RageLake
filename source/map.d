@@ -1,5 +1,6 @@
 import std.random;
 import std.algorithm;
+import world;
 import tile;
 import display;
 import util : Point, Bounds;
@@ -8,9 +9,11 @@ import logger;
 class Map {
     Tile[][] tiles;
     Bounds bounds;
+    World world;
 
-    this(MapGenerator generator, int width=100, int height=100) {
+    this(World world, MapGenerator generator, int width=100, int height=100) {
         this.bounds = Bounds(Point(0, 0), Point(width, height));
+        this.world = world;
         generator.generate(this);
     }
 
