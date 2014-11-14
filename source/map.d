@@ -19,10 +19,8 @@ class Map {
 
     Tile getTile(Point p) {
         if (bounds.contains(p)) {
-            logError("%s is inside %s", p, bounds);
             return tiles[p.x][p.y];
         } else {
-            logError("%s is outside %s", p, bounds);
             return new Tile;
         }
     }
