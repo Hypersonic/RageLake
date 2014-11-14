@@ -1,3 +1,4 @@
+import std.math;
 import std.algorithm;
 import display;
 import action : Action;
@@ -65,6 +66,10 @@ Point[] neighborhood(Point p) {
         nh ~= Point(p.x + pos[0], p.y + pos[1]);
     }
     return nh;
+}
+
+double distance(Point p1, Point p2) {
+    return sqrt(cast(float) pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
 }
 
 unittest {
