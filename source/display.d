@@ -29,6 +29,12 @@ class Display {
 
         // Get the window bounds
         getmaxyx(stdscr, this.height, this.width);
+        if (viewport.width < this.width - 1) {
+            viewport.max.x = viewport.min.x + this.width;
+        }
+        if (viewport.height < this.height - 1) {
+            viewport.max.y = viewport.min.y + this.height;
+        }
 
     }
 
