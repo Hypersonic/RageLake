@@ -1,3 +1,4 @@
+import std.conv;
 import std.string;
 import std.variant;
 import std.functional;
@@ -120,7 +121,7 @@ class Console {
         }
 
         override void log(ref LogLine line) {
-            logmsg(line.msg);
+            logmsg(line.file ~ ":" ~ line.line.to!string ~ " " ~ line.msg ~ "\n");
         }
     }
 }

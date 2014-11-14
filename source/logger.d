@@ -36,7 +36,7 @@ class FileLogger : Logger {
     }
     override void log(ref LogLine line) {
         import std.file;
-        append("out.log", line.msg ~ "\n");
+        append("out.log", line.file ~ ":" ~ line.line.to!string ~ " " ~ line.msg ~ "\n");
     }
 }
 
