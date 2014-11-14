@@ -62,7 +62,9 @@ class World {
 
         player = new Player(this);
         entities ~= player;
-        entities ~= new Enemy(this);
+        foreach (i; 0 .. 20) {
+            entities ~= new Enemy(this);
+        }
 
 
         this.map = new Map(this, new RandomWalkMapGenerator());
