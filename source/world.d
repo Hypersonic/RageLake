@@ -79,6 +79,10 @@ class World {
                 e.position = player.position;
                 entities ~= e;
                 }, "Spawn an enemy at the player's position");
+
+        game.console.registerFunction("regeneratemap", delegate(string[] s) {
+                this.map = new Map(new RandomWalkMapGenerator());
+                }, "Regenerate the map");
     }
 
     void render(RenderDepth rd, Display d) {
