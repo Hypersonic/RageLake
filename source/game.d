@@ -4,6 +4,7 @@ import std.variant;
 import std.signals;
 import std.datetime;
 import std.algorithm;
+import std.math;
 import deimos.ncurses.ncurses;
 import display;
 import world;
@@ -11,7 +12,7 @@ import console;
 import enemy;
 import config;
 import logger;
-import util : Point, Bounds;
+import util;
 import event : EventManager, Event;
 import core.thread;
 
@@ -33,6 +34,7 @@ class Game {
         world = new World(this);
         config = new Config(this);
         console.registerFunction("quit", delegate(string[] s) { this.running = false; }, "Exit the game");
+        console.registerFunction("redraw", delegate(string[] s) { this.display.clear(); this.display.forceRefresh(); }, "Redraw the screen");
         turncount = 0;
         events.connect(&this.watchKeys);
     }
@@ -54,11 +56,29 @@ class Game {
 
                 // Update the viewport to be centered on the player
                 auto playerpos = world.player.position;
-                display.viewport.min.x = playerpos.x - display.width / 2;
-                display.viewport.max.x = playerpos.x + display.width / 2;
-                display.viewport.min.y = playerpos.y - display.height / 2;
-                display.viewport.max.y = playerpos.y + display.height / 2;
+                auto centerpos = Point(display.viewport.min.x + display.viewport.width / 2, 
+                                       display.viewport.min.y + display.viewport.height / 2);
+                auto dist = Point(abs(playerpos.x - centerpos.x),
+                                  abs(playerpos.y - centerpos.y));
+                auto max = Point(display.viewport.width / 3, display.viewport.height / 3);
+                logError("Dist: %s; max: %s", dist, max);
+                bool changedViewport = false
+                if (dist.x >= max.x) {
+                    display.viewport.min.x = playerpos.x - display.width / 2;
+                    display.viewport.max.x = playerpos.x + display.width / 2;
+                    changedViewport = true;
+                }
+                if (dist.y >= max.y) {
+                    display.viewport.min.y = playerpos.y - display.height / 2;
+                    display.viewport.max.y = playerpos.y + display.height / 2;
+                    changedViewport = true;
+                }
 
+                // This is a bugfix to prevent weird artifacting that sometimes happens when the viewport moves
+                if (changedViewport) {
+                    display.clear();
+                    display.forceRefresh();
+                }
             }
             sw.reset();
             sw.start();

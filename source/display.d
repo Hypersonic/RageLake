@@ -18,9 +18,6 @@ class Display {
     Bounds viewport;
 
     void update() {
-        // Get the window bounds
-        getmaxyx(stdscr, this.height, this.width);
-
         erase();
 
         // At this point, anything can hook in by registering for events from display
@@ -29,10 +26,18 @@ class Display {
         emit(RenderDepth.OVERLAY, this);
 
         refresh();
+
+        // Get the window bounds
+        getmaxyx(stdscr, this.height, this.width);
+
     }
 
     void forceRefresh() {
         refresh();
+    }
+
+    void clear() {
+        erase();
     }
 
     mixin Signal!(RenderDepth, Display);
