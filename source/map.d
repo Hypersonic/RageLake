@@ -1,6 +1,5 @@
 import std.random;
 import std.algorithm;
-
 import tile;
 import display;
 import util : Point, Bounds;
@@ -10,18 +9,9 @@ class Map {
     Tile[][] tiles;
     Bounds bounds;
 
-    this(int width = 100, int height = 100) {
+    this(MapGenerator generator, int width=100, int height=100) {
         this.bounds = Bounds(Point(0, 0), Point(width, height));
-        //TODO: Factor this to a seperate, proper generator function
-        foreach (i; 0 .. bounds.width + 1) {
-            Tile[] row;
-            foreach (j; 0 .. bounds.height + 1) {
-                Tile[] tile_choices = [new FloorTile, new WallTile];
-                auto tile_chances = [30, 3];
-                row ~= tile_choices[dice(tile_chances)];
-            }
-            this.tiles ~= row;
-        }
+        generator.generate(this);
     }
 
     Tile getTile(Point p) {
@@ -44,4 +34,8 @@ class Map {
             }
         }
     }
+}
+
+interface MapGenerator {
+    void generate(ref Map map);
 }

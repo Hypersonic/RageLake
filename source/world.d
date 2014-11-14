@@ -9,6 +9,7 @@ import display;
 import game : Game;
 import util : Point;
 import tile;
+import randommap;
 
 class World {
     Entity[] entities; // In the future, this should probably be a linked list
@@ -57,7 +58,7 @@ class World {
 
     this(Game g) {
         this.game = g;
-        this.map = new Map();
+        this.map = new Map(new RandomMapGenerator());
 
         game.display.connect(&this.render);
 
