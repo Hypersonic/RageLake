@@ -77,6 +77,7 @@ class World {
                 foreach (i; 0 .. updateStr.length + 2) {
                     spaceing ~= " ";
                 }
+                g.display.clear();
                 g.display.drawString(g.display.width / 3 - 1, 9, spaceing);
                 g.display.drawString(g.display.width / 3 - 1, 10, spaceing);
                 g.display.drawString(g.display.width / 3 - 1, 11, spaceing);
