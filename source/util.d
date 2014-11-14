@@ -1,3 +1,4 @@
+import std.algorithm;
 import display;
 import action : Action;
 import world : World;
@@ -54,6 +55,16 @@ struct Point {
     bool opEquals(const Point other) {
         return this.x == other.x && this.y == other.y;
     }
+}
+
+Point[] neighborhood(Point p) {
+    Point[] nh;
+    auto a = [-1, 0, 1];
+    foreach (pos; cartesianProduct(a, a)) {
+        if (pos == tuple(0, 0)) continue; // skip if we're looking at 0, 0
+        nh ~= Point(p.x + pos[0], p.y + pos[1]);
+    }
+    return nh;
 }
 
 unittest {
