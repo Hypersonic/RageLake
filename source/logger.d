@@ -29,6 +29,17 @@ class Logger {
     abstract void log(ref LogLine line) {}
 }
 
+class FileLogger : Logger {
+    this() {
+        minLevel = LogLevel.info;
+        registerLogger(this);
+    }
+    override void log(ref LogLine line) {
+        import std.file;
+        append("out.log", line.msg ~ "\n");
+    }
+}
+
 private static Logger[] loggers;
 public void registerLogger(Logger logger) {
     loggers ~= logger;

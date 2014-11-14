@@ -17,7 +17,7 @@ class Display {
     int width, height;
     Bounds viewport;
 
-    void update(ref World world) {
+    void update() {
         // Get the window bounds
         getmaxyx(stdscr, this.height, this.width);
 
@@ -30,6 +30,11 @@ class Display {
 
         refresh();
     }
+
+    void forceRefresh() {
+        refresh();
+    }
+
     mixin Signal!(RenderDepth, Display);
 
     void drawString(int x, int y, string str, Color color = Color.NORMAL) {
@@ -74,6 +79,7 @@ class Display {
 
         auto displayLog = new DisplayLogger();
         this.connect(&displayLog.update); // Register display logger for updates
+        update();
     }
 
     ~this() {

@@ -10,6 +10,7 @@ import game : Game;
 import util : Point;
 import tile;
 import randommap;
+import randomwalkmap;
 
 class World {
     Entity[] entities; // In the future, this should probably be a linked list
@@ -58,7 +59,13 @@ class World {
 
     this(Game g) {
         this.game = g;
-        this.map = new Map(new RandomMapGenerator());
+
+        // Render a string explaining that we're generating a map
+        auto updateStr = "Generating map, please wait...";
+        g.display.drawString(g.display.width / 3, 10, updateStr);
+        g.display.forceRefresh();
+
+        this.map = new Map(new RandomWalkMapGenerator());
 
         game.display.connect(&this.render);
 

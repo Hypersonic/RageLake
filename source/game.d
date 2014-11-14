@@ -62,7 +62,7 @@ class Game {
             }
             sw.reset();
             sw.start();
-            display.update(world);
+            display.update();
             sw.stop();
 
             logUpdate("Display update time (msecs): %d", sw.peek().msecs);
