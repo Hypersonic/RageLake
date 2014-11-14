@@ -67,8 +67,6 @@ class World {
         }
 
 
-        this.map = new Map(this, new RandomWalkMapGenerator());
-
         game.display.connect(&this.render);
 
 
