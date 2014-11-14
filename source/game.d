@@ -62,13 +62,13 @@ class Game {
                                   abs(playerpos.y - centerpos.y));
                 auto max = Point(display.viewport.width / 3, display.viewport.height / 3);
                 logError("Dist: %s; max: %s", dist, max);
-                bool changedViewport = false
-                if (dist.x >= max.x) {
+                bool changedViewport = false;
+                if (dist.x >= max.x || display.viewport.width < display.width - 1) {
                     display.viewport.min.x = playerpos.x - display.width / 2;
                     display.viewport.max.x = playerpos.x + display.width / 2;
                     changedViewport = true;
                 }
-                if (dist.y >= max.y) {
+                if (dist.y >= max.y || display.viewport.height < display.height - 1) {
                     display.viewport.min.y = playerpos.y - display.height / 2;
                     display.viewport.max.y = playerpos.y + display.height / 2;
                     changedViewport = true;
