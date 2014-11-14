@@ -30,6 +30,7 @@ class RandomWalkMapGenerator : MapGenerator {
 
         logDebug("Walk Points: %s", points);
 
+        Tile[][] tiles;
         // Fill the map with blank tiles
         foreach (i; 0 .. map.bounds.width + 1) {
             Tile[] row;
@@ -38,7 +39,7 @@ class RandomWalkMapGenerator : MapGenerator {
                 t = new Tile;
                 row ~= t;
             }
-            map.tiles ~= row;
+            tiles ~= row;
         }
 
         // Fill in the walls as anything in the neighborhood of a point on the path
@@ -46,15 +47,17 @@ class RandomWalkMapGenerator : MapGenerator {
             foreach (wall; point.neighborhood()) {
                 // The neighborhood function knows nothing about the map bounds, so we need to check them
                 if (map.bounds.contains(wall)) {
-                    map.tiles[wall.x][wall.y] = new WallTile;
+                    tiles[wall.x][wall.y] = new WallTile;
                 }
             }
         }
 
         // Fill in the path
         foreach (point; points) {
-            map.tiles[point.x][point.y] = new FloorTile;
+            tiles[point.x][point.y] = new FloorTile;
         }
+
+        map.tiles = tiles;
 
     }
 }
