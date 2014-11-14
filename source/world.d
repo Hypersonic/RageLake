@@ -73,6 +73,13 @@ class World {
         auto regenmap = delegate(string[] s) {
                 // Render a string explaining that we're generating a map
                 auto updateStr = "Generating map, please wait...";
+                auto spaceing = "";
+                foreach (i; 0 .. updateStr.length + 2) {
+                    spaceing ~= " ";
+                }
+                g.display.drawString(g.display.width / 3 - 1, 9, spaceing);
+                g.display.drawString(g.display.width / 3 - 1, 10, spaceing);
+                g.display.drawString(g.display.width / 3 - 1, 11, spaceing);
                 g.display.drawString(g.display.width / 3, 10, updateStr);
                 g.display.forceRefresh();
                 this.map = new Map(this, new RandomWalkMapGenerator());
