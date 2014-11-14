@@ -2,3 +2,4 @@
 ragelake
 __test__library__
 logs/*
+*.log
