@@ -22,6 +22,16 @@ class Player : Entity {
         this.world.game.console.registerFunction("right", delegate(string[] s) {
                 this.desiredAction = new MovementAction(this, 1, 0);
                 });
+        this.world.game.console.registerFunction("tp", delegate(string[] s) {
+                import std.conv;
+                if (s.length < 2) {
+                    this.world.game.console.logmsg("You must enter 2 numbers for tp");
+                    return;
+                }
+                // Go through double to handle any decimals
+                this.position.x = s[0].to!double.to!int;
+                this.position.y = s[1].to!double.to!int;
+                }, "Teleport the player to specified coords");
         this.world.game.console.registerFunction("phoenix", delegate(string[] s) {
                 this.alive = true;
                 this.normalColor = Color.PLAYER;
