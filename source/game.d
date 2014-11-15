@@ -60,7 +60,7 @@ class Game {
                                        display.viewport.min.y + display.viewport.height / 2);
                 auto dist = Point(abs(playerpos.x - centerpos.x),
                                   abs(playerpos.y - centerpos.y));
-                auto max = Point(display.viewport.width / 3, display.viewport.height / 3);
+                auto max = Point(display.viewport.width / 4, display.viewport.height / 3);
                 logDebug("Distance (center): %s; max: %s", dist, max);
                 bool changedViewport = false;
                 if (dist.x >= max.x) {
