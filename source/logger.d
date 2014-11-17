@@ -30,13 +30,18 @@ class Logger {
 }
 
 class FileLogger : Logger {
+    import std.file;
+    import std.datetime;
+    string filename;
     this() {
         minLevel = LogLevel.info;
+        if (!exists("logs"))
+            mkdir("logs");
+        this.filename = "logs/" ~ Clock.currTime().toISOString() ~ ".log";
         registerLogger(this);
     }
     override void log(ref LogLine line) {
-        import std.file;
-        append("out.log", line.file ~ ":" ~ line.line.to!string ~ " " ~ line.msg ~ "\n");
+        append(this.filename, line.file ~ ":" ~ line.line.to!string ~ " " ~ line.msg ~ "\n");
     }
 }
 
