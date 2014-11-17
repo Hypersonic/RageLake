@@ -43,7 +43,7 @@ class Console {
                 }
                 this.registerFunction(args[0], delegate(string[] subargs) {
                     // Submit commands split by semicolons
-                        foreach (subcmd; args[1..$].join(" ").split(";")) {
+                        foreach (subcmd; args[1..$].join(" ").split(";").map!(strip)()) {
                             this.submit(subcmd);
                         }
                     });
