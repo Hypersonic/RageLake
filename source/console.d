@@ -16,7 +16,9 @@ class Console {
     private string[] log;
     private void delegate(string[])[string] functions;
     private string[string] helpStrings;
-    private int height = 10;
+    private @property int height() {
+        return min(50, game.display.height);
+    }
 
     this(Game game) {
         this.game = game;
