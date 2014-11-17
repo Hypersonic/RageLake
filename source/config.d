@@ -45,6 +45,12 @@ class Config {
                     }
                     this.unbindKey(s[0][0]);
                 });
+        g.console.registerFunction("listbinds",
+                delegate(string[] s) {
+                foreach (key, command; this.keybinds) {
+                    game.console.logmsg("%s : %s".format(key, command));
+                }
+                }, "List all binds");
     }
 
     @safe void bindKey(char keyCode, string command) pure nothrow {
