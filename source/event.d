@@ -28,6 +28,7 @@ class EventManager {
 
     void throwEvent(Event event) {
         events ~= event;
+        // TODO: Find a way to remove try/catch when throwing events
         try {
             emit(event);
             logInfo("Emitted Event %s", event);
