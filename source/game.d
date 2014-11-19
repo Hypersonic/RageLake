@@ -93,11 +93,12 @@ class Game {
 
     void watchKeys(Event event) {
         if (!consoleMode) {
-            event.tryVisit!((KeyPress kp) {
-                                            auto cmd = config.getCommand(kp.key);
-                                            console.submit(cmd);
-                                          },
-                            () {}           )();
+            event.tryVisit!(
+                    (KeyPress kp) {
+                        auto cmd = config.getCommand(kp.key);
+                        console.submit(cmd);
+                        },
+                    () {}  )();
         }
     }
 
