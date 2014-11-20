@@ -37,7 +37,6 @@ class Console : Screen {
         this.registerFunction("openConsole", delegate(string[] args) {
                 import app;
                     screens.push(this);
-                    game.consoleMode = true;
                 }, "Open the developer console");
         this.registerFunction("help", delegate(string[] args) {
                 if (args.length == 0) {
@@ -79,12 +78,15 @@ class Console : Screen {
             case 27: // ESC
                 import app;
                 screens.pop();
-                game.consoleMode = false;
                 break;
             default:
                 input ~= kp.key;
                 break;
         }
+    }
+
+    override void takeInput(KeyPress kp) {
+        keyPressed(kp);
     }
 
     void logmsg(string msg) {

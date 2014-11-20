@@ -1,4 +1,5 @@
 import display;
+import event;
 
 class ScreenStack {
     Screen[] stack;
@@ -28,6 +29,37 @@ class ScreenStack {
         return this.size == 0;
     }
 
+    void takeInput() {
+        import deimos.ncurses.ncurses;
+        // Gather the inputted characters
+        char[] states;
+        KeyPress[] emitted;
+        int code;
+        while ((code = getch()) != ERR){
+            states ~= code;
+        }
+        foreach (state; states) {
+            auto e = KeyPress(cast(char) state);
+            emitted ~= e;
+        }
+
+        void inputStack(Screen[] stack, KeyPress kp) {
+            if (stack.length > 0) {
+                if (stack[$-1].inputFallthrough) {
+                    inputStack(stack[0 .. $-1], kp);
+                }
+                stack[$-1].takeInput(kp);
+            }
+        }
+        
+        // Send the inputs to the things on the stack taking input
+        foreach (kp; emitted) {
+            inputStack(stack, kp);
+        }
+
+
+    }
+
     void render(Display d) {
         void renderStack(Screen[] stack) {
             if (stack.length > 0) {
@@ -41,10 +73,13 @@ class ScreenStack {
         renderStack(stack);
         d.update();
     }
+
 }
 
 class Screen {
     bool isTransparent = false; // Can things render behind this?
     bool inputFallthrough = false; // Should input go to the Screen under this?
+    void takeInput(KeyPress key) {}; // Gets run once for each input this window recieves
     void render(Display display) {};
 }
+

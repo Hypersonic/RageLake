@@ -15,6 +15,7 @@ void main() {
                 game.console.logmsg(format("%s", screens.stack));
             }, "Print all the screens currently existing");
     while (!screens.empty) {
+        screens.takeInput();
         game.tick();
         screens.render(game.display);
     }
