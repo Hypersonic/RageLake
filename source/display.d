@@ -7,22 +7,14 @@ import world : World;
 import util : Cell, Point, Bounds, Color;
 import deimos.ncurses.ncurses;
 
-enum RenderDepth {
-    BG,
-    FG,
-    OVERLAY
-}
 
 class Display {
     int width, height;
     Bounds viewport;
+    DisplayLogger displayLog;
 
     void update() {
-        // At this point, anything can hook in by registering for events from display
-        emit(RenderDepth.BG, this);
-        emit(RenderDepth.FG, this);
-        emit(RenderDepth.OVERLAY, this);
-
+        displayLog.update(this);
         refresh();
 
         // Get the window bounds
@@ -43,8 +35,6 @@ class Display {
     void clear() {
         erase();
     }
-
-    mixin Signal!(RenderDepth, Display);
 
     void drawString(int x, int y, string str, Color color = Color.NORMAL) {
         attron(COLOR_PAIR(color));
@@ -86,8 +76,7 @@ class Display {
         init_pair(Color.ENEMY, COLOR_RED, COLOR_BLACK);
         init_pair(Color.PLAYER, COLOR_GREEN, COLOR_BLACK);
 
-        auto displayLog = new DisplayLogger();
-        this.connect(&displayLog.update); // Register display logger for updates
+        displayLog = new DisplayLogger();
         update();
     }
 
@@ -111,8 +100,7 @@ class Display {
         }
 
         // Update the display. This will be registered to the display's event listener
-        void update(RenderDepth rd, Display display) {
-            if (rd != RenderDepth.OVERLAY) return;
+        void update(Display display) {
             auto i = 0;
             foreach (line; lines) {
                 display.drawString(0, i, line.msg);
