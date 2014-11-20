@@ -13,11 +13,15 @@ import screenstack;
 class Console : Screen {
     Game game;
     private string input = "";
+    private static string prompt = ":> ";
     private string[] log;
     private void delegate(string[])[string] functions;
     private string[string] helpStrings;
     private @property int height() {
         return min(50, game.display.height);
+    }
+    private @property int width() {
+        return reduce!((a,b) => max(a,b) )(0, (log ~ (prompt ~ input)).map!(x => x.length.to!int)());
     }
 
 
@@ -106,15 +110,26 @@ class Console : Screen {
     }
 
     override void render(Display display) {
+        // Assemble a backing of maximum width
+        auto backing = "| ";
+        auto underline = "--";
+        foreach(x; 0 .. width) {
+            backing ~= " ";
+            underline ~= "-";
+        }
         int x = display.width;
         int y = 0;
         int height = min(this.height, log.length);
         foreach (msg; log[$-height .. $]) {
+            display.drawString(cast(int) (x - backing.length), y, backing);
             display.drawString(cast(int) (x - msg.length), y, msg);
             y++;
         }
-        auto instr = ":> " ~ input;
+        auto instr = prompt ~ input;
+        display.drawString(cast(int) (x - backing.length), y, backing);
         display.drawString(cast(int) (x - instr.length), y, instr);
+        y++;
+        display.drawString(cast(int) (x - underline.length), y, underline);
     }
 
     class ConsoleLogger : Logger {
