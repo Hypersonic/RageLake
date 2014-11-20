@@ -1,6 +1,5 @@
 import std.stdio;
 import std.string;
-import std.signals;
 import std.traits;
 import logger;
 import world : World;
