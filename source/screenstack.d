@@ -5,8 +5,13 @@ class ScreenStack {
     this() {}
 
     Screen pop() {
-        Screen s = stack[$];
+        Screen s = stack[$-1];
         stack = stack[0 .. $-1];
+        return s;
+    }
+
+    Screen peek() {
+        Screen s = stack[$-1];
         return s;
     }
 
@@ -37,7 +42,7 @@ class ScreenStack {
 }
 
 class Screen {
-    bool isTransparent = true; // Can things render behind this?
-    bool inputFallthrough = true; // Should input go to the Screen under this?
+    bool isTransparent = false; // Can things render behind this?
+    bool inputFallthrough = false; // Should input go to the Screen under this?
     void render(Display display) {};
 }

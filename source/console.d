@@ -8,9 +8,9 @@ import game;
 import event : Event, KeyPress;
 import display;
 import logger;
-import deimos.ncurses.ncurses;
+import screenstack;
 
-class Console {
+class Console : Screen {
     Game game;
     private string input = "";
     private string[] log;
@@ -20,16 +20,24 @@ class Console {
         return min(50, game.display.height);
     }
 
+    // Screen settings
+    bool inputFallthrough = false;
+    bool isTransparent = true;
+
+
     this(Game game) {
         this.game = game;
         input = "";
         game.events.connect(&this.watch);
-        game.display.connect(&this.render);
 
         auto consoleLogger = new ConsoleLogger();
 
         this.registerFunction("echo", delegate(string[] args) { this.logmsg(args.join(" ")); }, "Print all passed in arguments" );
-        this.registerFunction("openConsole", delegate(string[] args) { this.game.consoleMode = true; }, "Open the developer console");
+        this.registerFunction("openConsole", delegate(string[] args) {
+                import app;
+                    screens.push(this);
+                    game.consoleMode = true;
+                }, "Open the developer console");
         this.registerFunction("help", delegate(string[] args) {
                 if (args.length == 0) {
                     this.logmsg("Whadaya want help with?");
@@ -53,7 +61,7 @@ class Console {
     }
 
     void watch(Event event) {
-        event.tryVisit!((KeyPress kp) { if (game.consoleMode) this.keyPressed(kp); },
+        event.tryVisit!((KeyPress kp) { this.keyPressed(kp); },
                         () {}                               )();
     }
 
@@ -68,7 +76,9 @@ class Console {
                 input = "";
                 break;
             case 27: // ESC
-                this.game.consoleMode = false;
+                import app;
+                screens.pop();
+                game.consoleMode = false;
                 break;
             default:
                 input ~= kp.key;
@@ -102,9 +112,7 @@ class Console {
         helpStrings[name] = help;
     }
 
-    void render(RenderDepth rd, Display display) {
-        if (rd != RenderDepth.OVERLAY) return;
-        if (!game.consoleMode) return;
+    override void render(Display display) {
         int x = display.width;
         int y = 0;
         int height = min(this.height, log.length);
