@@ -20,12 +20,13 @@ class Console : Screen {
         return min(50, game.display.height);
     }
 
-    // Screen settings
-    bool inputFallthrough = false;
-    bool isTransparent = true;
 
 
     this(Game game) {
+        // Screen settings
+        inputFallthrough = false;
+        isTransparent = true;
+
         this.game = game;
         input = "";
         game.events.connect(&this.watch);

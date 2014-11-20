@@ -37,7 +37,9 @@ class ScreenStack {
                 stack[$-1].render(d);
             }
         }
+        d.clear();
         renderStack(stack);
+        d.update();
     }
 }
 

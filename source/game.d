@@ -88,10 +88,8 @@ class Game : Screen {
 
     override void render(Display display) {
         StopWatch sw;
-        display.clear();
         sw.start();
         world.render(display);
-        display.update();
         sw.stop();
 
         logUpdate("Display update time (msecs): %d", sw.peek().msecs);
