@@ -29,7 +29,6 @@ class Console : Screen {
 
         this.game = game;
         input = "";
-        game.events.connect(&this.watch);
 
         auto consoleLogger = new ConsoleLogger();
 
@@ -60,12 +59,7 @@ class Console : Screen {
                 }, "Alias a command name to a `;` delimited series of commands");
     }
 
-    void watch(Event event) {
-        event.tryVisit!((KeyPress kp) { this.keyPressed(kp); },
-                        () {}                               )();
-    }
-
-    void keyPressed(KeyPress kp) {
+    override void takeInput(KeyPress kp) {
         switch (kp.key) {
             case 127: // Backspace
                 if (input.length > 0) input = input[0 .. $-1];
@@ -83,10 +77,6 @@ class Console : Screen {
                 input ~= kp.key;
                 break;
         }
-    }
-
-    override void takeInput(KeyPress kp) {
-        keyPressed(kp);
     }
 
     void logmsg(string msg) {
