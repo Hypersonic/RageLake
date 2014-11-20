@@ -14,6 +14,7 @@ class Console : Screen {
     Game game;
     private string input = "";
     private static string prompt = ":> ";
+    private int minwidth = 50;
     private string[] log;
     private void delegate(string[])[string] functions;
     private string[string] helpStrings;
@@ -21,7 +22,7 @@ class Console : Screen {
         return min(50, game.display.height);
     }
     private @property int width() {
-        return reduce!((a,b) => max(a,b) )(0, (log ~ (prompt ~ input)).map!(x => x.length.to!int)());
+        return reduce!((a,b) => max(a,b) )(minwidth, (log ~ (prompt ~ input)).map!(x => x.length.to!int)());
     }
 
 
