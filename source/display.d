@@ -18,8 +18,6 @@ class Display {
     Bounds viewport;
 
     void update() {
-        erase();
-
         // At this point, anything can hook in by registering for events from display
         emit(RenderDepth.BG, this);
         emit(RenderDepth.FG, this);

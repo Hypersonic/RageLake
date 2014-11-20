@@ -14,16 +14,16 @@ import config;
 import logger;
 import util;
 import event : EventManager, Event;
+import screenstack;
 import core.thread;
 
-class Game {
+class Game : Screen {
     EventManager events;
     Display display;
     World world;
     Config config;
     Console console;
     long turncount;
-    bool running = true;
     bool consoleMode = false;
 
     this() {
@@ -33,62 +33,70 @@ class Game {
         console = new Console(this);
         world = new World(this);
         config = new Config(this);
-        console.registerFunction("quit", delegate(string[] s) { this.running = false; }, "Exit the game");
+        console.registerFunction("quit", delegate(string[] s) {
+                import app;
+                while (!screens.empty) {
+                    screens.pop();
+                }
+                }, "Exit the game");
         console.registerFunction("redraw", delegate(string[] s) { this.display.clear(); this.display.forceRefresh(); }, "Redraw the screen");
         turncount = 0;
         events.connect(&this.watchKeys);
     }
 
-    void run() {
-        while(running) {
-            StopWatch sw;
-            auto keysPressed = getKeysPressed();
+    void tick() {
+        StopWatch sw;
+        auto keysPressed = getKeysPressed();
 
-            logUpdate("KeyTypes: %s", keysPressed);
-            logUpdate("Turn: %d", turncount);
+        logUpdate("KeyTypes: %s", keysPressed);
+        logUpdate("Turn: %d", turncount);
 
-            if (!consoleMode) {
-                sw.start();
-                world.step();
-                sw.stop();
-
-                logUpdate("World step time (msecs): %d", sw.peek().msecs); 
-
-                // Update the viewport to be centered on the player
-                auto playerpos = world.player.position;
-                auto centerpos = Point(display.viewport.min.x + display.viewport.width / 2, 
-                                       display.viewport.min.y + display.viewport.height / 2);
-                auto dist = Point(abs(playerpos.x - centerpos.x),
-                                  abs(playerpos.y - centerpos.y));
-                auto max = Point(display.viewport.width / 4, display.viewport.height / 3);
-                logDebug("Distance (center): %s; max: %s", dist, max);
-                bool changedViewport = false;
-                if (dist.x >= max.x) {
-                    display.viewport.min.x = playerpos.x - display.width / 2;
-                    display.viewport.max.x = playerpos.x + display.width / 2;
-                    changedViewport = true;
-                }
-                if (dist.y >= max.y) {
-                    display.viewport.min.y = playerpos.y - display.height / 2;
-                    display.viewport.max.y = playerpos.y + display.height / 2;
-                    changedViewport = true;
-                }
-
-                // This is a bugfix to prevent weird artifacting that sometimes happens when the viewport moves
-                if (changedViewport) {
-                    display.clear();
-                    display.forceRefresh();
-                }
-            }
-            sw.reset();
+        if (!consoleMode) {
             sw.start();
-            display.update();
+            world.step();
             sw.stop();
 
-            logUpdate("Display update time (msecs): %d", sw.peek().msecs);
+            logUpdate("World step time (msecs): %d", sw.peek().msecs); 
 
-            Thread.sleep(dur!("msecs")(20));
+            // Update the viewport to be centered on the player
+            auto playerpos = world.player.position;
+            auto centerpos = Point(display.viewport.min.x + display.viewport.width / 2, 
+                                   display.viewport.min.y + display.viewport.height / 2);
+            auto dist = Point(abs(playerpos.x - centerpos.x),
+                              abs(playerpos.y - centerpos.y));
+            auto max = Point(display.viewport.width / 4, display.viewport.height / 3);
+            logDebug("Distance (center): %s; max: %s", dist, max);
+            bool changedViewport = false;
+            if (dist.x >= max.x) {
+                display.viewport.min.x = playerpos.x - display.width / 2;
+                display.viewport.max.x = playerpos.x + display.width / 2;
+                changedViewport = true;
+            }
+            if (dist.y >= max.y) {
+                display.viewport.min.y = playerpos.y - display.height / 2;
+                display.viewport.max.y = playerpos.y + display.height / 2;
+                changedViewport = true;
+            }
+
+            // This is a bugfix to prevent weird artifacting that sometimes happens when the viewport moves
+            if (changedViewport) {
+                display.clear();
+                display.forceRefresh();
+            }
         }
+    }
+
+    override void render(Display display) {
+        StopWatch sw;
+        display.clear();
+        sw.start();
+        world.render(display);
+        display.update();
+        sw.stop();
+
+        logUpdate("Display update time (msecs): %d", sw.peek().msecs);
+
+        Thread.sleep(dur!("msecs")(20));
     }
 
     void watchKeys(Event event) {

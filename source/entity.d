@@ -23,7 +23,6 @@ class Entity : Updates {
         this.world = world;
         this.position = Point(0, 0);
         this.cell = Cell('c');
-        this.world.game.display.connect(&render);
         stamina = maxStamina;
     }
 
@@ -59,8 +58,7 @@ class Entity : Updates {
         return typeid(tile) == typeid(FloorTile);
     }
 
-    void render(RenderDepth rd, Display display) {
-        if (rd != RenderDepth.FG) return;
+    void render(Display display) {
         if (display.viewport.contains(this.position)) {
             display.drawCell(this.position, this.cell);
         }

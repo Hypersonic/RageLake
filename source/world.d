@@ -66,10 +66,6 @@ class World {
             entities ~= new Enemy(this);
         }
 
-
-        game.display.connect(&this.render);
-
-
         auto regenmap = delegate(string[] s) {
                 // Render a string explaining that we're generating a map
                 auto updateStr = "Generating map, please wait...";
@@ -95,7 +91,10 @@ class World {
         game.console.registerFunction("regeneratemap", regenmap, "Regenerate the map");
     }
 
-    void render(RenderDepth rd, Display d) {
-        map.render(rd, d);
+    void render(Display d) {
+        map.render(d);
+        foreach (entity; entities) {
+            entity.render(d);
+        }
     }
 }
