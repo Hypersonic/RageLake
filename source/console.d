@@ -25,8 +25,6 @@ class Console : Screen {
         return reduce!((a,b) => max(a,b) )(minwidth, (log ~ (prompt ~ input)).map!(x => x.length.to!int)());
     }
 
-
-
     this(Game game) {
         // Screen settings
         inputFallthrough = false;
