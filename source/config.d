@@ -21,6 +21,8 @@ class Config {
             bindKey(cast(char) k, "quit");
         foreach (k; [':'])
             bindKey(cast(char) k, "openConsole");
+        foreach (k; ['i', 'I'])
+            bindKey(cast(char) k, "openinventory");
         g.console.registerFunction("bind",
                 delegate(string[] s) {
                     if (s.length < 2) {
