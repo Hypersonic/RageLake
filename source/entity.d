@@ -5,6 +5,7 @@ import display;
 import action : Action;
 import util : Cell, Point, Updates, Color;
 import event : Event;
+import inventory;
 
 class Entity : Updates {
     Point position;
@@ -18,12 +19,14 @@ class Entity : Updates {
     World world;
     Cell cell;
     protected Color normalColor = Color.NORMAL;
+    Inventory inventory;
 
     this(World world) {
         this.world = world;
         this.position = Point(0, 0);
         this.cell = Cell('c');
         stamina = maxStamina;
+        this.inventory = new Inventory();
     }
 
     this(World world, Point p) {

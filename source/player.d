@@ -37,6 +37,18 @@ class Player : Entity {
                 this.normalColor = Color.PLAYER;
                 this.health = this.maxHealth;
                 }, "LIVE, Liiiiiiiive!");
+        this.world.game.console.registerFunction("openinventory", delegate(string[] s) {
+                import inventoryscreen;
+                import app;
+                import console;
+                if (typeid(screens.peek()) == typeid(Console))
+                    screens.pop(); // Remove the console
+                screens.push(new InventoryScreen(this.inventory));
+                }, "Open the player's inventory");
+        this.world.game.console.registerFunction("additem", delegate(string[] s) {
+                import item;
+                this.inventory.items ~= new Item();
+                }, "Add an item to the inventory");
     }
 
     override Action update(World world) {
