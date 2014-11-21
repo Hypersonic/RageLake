@@ -15,7 +15,6 @@ class InventoryScreen : Screen {
         isTransparent = false;
     }
 
-    // TODO: Add scrolling if we have more items than we can fit onscreen
     override void takeInput(KeyPress kp) {
         switch (kp.key) {
             case 127: // Backspace
@@ -41,8 +40,14 @@ class InventoryScreen : Screen {
         string side = "|";
         display.drawString(x, y++, top);
         foreach (item; inventory.items) {
-            if (y < display.height) // Only draw up to the height of the screen.
-                display.drawString(x, y++, side ~ " " ~ item.name.center(maxitemwidth) ~ " " ~ side);
+            // If we've hit the bottom, finish our border, move back to the top and over to the right a bit, and start a new border
+            if (y >= display.height) {
+                display.drawString(x, y++, bottom);
+                y = 10;
+                x += maxitemwidth + 6;
+                display.drawString(x, y++, top);
+            }
+            display.drawString(x, y++, side ~ " " ~ item.name.center(maxitemwidth) ~ " " ~ side);
         }
         display.drawString(x, y++, bottom);
     }
