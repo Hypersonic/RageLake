@@ -41,27 +41,25 @@ class InventoryScreen : Screen {
         string top    = "Inventory".center(linewidth, '-');
         string bottom = "".center(linewidth, '-');
         string side = "|";
-        display.drawString(x-paddingspace, y - 1, padding);
-        display.drawString(x-paddingspace, y, padding);
-        display.drawString(x, y++, top);
+
+        void drawString(int x, int y, string str) {
+            display.drawString(x-paddingspace, y, padding);
+            display.drawString(x, y, str);
+        }
+        drawString(x, y++, top);
         foreach (item; inventory.items) {
             // If we've hit the bottom, finish our border, move back to the top and over to the right a bit, and start a new border
             if (y >= display.height) {
-                display.drawString(x-paddingspace, y, padding);
-                display.drawString(x, y++, bottom);
+                drawString(x, y++, bottom);
                 y = 10;
                 x += linewidth + 2;
                 // Stop if there is no more horizontal room
                 if (x + linewidth + paddingspace * 2 > display.width) 
                     return;
-                display.drawString(x-paddingspace, y-1, padding);
-                display.drawString(x, y++, top);
+                drawString(x, y++, top);
             }
-            display.drawString(x-paddingspace, y, padding);
-            display.drawString(x, y++, side ~ " " ~ item.name.center(maxitemwidth) ~ " " ~ side);
+            drawString(x, y++, side ~ " " ~ item.name.center(maxitemwidth) ~ " " ~ side);
         }
-        display.drawString(x-paddingspace, y, padding);
-        display.drawString(x, y++, bottom);
-        display.drawString(x-paddingspace, y, padding);
+        drawString(x, y++, bottom);
     }
 }
