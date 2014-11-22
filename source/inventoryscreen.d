@@ -12,7 +12,7 @@ class InventoryScreen : Screen {
     this(Inventory inventory) {
         this.inventory = inventory;
         inputFallthrough = false;
-        isTransparent = false;
+        isTransparent = true;
     }
 
     override void takeInput(KeyPress kp) {
@@ -45,6 +45,9 @@ class InventoryScreen : Screen {
                 display.drawString(x, y++, bottom);
                 y = 10;
                 x += maxitemwidth + 6;
+                // Stop if there is no more horizontal room
+                if (x + maxitemwidth + 10 > display.width) 
+                    return;
                 display.drawString(x, y++, top);
             }
             display.drawString(x, y++, side ~ " " ~ item.name.center(maxitemwidth) ~ " " ~ side);
