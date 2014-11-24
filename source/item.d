@@ -8,6 +8,6 @@ Item function()[] itemList = []; // This list will contain functions that return
 
 // Simple template to add a static constructor that puts the class this is mixed into in the itemList
 // Requires that the class is a subclass of Item
-mixin template registerForItemList() {
+mixin template registerItem() {
     static this() { itemList ~= function Item() { return new this(); }; }
 }
