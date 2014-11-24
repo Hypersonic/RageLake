@@ -46,8 +46,9 @@ class Player : Entity {
                 screens.push(new InventoryScreen(this.inventory));
                 }, "Open the player's inventory");
         this.world.game.console.registerFunction("additem", delegate(string[] s) {
+                import std.random;
                 import item;
-                this.inventory.items ~= new Item();
+                this.inventory.items ~= itemList[uniform(0, itemList.length)]();
                 }, "Add an item to the inventory");
     }
 
