@@ -9,8 +9,7 @@ import display;
 import game : Game;
 import util : Point;
 import tile;
-import randommap;
-import randomwalkmap;
+import generators.randomwalkmap;
 
 class World {
     Entity[] entities; // In the future, this should probably be a linked list

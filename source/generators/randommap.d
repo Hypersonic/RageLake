@@ -1,3 +1,5 @@
+module generators.randommap;
+
 import std.random;
 import map;
 import tile;

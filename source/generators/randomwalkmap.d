@@ -1,3 +1,5 @@
+module generators.randomwalkmap;
+
 import std.algorithm;
 import std.random;
 import std.stdio;
