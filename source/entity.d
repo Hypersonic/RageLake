@@ -21,12 +21,16 @@ class Entity : Updates {
     protected Color normalColor = Color.NORMAL;
     Inventory inventory;
 
-    this(World world) {
-        this.world = world;
+    this() {
         this.position = Point(0, 0);
         this.cell = Cell('c');
         stamina = maxStamina;
         this.inventory = new Inventory();
+    }
+
+    this(World world) {
+        this();
+        this.world = world;
     }
 
     this(World world, Point p) {
@@ -34,7 +38,7 @@ class Entity : Updates {
         this.position = p;
     }
 
-    void hit(int damage) {
+    void takeHit(Entity hitter, int damage) {
         if (alive) {
             this.cell.color = Color.TAKING_DAMAGE;
             this.health -= damage;

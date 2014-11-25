@@ -96,7 +96,7 @@ class AttackAction : Action {
             }
         }
         if (entAtLocation) {
-            entAtLocation.hit(1); // Do 1 damage to the target
+            entAtLocation.takeHit(target, 1); // Do 1 damage to the target
         }
     }
 

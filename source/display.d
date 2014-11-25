@@ -74,6 +74,7 @@ class Display {
         init_pair(Color.UNIMPORTANT, COLOR_WHITE, COLOR_BLACK);
         init_pair(Color.ENEMY, COLOR_RED, COLOR_BLACK);
         init_pair(Color.PLAYER, COLOR_GREEN, COLOR_BLACK);
+        init_pair(Color.ITEM, COLOR_CYAN, COLOR_BLACK);
 
         displayLog = new DisplayLogger();
         update();

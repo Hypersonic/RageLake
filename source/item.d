@@ -1,7 +1,13 @@
+import util;
+
 class Item {
     string name = "Unnamed Item";
     string shortDescription = "Undescribed.";
     string longDescription = "This item is undescribable, as the describer has not described it descriptively.";
+    Cell cell;
+    this() {
+        cell = Cell('i', Color.ITEM);
+    }
 }
 
 Item function()[] itemList = []; // This list will contain functions that return each kind of item
@@ -14,5 +20,31 @@ mixin template registerItem() {
     } else {
         alias T = this; // We need to alias here because using `this` on it's own causes a compilation error (possible compiler bug?)
         static assert(false, "Trying to register a class for the item registry which is not a subclass of Item: " ~ __traits(identifier, T));
+    }
+}
+
+
+
+import entity;
+class ItemEntity : Entity {
+    Item item;
+    this(Item item) {
+        super();
+        this.item = item;
+        cell = item.cell; 
+        normalColor = Color.ITEM;
+    }
+
+    override Action update(World world) {
+        this.desiredAction = new Action(this);
+        super.update(world);
+        return this.desiredAction;
+    }
+
+    // HACK: This should really be put in an action, do this later. We shouldn't be taking over the takeHit method for this
+    override void takeHit(Entity hitter, int damage) {
+        if (this.item)
+            hitter.inventory.items ~= this.item;
+        this.item = null;
     }
 }

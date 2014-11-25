@@ -55,6 +55,7 @@ class World {
                 }
             }
         }
+        logUpdate("%d / %d actions recieved", actions.length, requiredActions);
     }
 
     this(Game g) {
@@ -64,6 +65,12 @@ class World {
         entities ~= player;
         foreach (i; 0 .. 20) {
             entities ~= new Enemy(this);
+        }
+        import item, std.random;
+        foreach (i; 0 .. 20) {
+            auto e = new ItemEntity(itemList[uniform(0, itemList.length)]());
+            e.world = this;
+            entities ~= e;
         }
 
         auto regenmap = delegate(string[] s) {
