@@ -22,7 +22,8 @@ enum Color : short {
     UNIMPORTANT,
     ENEMY,
     PLAYER,
-    ITEM
+    ITEM,
+    OPENED
 }
 
 struct Point {
