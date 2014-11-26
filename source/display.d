@@ -1,10 +1,11 @@
 import std.stdio;
 import std.string;
 import std.traits;
-import logger;
-import world : World;
-import util : Cell, Point, Bounds, Color;
+
 import deimos.ncurses.ncurses;
+
+import logger;
+import util : Cell, Point, Bounds, Color;
 
 
 class Display {
