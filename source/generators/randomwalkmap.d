@@ -32,16 +32,13 @@ class RandomWalkMapGenerator : MapGenerator {
 
         logDebug("Walk Points: %s", points);
 
-        Tile[][] tiles;
+        Tile[][] tiles = new Tile[][](map.bounds.width + 1, map.bounds.height + 1);
         // Fill the map with blank tiles
         foreach (i; 0 .. map.bounds.width + 1) {
-            Tile[] row;
             foreach (j; 0 .. map.bounds.height + 1) {
                 Tile t;
-                t = new Tile;
-                row ~= t;
+                tiles[i][j] = new Tile;
             }
-            tiles ~= row;
         }
 
         // Fill in the walls as anything in the neighborhood of a point on the path
