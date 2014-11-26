@@ -1,3 +1,5 @@
+module items.testitems;
+
 import item;
 import equipment;
 
