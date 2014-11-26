@@ -1,6 +1,5 @@
 import std.stdio;
 import std.string;
-import std.traits;
 
 import deimos.ncurses.ncurses;
 
