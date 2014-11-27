@@ -29,9 +29,9 @@ class Player : Entity {
                     return;
                 }
                 // Go through double to handle any decimals
-                this.position.x = s[0].to!double.to!int;
-                this.position.y = s[1].to!double.to!int;
-                }, "Teleport the player to specified coords");
+                this.position.x += s[0].to!double.to!int;
+                this.position.y += s[1].to!double.to!int;
+                }, "Teleport the player by the specified values");
         this.world.game.console.registerFunction("phoenix", delegate(string[] s) {
                 this.alive = true;
                 this.normalColor = Color.PLAYER;
