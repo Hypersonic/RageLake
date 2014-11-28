@@ -78,12 +78,14 @@ target_found:
 
 class AttackAction : Action {
     int x, y;
+    int damage;
 
     this(Entity target, int x, int y) {
         super(target);
         this.x = x;
         this.y = y;
         staminaRequired = 10;
+        damage = 1;
     }
     
     override void execute(World world) {
@@ -95,8 +97,13 @@ class AttackAction : Action {
                 entAtLocation = entity;
             }
         }
+
+        foreach (equip; target.equipment) {
+            equip.onAttack(target, this);
+        }
+
         if (entAtLocation) {
-            entAtLocation.takeHit(target, 1); // Do 1 damage to the target
+            entAtLocation.takeHit(target, damage); // Do 1 damage to the target
         }
     }
 

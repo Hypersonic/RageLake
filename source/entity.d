@@ -6,6 +6,7 @@ import action : Action;
 import util : Cell, Point, Updates, Color;
 import event : Event;
 import inventory;
+import equipment;
 
 class Entity : Updates {
     Point position;
@@ -20,6 +21,7 @@ class Entity : Updates {
     Cell cell;
     protected Color normalColor = Color.NORMAL;
     Inventory inventory;
+    Equipment[] equipment;
 
     this() {
         this.position = Point(0, 0);
