@@ -1,7 +1,11 @@
 module items.testitems;
 
+import std.math;
+
+import entity;
 import item;
 import equipment;
+import action;
 
 class TestSword : Equipment {
     mixin registerItem;
@@ -9,6 +13,11 @@ class TestSword : Equipment {
         name = "Test Sword";
         shortDescription = "A Test Sword";
         longDescription = "This sword is a test. Go figure.";
+    }
+
+    override void onAttack(ref Entity equipee, AttackAction attack) {
+        double multiplier = 3;
+        attack.damage = cast(int) ceil(multiplier * attack.damage);
     }
 }
 
