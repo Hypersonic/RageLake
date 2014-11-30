@@ -20,6 +20,7 @@ class InventoryScreen : Screen {
             case 127: // Backspace
             case 27: // ESC
             case 'q':
+            case 'i':
                 import app;
                 screens.pop();
                 break;
