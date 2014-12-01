@@ -13,11 +13,15 @@ class TestSword : Equipment {
         name = "Test Sword";
         shortDescription = "A Test Sword";
         longDescription = "This sword is a test. Go figure.";
+        durability = 10;
     }
 
     override void onAttack(ref Entity equipee, AttackAction attack) {
         double multiplier = 3;
-        attack.damage = cast(int) ceil(multiplier * attack.damage);
+        if (durability > 0) {
+            attack.damage = cast(int) ceil(multiplier * attack.damage);
+            durability--;
+        }
     }
 }
 
