@@ -135,6 +135,15 @@ class Console : Screen {
         this() {
             this.minLevel = LogLevel.error;
             registerLogger(this);
+            registerFunction("debug", delegate(string[] args) {
+                    if (args[0] == "0") {
+                        this.minLevel = LogLevel.error;
+                    } else if (args[0] == "1") {
+                        this.minLevel = LogLevel.debug_;
+                    } else {
+                        logmsg("Possible arguments are: 0, 1");
+                    }
+                    }, "Set console debug level");
         }
 
         override void log(ref LogLine line) {
