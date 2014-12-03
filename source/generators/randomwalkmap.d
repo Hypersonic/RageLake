@@ -43,7 +43,7 @@ class RandomWalkMapGenerator : MapGenerator {
 
         // Fill in the walls as anything in the neighborhood of a point on the path
         foreach (point; points) {
-            foreach (wall; point.neighborhood()) {
+            foreach (wall; point.neighborhood) {
                 // The neighborhood function knows nothing about the map bounds, so we need to check them
                 if (map.bounds.contains(wall)) {
                     tiles[wall.x][wall.y] = new WallTile;
