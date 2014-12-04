@@ -1,4 +1,7 @@
 import std.string;
+import std.algorithm;
+import std.array;
+
 import map;
 import entity;
 import player;
@@ -54,6 +57,7 @@ class World {
                 }
             }
         }
+        entities = entities.filter!(e => e.alive || e.inventory.items.length > 0).array(); // Remove dead entities that have no loot from the entity list
         logUpdate("%d / %d actions recieved", actions.length, requiredActions);
     }
 

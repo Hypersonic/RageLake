@@ -27,11 +27,10 @@ mixin template registerItem() {
 
 import entity;
 class ItemEntity : Entity {
-    Item item;
     this(Item item) {
         super();
-        this.item = item;
-        cell = item.cell; 
+        this.inventory.items ~= item;
+        cell = item.cell;
         normalColor = Color.ITEM;
     }
 
@@ -43,10 +42,11 @@ class ItemEntity : Entity {
 
     // HACK: This should really be put in an action, do this later. We shouldn't be taking over the takeHit method for this
     override void takeHit(Entity hitter, int damage) {
-        if (this.item) {
-            hitter.inventory.items ~= this.item;
-            this.normalColor = Color.OPENED;
+        foreach (item; this.inventory.items) {
+            hitter.inventory.items ~= item;
         }
-        this.item = null;
+        this.inventory.items = [];
+        this.normalColor = Color.OPENED;
+        this.alive = false;
     }
 }
