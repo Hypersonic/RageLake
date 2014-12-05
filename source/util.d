@@ -19,6 +19,7 @@ enum Color : short {
     NORMAL = 1,
     HEALING,
     TAKING_DAMAGE,
+    IMPORTANT,
     UNIMPORTANT,
     ENEMY,
     PLAYER,
