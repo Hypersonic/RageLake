@@ -9,6 +9,8 @@ import logger;
 
 class InventoryScreen : Screen {
     Inventory inventory;
+    int selected;
+
     this(Inventory inventory) {
         this.inventory = inventory;
         inputFallthrough = false;
@@ -23,6 +25,15 @@ class InventoryScreen : Screen {
             case 'i':
                 import app;
                 screens.pop();
+                break;
+            // Allow scrolling through the items list, wrap at edges
+            case 'j':
+                selected++;
+                selected %= inventory.items.length;
+                break;
+            case 'k':
+                selected--;
+                if (selected < 0) selected = cast(int) inventory.items.length-1;
                 break;
             default:
                 break;
@@ -43,12 +54,13 @@ class InventoryScreen : Screen {
         string bottom = "".center(linewidth, '-');
         string side = "|";
 
-        void drawString(int x, int y, string str) {
-            display.drawString(x-paddingspace, y, padding);
-            display.drawString(x, y, str);
+        void drawString(int x, int y, string str, bool doPadding = true, Color color = Color.NORMAL) {
+            if (doPadding)
+                display.drawString(x-paddingspace, y, padding);
+            display.drawString(x, y, str, color);
         }
         drawString(x, y++, top);
-        foreach (item; inventory.items) {
+        foreach (i, item; inventory.items) {
             // If we've hit the bottom, finish our border, move back to the top and over to the right a bit, and start a new border
             if (y >= display.height) {
                 drawString(x, y++, bottom);
@@ -59,7 +71,12 @@ class InventoryScreen : Screen {
                     return;
                 drawString(x, y++, top);
             }
-            drawString(x, y++, side ~ " " ~ item.name.center(maxitemwidth) ~ " " ~ side);
+            auto color = Color.NORMAL;
+            if (i == selected) {
+                color = Color.IMPORTANT;
+            }
+            drawString(x, y, side ~ " " ~ "".center(maxitemwidth) ~ " " ~ side);
+            drawString(x+2, y++, item.name.center(maxitemwidth), false, color);
         }
         drawString(x, y++, bottom);
     }
