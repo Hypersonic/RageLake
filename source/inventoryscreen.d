@@ -42,7 +42,8 @@ class InventoryScreen : Screen {
 
     override void render(Display display) {
         int x = 10;
-        int y = 10;
+        int topY = 10;
+        int y = topY;
         int paddingspace = 1;
         int maxitemwidth = 20;
         // find the largest width. If it's less than maxitemwidth's value, use that instead
@@ -59,22 +60,25 @@ class InventoryScreen : Screen {
                 display.drawString(x-paddingspace, y, padding);
             display.drawString(x, y, str, color);
         }
+
         drawString(x, y++, top);
         foreach (i, item; inventory.items) {
             // If we've hit the bottom, finish our border, move back to the top and over to the right a bit, and start a new border
             if (y >= display.height) {
                 drawString(x, y++, bottom);
-                y = 10;
+                y = topY;
                 x += linewidth + 2;
                 // Stop if there is no more horizontal room
                 if (x + linewidth + paddingspace * 2 > display.width) 
                     return;
                 drawString(x, y++, top);
             }
+
             auto color = Color.NORMAL;
             if (i == selected) {
                 color = Color.IMPORTANT;
             }
+
             drawString(x, y, side ~ " " ~ "".center(maxitemwidth) ~ " " ~ side);
             drawString(x+2, y++, item.name.center(maxitemwidth), false, color);
         }
