@@ -48,7 +48,7 @@ class InventoryScreen : Screen {
         int maxitemwidth = 20;
         // find the largest width. If it's less than maxitemwidth's value, use that instead
         if (inventory.items.length > 0)
-            maxitemwidth = inventory.items.map!(item => item.name.length)().reduce!((a, b) => max(a, b))().to!int.max(maxitemwidth);
+            maxitemwidth = inventory.items.map!(item => item.name.length).reduce!((a, b) => max(a, b)).to!int.max(maxitemwidth);
         int linewidth = maxitemwidth + 4;
         string padding = "".center(linewidth + paddingspace * 2, ' ');
         string top    = "Inventory".center(linewidth, '-');
