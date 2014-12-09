@@ -124,9 +124,27 @@ class Console : Screen {
             display.drawString(cast(int) (x - msg.length), y, msg);
             y++;
         }
+
+        // Try to complete if possible
         auto instr = prompt ~ input;
         display.drawString(cast(int) (x - backing.length), y, backing);
-        display.drawString(cast(int) (x - instr.length), y, instr);
+
+        if (input.length > 0) {
+            import std.array;
+            auto comps = functions.keys.filter!(s => s.startsWith(input)).array;
+            if (comps.length > 0) {
+                auto comp = prompt ~ comps[0];
+                if (comp.length > prompt.length)
+                    display.drawString(cast(int) (x - comp.length), y, comp, Color.IMPORTANT);
+                display.drawString(cast(int) (x - comp.length), y, instr);
+
+            } else {
+                display.drawString(cast(int) (x - instr.length), y, instr);
+            }
+        } else {
+            display.drawString(cast(int) (x - instr.length), y, instr);
+        }
+
         y++;
         display.drawString(cast(int) (x - underline.length), y, underline);
     }
