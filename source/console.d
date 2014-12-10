@@ -22,7 +22,8 @@ class Console : Screen {
         return min(50, game.display.height);
     }
     private @property int width() {
-        return reduce!((a,b) => max(a,b) )(minwidth, (log ~ (prompt ~ input)).map!(x => x.length.to!int)());
+        return reduce!((a,b) => max(a,b) )(minwidth, (log ~ (prompt ~ input))
+                .map!(x => x.length.to!int));
     }
 
     this(Game game) {
