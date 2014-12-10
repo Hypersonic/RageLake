@@ -77,8 +77,7 @@ class Console : Screen {
                 screens.pop();
                 break;
             case '\t': // Tab, attempt autocomplete
-                import std.array;
-                auto comps = functions.keys.filter!(s => s.startsWith(input)).array;
+                auto comps = getAutoCompleteChoices(input);
                 if (input.length > 0 && comps.length > 0) {
                     input = comps[0];
                 }
@@ -114,6 +113,13 @@ class Console : Screen {
         helpStrings[name] = help;
     }
 
+    auto getAutoCompleteChoices(string input) {
+        import std.array;
+        auto comps = functions.keys.filter!(s => s.startsWith(input)).array;
+        return comps;
+    }
+
+
     override void render(Display display) {
         // Assemble a backing of maximum width
         auto backing = "| ";
@@ -135,8 +141,8 @@ class Console : Screen {
         auto instr = prompt ~ input;
         display.drawString(cast(int) (x - backing.length), y, backing);
 
-        import std.array;
-        auto comps = functions.keys.filter!(s => s.startsWith(input)).array;
+        auto comps = getAutoCompleteChoices(input);
+
         if (input.length > 0 && comps.length > 0) {
             auto comp = prompt ~ comps[0];
             if (comp.length > prompt.length)
