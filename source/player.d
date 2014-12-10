@@ -53,11 +53,11 @@ class Player : Entity {
         this.world.game.console.registerFunction("equip", delegate(string[] s) {
                 import std.random;
                 import items.testitems;
-                this.equipment ~= new TestSword();
+                this.inventory.equipment ~= new TestSword();
                 }, "Add a sword to the inventory");
         this.world.game.console.registerFunction("listequipment", delegate(string[] s) {
                 import std.string;
-                this.world.game.console.logmsg(format("%s", this.equipment));
+                this.world.game.console.logmsg(format("%s", this.inventory.equipment));
                 }, "Add a sword to the inventory");
     }
 

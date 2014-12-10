@@ -98,7 +98,7 @@ class AttackAction : Action {
             }
         }
 
-        foreach (equip; target.equipment) {
+        foreach (equip; target.inventory.equipment) {
             equip.onAttack(target, this);
         }
 

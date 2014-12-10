@@ -21,7 +21,6 @@ class Entity : Updates {
     Cell cell;
     protected Color normalColor = Color.NORMAL;
     Inventory inventory;
-    Equipment[] equipment;
 
     this() {
         this.position = Point(0, 0);
