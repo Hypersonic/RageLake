@@ -94,6 +94,7 @@ class Console : Screen {
     }
 
     void submit(string cmd) {
+        //TODO: Implement a proper parser for commands, not just string.split
         if (cmd == "") return;
         auto splitcmd = cmd.split(" ");
         string cmdToCall = "";
@@ -104,8 +105,6 @@ class Console : Screen {
         string[] args;
         if (splitcmd.length > 1)
             args = splitcmd[1..$];
-        else
-            args = [];
         fun(args);
     }
 
