@@ -144,11 +144,13 @@ class Console : Screen {
         auto comps = getAutoCompleteChoices(input);
 
         if (input.length > 0 && comps.length > 0) {
+            // Found an autocompletion, draw that
             auto comp = prompt ~ comps[0];
             if (comp.length > prompt.length)
                 display.drawString(cast(int) (x - comp.length), y, comp, Color.IMPORTANT);
             display.drawString(cast(int) (x - comp.length), y, instr);
         } else {
+            // No autocommpletion found
             display.drawString(cast(int) (x - instr.length), y, instr);
         }
 
