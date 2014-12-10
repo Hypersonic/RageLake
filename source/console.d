@@ -76,6 +76,13 @@ class Console : Screen {
                 import app;
                 screens.pop();
                 break;
+            case '\t': // Tab, attempt autocomplete
+                import std.array;
+                auto comps = functions.keys.filter!(s => s.startsWith(input)).array;
+                if (input.length > 0 && comps.length > 0) {
+                    input = comps[0];
+                }
+                break;
             default:
                 input ~= kp.key;
                 break;
