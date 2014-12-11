@@ -33,3 +33,12 @@ class TestSpear: Equipment {
         longDescription = "This spear is a test. Go figure.";
     }
 }
+
+class TestItem : Item {
+    mixin registerItem;
+    this() {
+        name = "Test Item";
+        shortDescription = "A Test Item";
+        longDescription = "This item is a test. Wow.";
+    }
+}
