@@ -8,4 +8,8 @@ class Equipment : Item {
 
     void onAttack(ref Entity equipee, AttackAction attack) {}
     void onHit(ref Entity equipee, AttackAction attack) {}
+
+    override bool canEquip() {
+        return true;
+    }
 }

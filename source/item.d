@@ -8,6 +8,10 @@ class Item {
     this() {
         cell = Cell('i', Color.ITEM);
     }
+
+    bool canEquip() {
+        return false;    
+    }
 }
 
 Item function()[] itemList = []; // This list will contain functions that return each kind of item
