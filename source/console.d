@@ -161,16 +161,16 @@ class Console : Screen {
 
     class ConsoleLogger : Logger {
         this() {
-            this.minLevel = LogLevel.error;
+            this.minLevel = LogLevel.info;
             registerLogger(this);
             registerFunction("debug", delegate(string[] args) {
                     if (args.length == 0) {
                         // toggle debug level if no args
-                        this.minLevel = this.minLevel == LogLevel.error ? LogLevel.debug_ : LogLevel.error;
+                        this.minLevel = this.minLevel == LogLevel.info ? LogLevel.debug_ : LogLevel.error;
                         return;
                     }
                     if (args[0] == "0") {
-                        this.minLevel = LogLevel.error;
+                        this.minLevel = LogLevel.info;
                     } else if (args[0] == "1") {
                         this.minLevel = LogLevel.debug_;
                     } else {
