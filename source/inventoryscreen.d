@@ -44,7 +44,8 @@ class InventoryScreen : Screen {
                 }
                 break;
             case 'e':
-                if (inventory.items.length > selectedItem) {
+                auto item = inventory.items[selectedItem];
+                if (inventory.items.length > selectedItem && item.canEquip) {
                     if (inventory.equipment.canFind(inventory.items[selectedItem])) {
                         // The item is already equipped, remove it.
                         auto index = inventory.equipment.length - inventory.equipment.find(inventory.items[selectedItem]).length;
