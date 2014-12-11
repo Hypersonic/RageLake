@@ -4,6 +4,7 @@ import std.algorithm;
 import display;
 import screenstack;
 import inventory;
+import equipment;
 import event;
 import logger;
 
@@ -37,6 +38,13 @@ class InventoryScreen : Screen {
                 if (inventory.items.length > 0) {
                     selected--;
                     if (selected < 0) selected = cast(int) inventory.items.length-1;
+                }
+                break;
+            case 'e':
+                if (inventory.items.length > selected) {
+                    logInfo("Hi");
+                    inventory.equipment ~= cast(Equipment) inventory.items[selected];
+                    inventory.items = inventory.items.remove(selected);
                 }
                 break;
             default:
