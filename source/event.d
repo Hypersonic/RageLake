@@ -31,7 +31,7 @@ class EventManager {
         // TODO: Find a way to remove try/catch when throwing events
         try {
             emit(event);
-            logInfo("Emitted Event %s", event);
+            logDiagnostic("Emitted Event %s", event);
         } catch (Exception e) {
             logError("Error emitting Event %s : %s", event, e.msg);
         }
