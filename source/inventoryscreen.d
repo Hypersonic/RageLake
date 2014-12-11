@@ -7,10 +7,13 @@ import inventory;
 import equipment;
 import event;
 import logger;
+import item;
 
 class InventoryScreen : Screen {
     Inventory inventory;
-    int selected;
+    int selectedItem;
+    int selectedList;
+    static const int NUM_LISTS = 2;
 
     this(Inventory inventory) {
         this.inventory = inventory;
@@ -30,21 +33,26 @@ class InventoryScreen : Screen {
             // Allow scrolling through the items list, wrap at edges
             case 'j':
                 if (inventory.items.length > 0) {
-                    selected++;
-                    selected %= inventory.items.length;
+                    selectedItem++;
+                    selectedItem %= inventory.items.length;
                 }
                 break;
             case 'k':
                 if (inventory.items.length > 0) {
-                    selected--;
-                    if (selected < 0) selected = cast(int) inventory.items.length-1;
+                    selectedItem--;
+                    if (selectedItem < 0) selectedItem = cast(int) inventory.items.length-1;
                 }
                 break;
             case 'e':
-                if (inventory.items.length > selected) {
-                    logInfo("Hi");
-                    inventory.equipment ~= cast(Equipment) inventory.items[selected];
-                    inventory.items = inventory.items.remove(selected);
+                if (inventory.items.length > selectedItem) {
+                    if (inventory.equipment.canFind(inventory.items[selectedItem])) {
+                        // The item is already equipped, remove it.
+                        auto index = inventory.equipment.length - inventory.equipment.find(inventory.items[selectedItem]).length;
+                        logInfo("Index: %d", index);
+                        inventory.equipment = inventory.equipment.remove(index);
+                    } else {
+                        inventory.equipment ~= cast(Equipment) inventory.items[selectedItem];
+                    }
                 }
                 break;
             default:
@@ -63,7 +71,8 @@ class InventoryScreen : Screen {
             maxitemwidth = inventory.items.map!(item => item.name.length).reduce!((a, b) => max(a, b)).to!int.max(maxitemwidth);
         int linewidth = maxitemwidth + 4;
         string padding = "".center(linewidth + paddingspace * 2, ' ');
-        string top    = "Inventory".center(linewidth, '-');
+        string invtop = "Inventory".center(linewidth, '-');
+        string equiptop = "Equipment".center(linewidth, '-');
         string bottom = "".center(linewidth, '-');
         string side = "|";
 
@@ -73,27 +82,39 @@ class InventoryScreen : Screen {
             display.drawString(x, y, str, color);
         }
 
-        drawString(x, y++, top);
-        foreach (i, item; inventory.items) {
-            // If we've hit the bottom, finish our border, move back to the top and over to the right a bit, and start a new border
-            if (y >= display.height) {
-                drawString(x, y++, bottom);
-                y = topY;
-                x += linewidth + 2;
-                // Stop if there is no more horizontal room
-                if (x + linewidth + paddingspace * 2 > display.width) 
-                    return;
-                drawString(x, y++, top);
-            }
+        
+        void drawList(string top, Item[] list) {
+            y = topY;
+            drawString(x, y++, top);
+            foreach (i, item; list) {
+                // If we've hit the bottom, finish our border, move back to the top and over to the right a bit, and start a new border
+                if (y >= display.height) {
+                    drawString(x, y++, bottom);
+                    y = topY;
+                    x += linewidth + 2;
+                    // Stop if there is no more horizontal room
+                    if (x + linewidth + paddingspace * 2 > display.width) 
+                        return;
+                    drawString(x, y++, top);
+                }
 
-            auto color = Color.NORMAL;
-            if (i == selected) {
-                color = Color.IMPORTANT;
-            }
+                auto color = Color.NORMAL;
+                if (i == selectedItem && list is inventory.items) {
+                    color = Color.IMPORTANT;
+                }
 
-            drawString(x, y, side ~ " " ~ "".center(maxitemwidth) ~ " " ~ side);
-            drawString(x+2, y++, item.name.center(maxitemwidth), false, color);
+                drawString(x, y, side ~ " " ~ "".center(maxitemwidth) ~ " " ~ side);
+                string suffix = list is inventory.items && inventory.equipment.canFind(item) ? " e" : "";
+                drawString(x+2, y++, (item.name ~ suffix).center(maxitemwidth), false, color);
+            }
+            drawString(x, y++, bottom);
+            x += linewidth + 2;
+            y = topY;
+
         }
-        drawString(x, y++, bottom);
+
+        drawList(equiptop, cast(Item[]) inventory.equipment);
+
+        drawList(invtop, inventory.items);
     }
 }
