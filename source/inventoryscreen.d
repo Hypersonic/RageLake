@@ -69,7 +69,7 @@ class InventoryScreen : Screen {
         int maxitemwidth = 20;
         // find the largest width. If it's less than maxitemwidth's value, use that instead
         if (inventory.items.length > 0)
-            maxitemwidth = inventory.items.map!(item => item.name.length).reduce!((a, b) => max(a, b)).to!int.max(maxitemwidth);
+            maxitemwidth = inventory.items.map!(item => item.name.length).reduce!((a, b) => max(a, b)).to!int.max(maxitemwidth) + 10; // pad with at least 10
         int linewidth = maxitemwidth + 4;
         string padding = "".center(linewidth + paddingspace * 2, ' ');
         string invtop = "Inventory".center(linewidth, '-');
@@ -113,7 +113,7 @@ class InventoryScreen : Screen {
                 }
 
                 drawString(x, y, side ~ " " ~ "".center(maxitemwidth) ~ " " ~ side);
-                string suffix = list is inventory.items && inventory.equipment.canFind(item) ? " e" : "";
+                string suffix = list is inventory.items && inventory.equipment.canFind(item) ? " (e)" : "";
                 drawString(x+2, y++, (item.name ~ suffix).center(maxitemwidth), false, color);
             }
             drawString(x, y++, bottom);
