@@ -103,13 +103,24 @@ class InventoryScreen : Screen {
                 if (i == selectedItem && list is inventory.items) {
                     color = Color.IMPORTANT;
                     // draw the info for this item
+                    
+
                     auto len = cast(int) max(item.name.length, item.shortDescription.length, item.longDescription.length);
+
+                    // Save teh old padding
+                    auto oldpadding = padding;
+                    padding = "".center(len + 4 + paddingspace * 2, ' ');
+                    scope (exit) padding = oldpadding; // restore it on scope exit
+
                     auto boxx = 60 - len/2;
+
+
                     drawString(boxx, 4, "".center(len+4, '-'));
                     drawString(boxx, 5, side ~ " " ~ item.name.center(len) ~ " " ~ side);
                     drawString(boxx, 6, side ~ " " ~ item.shortDescription.center(len) ~ " " ~ side);
                     drawString(boxx, 7, side ~ " " ~ item.longDescription.center(len) ~ " " ~ side);
                     drawString(boxx, 8, "".center(len+4, '-'));
+                    
                 }
 
                 drawString(x, y, side ~ " " ~ "".center(maxitemwidth) ~ " " ~ side);
