@@ -101,9 +101,10 @@ class Console : Screen {
         if (splitcmd.length > 0)
             cmdToCall = splitcmd[0];
         auto err = delegate(string[] s) {
-            auto alternatives = functions.keys.sort!((a, b) => a.levenshteinDistance(input) < b.levenshteinDistance(input));
+            import std.array;
+            auto alternatives = functions.keys.filter!(a => a.levenshteinDistance(input) < 8).array.sort!((a, b) => a.levenshteinDistance(input) < b.levenshteinDistance(input));
             this.logmsg("Error, no fn found with name \"" ~ cmdToCall ~ "\"");
-            if (alternatives[0].levenshteinDistance(input) < 8) {
+            if (alternatives.length > 0) {
                 this.logmsg("Did you mean \"" ~ alternatives[0] ~ "\"?");
             }
         };
