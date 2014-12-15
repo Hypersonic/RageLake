@@ -101,11 +101,11 @@ class AttackAction : Action {
             }
         }
 
-        foreach (equip; target.inventory.equipment) {
-            equip.onAttack(target, this);
-        }
 
         if (entAtLocation) {
+            foreach (equip; target.inventory.equipment) {
+                equip.onAttack(target, this);
+            }
             entAtLocation.takeHit(target, damage); // Do 1 damage to the target
         }
     }
