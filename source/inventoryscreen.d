@@ -115,11 +115,19 @@ class InventoryScreen : Screen {
                     auto boxx = 60 - len/2;
 
 
-                    drawString(boxx, 4, "".center(len+4, '-'));
-                    drawString(boxx, 5, side ~ " " ~ item.name.center(len) ~ " " ~ side);
-                    drawString(boxx, 6, side ~ " " ~ item.shortDescription.center(len) ~ " " ~ side);
-                    drawString(boxx, 7, side ~ " " ~ item.longDescription.center(len) ~ " " ~ side);
-                    drawString(boxx, 8, "".center(len+4, '-'));
+                    int line = 4;
+                    drawString(boxx, line++, "".center(len+4, '-'));
+                    drawString(boxx, line++, side ~ " " ~ item.name.center(len) ~ " " ~ side);
+                    drawString(boxx, line++, side ~ " " ~ item.shortDescription.center(len) ~ " " ~ side);
+                    drawString(boxx, line++, side ~ " " ~ item.longDescription.center(len) ~ " " ~ side);
+                    // Draw info specific to equipment
+                    if (item.canEquip()) {
+                        auto itemEquip = cast(Equipment) item;
+                        const string[] conditions = ["Broken", "Falling apart", "Slightly damaged", "Fine"];
+                        auto condition = conditions[(conditions.length - 1) % (itemEquip.durability + 1)];
+                        drawString(boxx, line++, side ~ " " ~ ("Condition: " ~ condition).center(len) ~ " " ~ side);
+                    }
+                    drawString(boxx, line++, "".center(len+4, '-'));
                     
                 }
 
