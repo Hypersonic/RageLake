@@ -105,7 +105,7 @@ class InventoryScreen : Screen {
                     // draw the info for this item
                     
 
-                    auto len = cast(int) max(item.name.length, item.shortDescription.length, item.longDescription.length);
+                    auto len = cast(int) max(50, item.name.length, item.shortDescription.length, item.longDescription.length);
 
                     // Save teh old padding
                     auto oldpadding = padding;
@@ -114,8 +114,8 @@ class InventoryScreen : Screen {
 
                     auto boxx = 60 - len/2;
 
-
                     int line = 4;
+
                     drawString(boxx, line++, "".center(len+4, '-'));
                     drawString(boxx, line++, side ~ " " ~ item.name.center(len) ~ " " ~ side);
                     drawString(boxx, line++, side ~ " " ~ item.shortDescription.center(len) ~ " " ~ side);
@@ -125,7 +125,8 @@ class InventoryScreen : Screen {
                         auto itemEquip = cast(Equipment) item;
                         const string[] conditions = ["Broken", "Falling apart", "Slightly damaged", "Fine"];
                         auto condition = conditions[((conditions.length - 1) * itemEquip.durability) / itemEquip.maxDurability];
-                        drawString(boxx, line++, side ~ " " ~ ("Condition: " ~ condition ~ " (%s / %s)".format(itemEquip.durability, itemEquip.maxDurability)).center(len) ~ " " ~ side);
+                        auto condstr = "Condition: " ~ condition ~ " (%s / %s)".format(itemEquip.durability, itemEquip.maxDurability);
+                        drawString(boxx, line++, side ~ " " ~ condstr.center(len) ~ " " ~ side);
                     }
                     drawString(boxx, line++, "".center(len+4, '-'));
                     
