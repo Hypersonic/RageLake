@@ -124,8 +124,8 @@ class InventoryScreen : Screen {
                     if (item.canEquip()) {
                         auto itemEquip = cast(Equipment) item;
                         const string[] conditions = ["Broken", "Falling apart", "Slightly damaged", "Fine"];
-                        auto condition = conditions[(conditions.length - 1) % (itemEquip.durability + 1)];
-                        drawString(boxx, line++, side ~ " " ~ ("Condition: " ~ condition).center(len) ~ " " ~ side);
+                        auto condition = conditions[((conditions.length - 1) * itemEquip.durability) / itemEquip.maxDurability];
+                        drawString(boxx, line++, side ~ " " ~ ("Condition: " ~ condition ~ " (%s / %s)".format(itemEquip.durability, itemEquip.maxDurability)).center(len) ~ " " ~ side);
                     }
                     drawString(boxx, line++, "".center(len+4, '-'));
                     
