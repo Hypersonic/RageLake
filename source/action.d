@@ -14,7 +14,10 @@ class Action {
     }
 
     // Execute this action in the given world
-    void execute(World world) {}
+    void execute(World world) {
+        // Clear the target's actions (this will be called by subclasses after they do their thing)
+        target.desiredAction = null;
+    }
     
     // Can this action execute?
     bool canExecute(World world) {

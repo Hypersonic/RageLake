@@ -44,21 +44,15 @@ class World {
         if (actions.length == requiredActions && requiredActions > 0) {
             game.turncount++;
             foreach (action; actions) {
-                while (!action.canExecute(this)) {
-                    if (action.alternate) {
-                        action = action.alternate;
-                    } else {
-                        break;
-                    }
+                while (!action.canExecute(this) && action.alternate) {
+                    action = action.alternate;
                 }
                 if (action.canExecute(this)) {
                     action.execute(this);
-                    action.target.desiredAction = null;
                 }
             }
         }
-        entities = entities.filter!(e => e.alive || e.inventory.items.length > 0).array(); // Remove dead entities that have no loot from the entity list
-        logUpdate("%d / %d actions recieved", actions.length, requiredActions);
+        entities = entities.filter!(e => e.alive || e.inventory.items.length > 0).array; // Remove dead entities that have no loot from the entity list
     }
 
     this(Game g) {
