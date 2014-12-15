@@ -13,6 +13,7 @@ class TestSword : Equipment {
         name = "Test Sword";
         shortDescription = "A Test Sword";
         longDescription = "This sword is a test. Go figure.";
+        maxDurability = 10;
         durability = 10;
     }
 
@@ -31,6 +32,7 @@ class TestSpear: Equipment {
         name = "Test Spear";
         shortDescription = "A Test Spear";
         longDescription = "This spear is a test. Go figure.";
+        maxDurability = 10;
         durability = 10;
     }
 
