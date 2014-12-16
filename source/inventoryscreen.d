@@ -66,47 +66,25 @@ class InventoryScreen : Screen {
         int x = 10;
         int topY = 10;
         int y = topY;
-        int paddingspace = 1;
         int maxitemwidth = 20;
         // find the largest width. If it's less than maxitemwidth's value, use that instead
         if (inventory.items.length > 0)
             maxitemwidth = inventory.items.map!(item => item.name.length).reduce!((a, b) => max(a, b)).to!int.max(maxitemwidth) + 10; // pad with at least 10
-        int linewidth = maxitemwidth + 4;
-        string padding = "".center(linewidth + paddingspace * 2, ' ');
-        string invtop = "Inventory".center(linewidth, '-');
-        string equiptop = "Equipment".center(linewidth, '-');
-        string bottom = "".center(linewidth, '-');
-        string side = "|";
-
-        void drawString(int x, int y, string str, bool doPadding = true, Color color = Color.NORMAL) {
-            if (doPadding)
-                display.drawString(x-paddingspace, y, padding);
-            display.drawString(x, y, str, color);
-        }
-
-
+        int linewidth = maxitemwidth;
+        string invtop = "Inventory";
+        string equiptop = "Equipment";
 
         void drawList(string top, Item[] list) {
             y = topY;
-            drawString(x, y++, top);
+            Window win = new Window(top);
             foreach (i, item; list) {
                 // If we've hit the bottom, finish our border, move back to the top and over to the right a bit, and start a new border
-                if (y >= display.height) {
-                    drawString(x, y++, bottom);
-                    y = topY;
-                    x += linewidth + 2;
-                    // Stop if there is no more horizontal room
-                    if (x + linewidth + paddingspace * 2 > display.width) 
-                        return;
-                    drawString(x, y++, top);
-                }
-
                 auto color = Color.NORMAL;
                 if (i == selectedItem && list is inventory.items) {
                     color = Color.IMPORTANT;
                     // draw the info for this item
                     
-                    Window itemInfo = new Window;
+                    Window itemInfo = new Window("Item info");
 
                     auto boxx = x;
 
@@ -128,14 +106,11 @@ class InventoryScreen : Screen {
                     
                 }
 
-                drawString(x, y, side ~ " " ~ "".center(maxitemwidth) ~ " " ~ side);
                 string suffix = list is inventory.items && inventory.equipment.canFind(item) ? " (e)" : "";
-                drawString(x+2, y++, (item.name ~ suffix).center(maxitemwidth), false, color);
+                win.push(item.name ~ suffix, color);
             }
-            drawString(x, y++, bottom);
-            x += linewidth + 2;
-            y = topY;
-
+            win.render(display, x, y);
+            x += win.width;
         }
 
         drawList(equiptop, cast(Item[]) inventory.equipment);
