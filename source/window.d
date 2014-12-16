@@ -17,7 +17,8 @@ class Window {
     }
 
     int width() {
-        return cast(int) reduce!max(title.length, lines.map!(a => a[0]).map!(a => a.length)) + 20;
+        import std.array;
+        return cast(int) (lines.map!(a => a[0]).map!(a => a.length).array ~ title.length ~ 30L).reduce!max;
     }
 
     void render(Display display, int x, int y) {
