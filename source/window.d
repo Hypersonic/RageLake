@@ -22,7 +22,7 @@ class Window {
     }
 
     void render(Display display, int x, int y) {
-        int width = this.width - 6;
+        int width = this.width;
         string padding = "".center(width + 6);
         display.drawString(x - 1, y, padding);
         display.drawString(x, y, title.center(width + 4, '-'));
