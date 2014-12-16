@@ -110,7 +110,7 @@ class InventoryScreen : Screen {
                 win.push(item.name ~ suffix, color);
             }
             win.render(display, x, y);
-            x += win.width;
+            x += win.width + 6;
         }
 
         drawList(equiptop, cast(Item[]) inventory.equipment);
