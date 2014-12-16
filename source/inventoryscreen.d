@@ -50,7 +50,6 @@ class InventoryScreen : Screen {
                     if (inventory.equipment.canFind(inventory.items[selectedItem])) {
                         // The item is already equipped, remove it.
                         auto index = inventory.equipment.length - inventory.equipment.find(inventory.items[selectedItem]).length;
-                        logInfo("Index: %d", index);
                         inventory.equipment = inventory.equipment.remove(index);
                     } else {
                         inventory.equipment ~= cast(Equipment) inventory.items[selectedItem];
