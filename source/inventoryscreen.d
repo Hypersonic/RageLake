@@ -2,6 +2,7 @@ import std.string;
 import std.conv;
 import std.algorithm;
 import display;
+import window;
 import screenstack;
 import inventory;
 import equipment;
@@ -83,7 +84,8 @@ class InventoryScreen : Screen {
             display.drawString(x, y, str, color);
         }
 
-        
+
+
         void drawList(string top, Item[] list) {
             y = topY;
             drawString(x, y++, top);
@@ -104,31 +106,25 @@ class InventoryScreen : Screen {
                     color = Color.IMPORTANT;
                     // draw the info for this item
                     
+                    Window itemInfo = new Window;
 
-                    auto len = cast(int) max(50, item.name.length, item.shortDescription.length, item.longDescription.length);
-
-                    // Save teh old padding
-                    auto oldpadding = padding;
-                    padding = "".center(len + 4 + paddingspace * 2, ' ');
-                    scope (exit) padding = oldpadding; // restore it on scope exit
-
-                    auto boxx = 60 - len/2;
+                    auto boxx = x;
 
                     int line = 4;
 
-                    drawString(boxx, line++, "".center(len+4, '-'));
-                    drawString(boxx, line++, side ~ " " ~ item.name.center(len) ~ " " ~ side);
-                    drawString(boxx, line++, side ~ " " ~ item.shortDescription.center(len) ~ " " ~ side);
-                    drawString(boxx, line++, side ~ " " ~ item.longDescription.center(len) ~ " " ~ side);
+                    itemInfo.push(item.name);
+                    itemInfo.push(item.shortDescription);
+                    itemInfo.push(item.longDescription);
                     // Draw info specific to equipment
                     if (item.canEquip()) {
                         auto itemEquip = cast(Equipment) item;
                         const string[] conditions = ["Broken", "Falling apart", "Slightly damaged", "Fine"];
                         auto condition = conditions[((conditions.length - 1) * itemEquip.durability) / itemEquip.maxDurability];
                         auto condstr = "Condition: " ~ condition ~ " (%s / %s)".format(itemEquip.durability, itemEquip.maxDurability);
-                        drawString(boxx, line++, side ~ " " ~ condstr.center(len) ~ " " ~ side);
+                        itemInfo.push(condstr);
                     }
-                    drawString(boxx, line++, "".center(len+4, '-'));
+
+                    itemInfo.render(display, boxx, line);
                     
                 }
 
