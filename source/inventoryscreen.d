@@ -85,9 +85,9 @@ class InventoryScreen : Screen {
                     
                     Window itemInfo = new Window("Item info");
 
-                    auto boxx = x;
+                    auto boxx = x + win.width + 6;
 
-                    int line = 4;
+                    int line = topY;
 
                     itemInfo.push(item.name);
                     itemInfo.push(item.shortDescription);
