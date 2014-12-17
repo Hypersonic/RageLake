@@ -76,11 +76,27 @@ class InventoryScreen : Screen {
         void drawList(string top, Item[] list) {
             y = topY;
             Window win = new Window(top);
-            foreach (i, item; list) {
+            int maxWindowHeight = display.height - topY * 2;
+            int maxdistfromtop = maxWindowHeight / 2;
+            int maxdistfrombottom = maxWindowHeight / 2;
+            int start_idx = 0, end_idx = list.length.to!int;
+            if (list is inventory.items) {
+                // Allow scrolling through the list
+                start_idx = max(0, selectedItem - maxdistfromtop);
+                if (list.length >= start_idx + maxWindowHeight) {
+                    // We're not yet hitting the end of the list, so just offset the end by maxWindowHeight
+                    end_idx = start_idx + maxWindowHeight;
+                } else {
+                    // We're near the end of the list, put the end_idx at the end of the list, and push the start_idx down by maxWindowHeight, to a minimum of zero 
+                    end_idx = list.length.to!int;
+                    start_idx = max(0, end_idx - maxWindowHeight);
+                }
+            }
+            foreach (i, item; list[start_idx .. end_idx]) {
                 if (topY + i > display.height - topY) break;
                 // If we've hit the bottom, finish our border, move back to the top and over to the right a bit, and start a new border
                 auto color = Color.NORMAL;
-                if (i == selectedItem && list is inventory.items) {
+                if (i+start_idx == selectedItem && list is inventory.items) {
                     color = Color.IMPORTANT;
                     // draw the info for this item
                     
