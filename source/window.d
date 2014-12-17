@@ -25,7 +25,7 @@ class Window {
         int width = this.width;
         string padding = "".center(width + 6);
         display.drawString(x - 1, y, padding);
-        display.drawString(x, y, title.center(width + 4, '-'));
+        display.drawString(x, y, "+" ~ title.center(width + 2, '-') ~ "+");
         y++;
         foreach (line; lines) {
             display.drawString(x - 1, y, padding);
@@ -35,6 +35,6 @@ class Window {
             y++;
         }
         display.drawString(x - 1, y, padding);
-        display.drawString(x, y, "".center(width + 4, '-'));
+        display.drawString(x, y, "+" ~ "".center(width + 2, '-') ~ "+");
     }
 }
