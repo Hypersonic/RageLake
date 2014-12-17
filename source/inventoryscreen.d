@@ -77,6 +77,7 @@ class InventoryScreen : Screen {
             y = topY;
             Window win = new Window(top);
             foreach (i, item; list) {
+                if (topY + i > display.height - topY) break;
                 // If we've hit the bottom, finish our border, move back to the top and over to the right a bit, and start a new border
                 auto color = Color.NORMAL;
                 if (i == selectedItem && list is inventory.items) {
@@ -86,7 +87,7 @@ class InventoryScreen : Screen {
                     Window itemInfo = new Window("Item info");
 
                     auto boxx = x + win.width + 6;
-
+ 
                     int line = cast(int) (i + topY);
 
                     itemInfo.push(item.name);
