@@ -121,6 +121,13 @@ class Console : Screen {
         helpStrings[name] = help;
     }
 
+    // Automatically create a function to set a specific variable
+    void registerVariable(T)(string name, ref T var) {
+        this.registerFunction(name, delegate(string[] args) {
+                    var = args[0].to!T;
+                });
+    }
+
     auto getAutoCompleteChoices(string input) {
         import std.array;
         auto comps = functions.keys.filter!(s => s.startsWith(input)).array;
