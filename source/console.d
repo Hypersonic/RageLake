@@ -122,6 +122,7 @@ class Console : Screen {
     }
 
     // Automatically create a function to set a specific variable
+    // NOTE: The type of the variable must support conversion from a string, as specified in the docs for std.conv
     void registerVariable(T)(string name, ref T var) {
         this.registerFunction(name, delegate(string[] args) {
                 if(args.length == 0) {
