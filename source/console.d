@@ -124,7 +124,15 @@ class Console : Screen {
     // Automatically create a function to set a specific variable
     void registerVariable(T)(string name, ref T var) {
         this.registerFunction(name, delegate(string[] args) {
+                if(args.length == 0) {
+                    logmsg("Cannot set " ~ name ~ ", you must supply an argument.");
+                    return;
+                }
+                try {
                     var = args[0].to!T;
+                } catch (ConvException e) {
+                    logmsg(e.msg);
+                }
                 });
     }
 
@@ -177,20 +185,7 @@ class Console : Screen {
         this() {
             this.minLevel = LogLevel.info;
             registerLogger(this);
-            registerFunction("debug", delegate(string[] args) {
-                    if (args.length == 0) {
-                        // toggle debug level if no args
-                        this.minLevel = this.minLevel == LogLevel.info ? LogLevel.debug_ : LogLevel.error;
-                        return;
-                    }
-                    if (args[0] == "0") {
-                        this.minLevel = LogLevel.info;
-                    } else if (args[0] == "1") {
-                        this.minLevel = LogLevel.debug_;
-                    } else {
-                        logmsg("Possible arguments are: 0, 1");
-                    }
-                    }, "Set console debug level");
+            registerVariable("console_log_level", minLevel);
         }
 
         override void log(ref LogLine line) {
