@@ -10,7 +10,7 @@ class Inventory {
 
     // Try to equip the item
     void equip(Item item) {
-        if (item.canEquip && !equipment.canFind(item.to!Equipment)) {
+        if (canEquip(item)) {
             equipment ~= item.to!Equipment;
         }
     }
@@ -20,5 +20,9 @@ class Inventory {
             auto index = equipment.length - equipment.find(item).length;
             equipment = equipment.remove(index);
         }
+    }
+
+    bool canEquip(Item item) {
+        return item.canEquip && !equipment.canFind(item.to!Equipment);
     }
 }
