@@ -49,10 +49,9 @@ class InventoryScreen : Screen {
                 if (inventory.items.length > selectedItem && item.canEquip) {
                     if (inventory.equipment.canFind(inventory.items[selectedItem])) {
                         // The item is already equipped, remove it.
-                        auto index = inventory.equipment.length - inventory.equipment.find(inventory.items[selectedItem]).length;
-                        inventory.equipment = inventory.equipment.remove(index);
+                        inventory.unequip(inventory.items[selectedItem]);
                     } else {
-                        inventory.equipment ~= cast(Equipment) inventory.items[selectedItem];
+                        inventory.equip(inventory.items[selectedItem]);
                     }
                 }
                 break;
