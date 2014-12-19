@@ -89,7 +89,7 @@ class Console : Screen {
         }
     }
 
-    void logmsg(string msg) {
+    @safe void logmsg(string msg) pure {
         log ~= msg;
     }
 
@@ -123,7 +123,7 @@ class Console : Screen {
 
     // Automatically create a function to set a specific variable
     // NOTE: The type of the variable must support conversion from a string, as specified in the docs for std.conv
-    void registerVariable(T)(string name, ref T var) {
+    @safe void registerVariable(T)(string name, ref T var) pure nothrow {
         this.registerFunction(name, delegate(string[] args) {
                 if(args.length == 0) {
                     logmsg("Cannot set " ~ name ~ ", you must supply an argument.");
