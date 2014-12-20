@@ -23,6 +23,16 @@ class Inventory {
     }
 
     bool canEquip(Item item) {
-        return item.canEquip && !equipment.canFind(item.to!Equipment);
+        EquipRegion[] regions;
+        foreach (equip; equipment) {
+            foreach (region; equip.regions) {
+                regions ~= region;
+            }
+        }
+        foreach (region; item.to!Equipment.regions) {
+            if (regions.canFind(region)) return false;
+        }
+        return item.canEquip
+            && !equipment.canFind(item.to!Equipment);
     }
 }
