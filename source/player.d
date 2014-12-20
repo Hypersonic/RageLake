@@ -50,11 +50,6 @@ class Player : Entity {
                 import item;
                 this.inventory.items ~= itemList[uniform(0, itemList.length)]();
                 }, "Add an item to the inventory");
-        this.world.game.console.registerFunction("equip", delegate(string[] s) {
-                import std.random;
-                import items.testitems;
-                this.inventory.equipment ~= new TestSword();
-                }, "Add a sword to the inventory");
         this.world.game.console.registerFunction("listequipment", delegate(string[] s) {
                 import std.string;
                 this.world.game.console.logmsg(format("%s", this.inventory.equipment));
