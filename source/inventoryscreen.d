@@ -115,6 +115,7 @@ class InventoryScreen : Screen {
                         auto condition = conditions[((conditions.length - 1) * itemEquip.durability) / itemEquip.maxDurability];
                         auto condstr = "Condition: " ~ condition ~ " (%s / %s)".format(itemEquip.durability, itemEquip.maxDurability);
                         itemInfo.push(condstr);
+                        itemInfo.push("Equip Regions: %s".format(itemEquip.regions));
                     }
 
                     itemInfo.render(display, boxx, line);
