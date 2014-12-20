@@ -15,6 +15,7 @@ class TestSword : Equipment {
         longDescription = "This sword is a test. Go figure.";
         maxDurability = 10;
         durability = 10;
+        regions = [EquipRegion.RIGHT_ARM];
     }
 
     override void onAttack(ref Entity equipee, AttackAction attack) {
@@ -34,6 +35,7 @@ class TestSpear: Equipment {
         longDescription = "This spear is a test. Go figure.";
         maxDurability = 10;
         durability = 10;
+        regions = [EquipRegion.RIGHT_ARM, EquipRegion.LEFT_ARM];
     }
 
     override void onAttack(ref Entity equipee, AttackAction attack) {
