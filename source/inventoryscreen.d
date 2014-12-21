@@ -45,6 +45,7 @@ class InventoryScreen : Screen {
                 }
                 break;
             case 'e':
+                if (inventory.items.length == 0) break;
                 auto item = inventory.items[selectedItem];
                 if (inventory.items.length > selectedItem && item.canEquip) {
                     if (inventory.equipment.canFind(inventory.items[selectedItem])) {
