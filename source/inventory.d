@@ -37,8 +37,6 @@ class Inventory {
             foreach (region; equip.regions) {
                 if (regions.canFind(region)) {
                     auto index = regions.length - regions.find(region).length;
-                    import logger;
-                    logInfo("idx: %s", index);
                     regions = regions.remove(index);
                 }
             }
