@@ -21,12 +21,21 @@ class Entity : Updates {
     Cell cell;
     protected Color normalColor = Color.NORMAL;
     Inventory inventory;
+    EquipRegion[] regions;
 
     this() {
         this.position = Point(0, 0);
         this.cell = Cell('c');
         stamina = maxStamina;
         this.inventory = new Inventory(this);
+        regions = [
+            EquipRegion.HEAD,
+            EquipRegion.TORSO,
+            EquipRegion.LEFT_ARM,
+            EquipRegion.RIGHT_ARM,
+            EquipRegion.LEFT_LEG,
+            EquipRegion.RIGHT_LEG
+            ];
     }
 
     this(World world) {
