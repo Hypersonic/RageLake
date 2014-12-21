@@ -26,7 +26,7 @@ class Entity : Updates {
         this.position = Point(0, 0);
         this.cell = Cell('c');
         stamina = maxStamina;
-        this.inventory = new Inventory();
+        this.inventory = new Inventory(this);
     }
 
     this(World world) {

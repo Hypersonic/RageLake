@@ -3,10 +3,16 @@ import std.algorithm;
 
 import item;
 import equipment;
+import entity;
 
 class Inventory {
+    Entity owner;
     Item[] items;
     Equipment[] equipment;
+
+    this(Entity owner) {
+        this.owner = owner;
+    }
 
     // Try to equip the item
     void equip(Item item) {
