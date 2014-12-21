@@ -30,13 +30,21 @@ class Inventory {
 
     bool canEquip(Item item) {
         EquipRegion[] regions;
+        foreach (region; owner.regions) {
+            regions ~= region;
+        }
         foreach (equip; equipment) {
             foreach (region; equip.regions) {
-                regions ~= region;
+                if (regions.canFind(region)) {
+                    auto index = regions.length - regions.find(region).length;
+                    import logger;
+                    logInfo("idx: %s", index);
+                    regions = regions.remove(index);
+                }
             }
         }
         foreach (region; item.to!Equipment.regions) {
-            if (regions.canFind(region)) return false;
+            if (!regions.canFind(region)) return false;
         }
         return item.canEquip
             && !equipment.canFind(item.to!Equipment);
