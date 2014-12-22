@@ -13,8 +13,6 @@ import item;
 class InventoryScreen : Screen {
     Inventory inventory;
     int selectedItem;
-    int selectedList;
-    static const int NUM_LISTS = 2;
 
     this(Inventory inventory) {
         this.inventory = inventory;
