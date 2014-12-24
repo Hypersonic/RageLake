@@ -121,7 +121,8 @@ class InventoryScreen : Screen {
                     
                 }
 
-                string suffix = list is inventory.items && inventory.equipment.canFind(item) ? " (equipped)" : "";
+                string suffix = (list is inventory.items && inventory.equipment.canFind(item)
+                                ? " (equipped)" : "");
                 win.push(item.name ~ suffix, color);
             }
             win.render(display, x, y);
