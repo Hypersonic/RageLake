@@ -1,19 +1,22 @@
-import std.random;
 import entity : Entity;
 import world : World;
-import action : Action, MovementAction;
+import action : Action;
 import util : Color;
+import behavior;
 
 class Enemy : Entity {
+    Behavior behavior;
+
     this(World w) {
         super(w);
         cell.glyph = 'e';
         normalColor = Color.ENEMY;
+        import behaviors.randomwalkbehavior;
+        this.behavior = new RandomWalkBehavior(this);
     }
 
     override Action update(World world) {
-        this.desiredAction = new MovementAction(this, uniform(-1, 2), uniform(-1, 2));
-        this.desiredAction.staminaRequired *= 5;
+        this.desiredAction = behavior.getNextAction(world);
         super.update(world);
         return this.desiredAction;
     }
