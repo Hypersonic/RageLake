@@ -1,20 +1,19 @@
-module behaviors.randomwalkbehavior;
+module behaviors.movetowardsplayer;
 
 import std.math;
-import std.random;
 
 import behavior;
 import enemy;
 import action;
 
-
-class RandomWalkBehavior : Behavior {
-    
-    this(Enemy ent) {
-        super(ent);
+class MoveTowardsPlayerBehavior : Behavior {
+    this(Enemy target) {
+        super(target);
     }
 
+    // TODO: Use A* to determine the path
     override Action getNextAction(World world) {
+
         float dx = world.player.position.x - entity.position.x;
         float dy = world.player.position.y - entity.position.y;
         float len = sqrt(dx * dx + dy * dy);
@@ -22,11 +21,12 @@ class RandomWalkBehavior : Behavior {
         dx = round(cast(float) dx / len);
         dy = round(cast(float) dy / len);
 
-        if (len > 10) {
-            import behaviors.movetowardsplayer;
-            entity.behavior = new MoveTowardsPlayerBehavior(entity);
+        if (len < 3) {
+            import behaviors.randomwalkbehavior;
+            entity.behavior = new RandomWalkBehavior(entity);
         }
-        auto act = new MovementAction(entity, uniform(-1, 2), uniform(-1, 2));
+
+        auto act = new MovementAction(entity, cast(int) dx, cast(int) dy);
         act.staminaRequired *= 5;
         return act;
     }

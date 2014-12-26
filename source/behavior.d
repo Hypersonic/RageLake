@@ -1,10 +1,10 @@
-import entity;
+import enemy;
 import action;
 
 class Behavior {
-    Entity entity;
+    Enemy entity;
 
-    this(Entity ent) {
+    this(Enemy ent) {
         this.entity = ent;
     }
 
