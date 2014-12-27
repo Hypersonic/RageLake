@@ -18,7 +18,7 @@ class Equipment : Item {
     EquipRegion[] regions;
 
     void onAttack(ref Entity equipee, AttackAction attack) {}
-    void onHit(ref Entity equipee, AttackAction attack) {}
+    void onDefend(ref Entity equipee, AttackAction attack) {}
 
     override bool canEquip() {
         return true;
