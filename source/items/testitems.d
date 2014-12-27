@@ -47,6 +47,27 @@ class Spear: Equipment {
     }
 }
 
+class Shield : Equipment {
+    mixin registerItem;
+    this() {
+        name = "Shield";
+        shortDescription = "A Shield";
+        longDescription = "This should protect you. Hopefully.";
+        maxDurability = 10;
+        durability = maxDurability;
+        regions = [EquipRegion.LEFT_ARM];
+    }
+
+    override void onDefend(ref Entity equipee, AttackAction attack) {
+        double debuff = 1;
+        if (durability > 0) {
+            attack.damage -= debuff;
+            if (attack.damage < 0) attack.damage = 0;
+            durability--;
+        }
+    }
+}
+
 class TestItem : Item {
     mixin registerItem;
     this() {
