@@ -106,6 +106,9 @@ class AttackAction : Action {
             foreach (equip; target.inventory.equipment) {
                 equip.onAttack(target, this);
             }
+            foreach(equip; entAtLocation.inventory.equipment) {
+                equip.onDefend(entAtLocation, this);
+            }
             entAtLocation.takeHit(target, damage); // Do 1 damage to the target
         }
     }
