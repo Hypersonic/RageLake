@@ -108,7 +108,7 @@ class InventoryScreen : Screen {
                     itemInfo.push(item.shortDescription);
                     itemInfo.push(item.longDescription);
                     // Draw info specific to equipment
-                    if (item.canEquip()) {
+                    if (item.classinfo.base == Equipment.classinfo) {
                         auto itemEquip = cast(Equipment) item;
                         const string[] conditions = ["Broken", "Falling apart", "Slightly damaged", "Fine"];
                         auto condition = conditions[((conditions.length - 1) * itemEquip.durability) / itemEquip.maxDurability];
