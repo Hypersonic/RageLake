@@ -22,7 +22,7 @@ class Inventory {
     }
 
     void unequip(Item item) {
-        if (item.canEquip && equipment.canFind(item.to!Equipment)) {
+        if (item.classinfo.base == Equipment.classinfo && equipment.canFind(item.to!Equipment)) {
             auto index = equipment.length - equipment.find(item).length;
             equipment = equipment.remove(index);
         }
@@ -44,7 +44,7 @@ class Inventory {
         foreach (region; item.to!Equipment.regions) {
             if (!regions.canFind(region)) return false;
         }
-        return item.canEquip
+        return item.classinfo.base == Equipment.classinfo
             && !equipment.canFind(item.to!Equipment);
     }
 }
