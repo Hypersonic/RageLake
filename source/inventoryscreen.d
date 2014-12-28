@@ -45,7 +45,7 @@ class InventoryScreen : Screen {
             case 'e':
                 if (inventory.items.length == 0) break;
                 auto item = inventory.items[selectedItem];
-                if (inventory.items.length > selectedItem && item.classinfo.base == Equipment.classinfo) {
+                if (inventory.items.length > selectedItem && cast(Equipment) item !is null) {
                     if (inventory.equipment.canFind(inventory.items[selectedItem])) {
                         // The item is already equipped, remove it.
                         inventory.unequip(inventory.items[selectedItem]);
@@ -108,7 +108,7 @@ class InventoryScreen : Screen {
                     itemInfo.push(item.shortDescription);
                     itemInfo.push(item.longDescription);
                     // Draw info specific to equipment
-                    if (item.classinfo.base == Equipment.classinfo) {
+                    if (cast(Equipment) item !is null) {
                         auto itemEquip = cast(Equipment) item;
                         const string[] conditions = ["Broken", "Falling apart", "Slightly damaged", "Fine"];
                         auto condition = conditions[((conditions.length - 1) * itemEquip.durability) / itemEquip.maxDurability];

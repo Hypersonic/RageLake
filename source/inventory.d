@@ -22,7 +22,7 @@ class Inventory {
     }
 
     void unequip(Item item) {
-        if (item.classinfo.base == Equipment.classinfo && equipment.canFind(item.to!Equipment)) {
+        if (cast(Equipment) item !is null && equipment.canFind(item.to!Equipment)) {
             auto index = equipment.length - equipment.find(item).length;
             equipment = equipment.remove(index);
         }
@@ -44,7 +44,7 @@ class Inventory {
         foreach (region; item.to!Equipment.regions) {
             if (!regions.canFind(region)) return false;
         }
-        return item.classinfo.base == Equipment.classinfo
+        return cast(Equipment) item !is null
             && !equipment.canFind(item.to!Equipment);
     }
 }
