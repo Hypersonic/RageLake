@@ -19,7 +19,7 @@ class Entity : Updates {
     Action desiredAction;
     World world;
     Cell cell;
-    protected Color normalColor = Color.NORMAL;
+    Color normalColor = Color.NORMAL;
     Inventory inventory;
     EquipRegion[] regions;
 

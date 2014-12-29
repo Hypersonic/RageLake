@@ -3,14 +3,17 @@ import entity;
 import event : Movement;
 import tile;
 import logger;
+import util;
 
 class Action {
     Entity target;
     int staminaRequired;
+    bool cancelled;
     Action alternate; // An alternate action that can be attempted if this one cannot execute
 
     this(Entity target) {
         this.target = target;
+        this.cancelled = false;
     }
 
     // Execute this action in the given world
@@ -22,6 +25,12 @@ class Action {
     // Can this action execute?
     bool canExecute(World world) {
         return true;
+    }
+
+    // Cancel this action.
+    // Cancelling prevents effects of an action from occuring, but it does not stop the action itself from going through.
+    void cancel() {
+        this.cancelled = false;
     }
 
 }
@@ -114,7 +123,40 @@ class AttackAction : Action {
     }
 
     override bool canExecute(World world) {
-        // All we need is enough stamina and our target being alive
-        return target.stamina >= staminaRequired && target.alive;
+        Entity entAtLocation;
+        Point location = target.position + Point(x, y);
+        foreach (entity; world.entities) {
+            if (entity.position == location) {
+                entAtLocation = entity;
+            }
+        }
+        import item;
+        if (entAtLocation.isA!Chest)
+            this.alternate = new OpenAction(target, entAtLocation);
+        return target.stamina >= staminaRequired && target.alive && !entAtLocation.isA!Chest;
+    }
+}
+
+class OpenAction : Action {
+    Entity openee;
+    this(Entity target, Entity openee) {
+        super(target);
+        this.openee = openee;
+    }
+
+    override void execute(World world) {
+        foreach (item; openee.inventory.items) {
+            target.inventory.items ~= item;
+        }
+        openee.inventory.items = [];
+        openee.normalColor = Color.OPENED;
+        if (openee.inventory.items.length == 0) {
+            openee.alive = false;
+        }
+        
+    }
+
+    override bool canExecute(World world) {
+        return true;
     }
 }

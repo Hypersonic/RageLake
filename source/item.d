@@ -26,7 +26,7 @@ mixin template registerItem() {
 
 
 import entity;
-class ItemEntity : Entity {
+class Chest : Entity {
     this(Item item) {
         super();
         this.inventory.items ~= item;
@@ -38,15 +38,5 @@ class ItemEntity : Entity {
         this.desiredAction = new Action(this);
         super.update(world);
         return this.desiredAction;
-    }
-
-    // HACK: This should really be put in an action, do this later. We shouldn't be taking over the takeHit method for this
-    override void takeHit(Entity hitter, int damage) {
-        foreach (item; this.inventory.items) {
-            hitter.inventory.items ~= item;
-        }
-        this.inventory.items = [];
-        this.normalColor = Color.OPENED;
-        this.alive = false;
     }
 }
