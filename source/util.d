@@ -71,7 +71,7 @@ Point[] neighborhood(Point p) {
     return nh;
 }
 
-double distance(Point p1, Point p2) {
+@safe double distance(Point p1, Point p2) pure nothrow {
     return sqrt(cast(float) pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
 }
 
