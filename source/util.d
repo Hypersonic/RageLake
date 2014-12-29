@@ -161,6 +161,6 @@ interface Updates {
 }
 
 // Check if obj is an instance (or a subclass) of type T
-bool isA(T, U) (U obj) {
+@safe bool isA(T, U) (U obj) pure nothrow {
     return cast(T)obj !is null;
 }
