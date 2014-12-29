@@ -4,6 +4,7 @@ import std.algorithm;
 import item;
 import equipment;
 import entity;
+import util;
 
 class Inventory {
     Entity owner;
@@ -22,7 +23,7 @@ class Inventory {
     }
 
     void unequip(Item item) {
-        if (cast(Equipment) item !is null && equipment.canFind(item.to!Equipment)) {
+        if (item.isA!Equipment && equipment.canFind(item.to!Equipment)) {
             auto index = equipment.length - equipment.find(item).length;
             equipment = equipment.remove(index);
         }
@@ -44,7 +45,7 @@ class Inventory {
         foreach (region; item.to!Equipment.regions) {
             if (!regions.canFind(region)) return false;
         }
-        return cast(Equipment) item !is null
+        return item.isA!Equipment
             && !equipment.canFind(item.to!Equipment);
     }
 }

@@ -159,3 +159,8 @@ interface Updates {
     // Render this thing to the display
     void render(Display display);
 }
+
+// Check if obj is an instance (or a subclass) of type T
+bool isA(T, U) (U obj) {
+    return cast(T)obj !is null;
+}
