@@ -148,10 +148,10 @@ class OpenAction : Action {
     // TODO: Open a screen to pick what items to take
     //          (should that be done here or as the player is creating the action?)
     override void execute(World world) {
-        foreach (item; openee.inventory.items) {
-            target.inventory.items ~= item;
-        }
-        openee.inventory.items = [];
+        import app;
+        import chestscreen;
+        screens.push(new ChestScreen(target.inventory, openee.inventory));
+
         openee.normalColor = Color.OPENED;
         if (openee.inventory.items.length == 0) {
             openee.alive = false;
