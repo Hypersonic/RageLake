@@ -144,6 +144,8 @@ class OpenAction : Action {
         this.openee = openee;
     }
 
+    // TODO: Open a screen to pick what items to take
+    //          (should that be done here or as the player is creating the action?)
     override void execute(World world) {
         foreach (item; openee.inventory.items) {
             target.inventory.items ~= item;
