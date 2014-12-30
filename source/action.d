@@ -132,7 +132,8 @@ class AttackAction : Action {
             }
         }
         import item;
-        if (entAtLocation.isA!Chest)
+        import player;
+        if (target.isA!Player && entAtLocation.isA!Chest)
             this.alternate = new OpenAction(target, entAtLocation);
         return target.stamina >= staminaRequired && target.alive && !entAtLocation.isA!Chest;
     }
