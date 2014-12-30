@@ -72,9 +72,9 @@ class InventoryScreen : Screen {
         string invtop = "Inventory";
         string equiptop = "Equipment";
 
-        void drawList(string top, Item[] list) {
+        void drawList(string title, Item[] list) {
             y = topY;
-            Window win = new Window(top);
+            Window win = new Window(title);
             int maxWindowHeight = display.height - topY * 2;
             int maxdistfromtop = maxWindowHeight / 2;
             int maxdistfrombottom = maxWindowHeight / 2;
