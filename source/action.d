@@ -120,6 +120,7 @@ class AttackAction : Action {
             }
             entAtLocation.takeHit(target, damage); // Do 1 damage to the target
         }
+        super.execute(world);
     }
 
     override bool canExecute(World world) {
@@ -155,7 +156,7 @@ class OpenAction : Action {
         if (openee.inventory.items.length == 0) {
             openee.alive = false;
         }
-        
+        super.execute(world);
     }
 
     override bool canExecute(World world) {
