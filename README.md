@@ -44,6 +44,7 @@ h  : Move left
 j  : Move down
 k  : Move up
 l  : Move right
+i  : Open Inventory
 q  : Quit
 :  : Open console
 esc: Close console
