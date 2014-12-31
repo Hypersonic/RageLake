@@ -37,6 +37,14 @@ class ChestScreen : Screen {
                 }
                 opened.items = [];
                 break;
+            case 'j':
+                selectedItem++;
+                selectedItem = wrap(selectedItem, 0, opener.items.length.to!int - 1).to!int;
+                break;
+            case 'k':
+                selectedItem--;
+                selectedItem = wrap(selectedItem, 0, opener.items.length.to!int - 1).to!int;
+                break;
             default:
                 break;
         }
