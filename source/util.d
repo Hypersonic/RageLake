@@ -164,3 +164,16 @@ interface Updates {
 @safe bool isA(T, U) (U obj) pure nothrow {
     return cast(T)obj !is null;
 }
+
+@safe T clamp(T) (T obj, T min, T max) pure nothrow {
+    if (obj < min) return min;
+    if (max < obj) return max;
+    return obj;
+}
+
+// Wrap the obj to [min, max], with it going to the other end when it reaches one of the limits
+@safe T wrap(T) (T obj, T min, T max) pure nothrow {
+    if (obj < min) return max;
+    if (max < obj) return min;
+    return obj;
+}
