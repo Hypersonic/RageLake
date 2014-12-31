@@ -32,16 +32,12 @@ class InventoryScreen : Screen {
                 break;
             // Allow scrolling through the items list, wrap at edges
             case 'j':
-                if (inventory.items.length > 0) {
-                    selectedItem++;
-                    selectedItem %= inventory.items.length;
-                }
+                selectedItem++;
+                selectedItem = wrap(selectedItem, 0, inventory.items.length.to!int - 1);
                 break;
             case 'k':
-                if (inventory.items.length > 0) {
-                    selectedItem--;
-                    if (selectedItem < 0) selectedItem = cast(int) inventory.items.length-1;
-                }
+                selectedItem--;
+                selectedItem = wrap(selectedItem, 0, inventory.items.length.to!int - 1);
                 break;
             case 'e':
                 if (inventory.items.length == 0) break;
