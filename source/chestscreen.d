@@ -57,6 +57,22 @@ class ChestScreen : Screen {
                 }
                 selectedItem = wrap(selectedItem, 0, selectedInventory.items.length.to!int - 1);
                 break;
+            case 'e':
+                Inventory unSelectedInventory;
+                if (selectedInventory is opener) {
+                    unSelectedInventory = opened;
+                } else {
+                    unSelectedInventory = opener;
+                }
+                unSelectedInventory.items ~= selectedInventory.items[selectedItem];
+                selectedInventory.items = selectedInventory.items.remove(selectedItem);
+
+                // Clamp the selectedItem
+                // Do this instead of wrapping here because it means if
+                // you remove the last item you stay on the last item
+                // instead of jumping to the first
+                selectedItem = clamp(selectedItem, 0, selectedInventory.items.length.to!int - 1);
+                break;
             default:
                 break;
         }
