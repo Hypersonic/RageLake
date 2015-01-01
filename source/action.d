@@ -152,9 +152,6 @@ class OpenAction : Action {
         screens.push(new ChestScreen(target.inventory, openee.inventory));
 
         openee.normalColor = Color.OPENED;
-        if (openee.inventory.items.length == 0) {
-            openee.alive = false;
-        }
         super.execute(world);
     }
 
