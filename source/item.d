@@ -32,6 +32,7 @@ class Chest : Entity {
         this.inventory.items ~= item;
         cell = item.cell;
         normalColor = Color.ITEM;
+        this.alive = false;
     }
 
     override Action update(World world) {
