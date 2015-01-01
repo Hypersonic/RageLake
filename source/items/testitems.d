@@ -24,6 +24,7 @@ class Sword : Equipment {
             attack.damage = cast(int) ceil(multiplier * attack.damage);
             durability--;
         }
+        super.onAttack(equipee, attack);
     }
 }
 
@@ -44,6 +45,7 @@ class Spear: Equipment {
             attack.damage = cast(int) ceil(multiplier * attack.damage);
             durability--;
         }
+        super.onAttack(equipee, attack);
     }
 }
 
@@ -65,6 +67,7 @@ class Shield : Equipment {
             if (attack.damage < 0) attack.damage = 0;
             durability--;
         }
+        super.onDefend(equipee, attack);
     }
 }
 
