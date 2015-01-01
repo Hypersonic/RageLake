@@ -58,21 +58,25 @@ class ChestScreen : Screen {
                 selectedItem = wrap(selectedItem, 0, selectedInventory.items.length.to!int - 1);
                 break;
             case 'e':
-                Inventory unSelectedInventory;
-                if (selectedInventory is opener) {
-                    unSelectedInventory = opened;
-                } else {
-                    unSelectedInventory = opener;
-                }
-                if (selectedInventory.items.length > 0) {
-                    unSelectedInventory.items ~= selectedInventory.items[selectedItem];
-                    selectedInventory.items = selectedInventory.items.remove(selectedItem);
+                // We shouldn't swap away an equipped item, so check for that
+                // TODO: Print an error of some sort
+                if (!opener.equipment.canFind(selectedInventory.items[selectedItem])) {
+                    Inventory unSelectedInventory;
+                    if (selectedInventory is opener) {
+                        unSelectedInventory = opened;
+                    } else {
+                        unSelectedInventory = opener;
+                    }
+                    if (selectedInventory.items.length > 0) {
+                        unSelectedInventory.items ~= selectedInventory.items[selectedItem];
+                        selectedInventory.items = selectedInventory.items.remove(selectedItem);
 
-                    // Clamp the selectedItem
-                    // Do this instead of wrapping here because it means if
-                    // you remove the last item you stay on the last item
-                    // instead of jumping to the first
-                    selectedItem = clamp(selectedItem, 0, selectedInventory.items.length.to!int - 1);
+                        // Clamp the selectedItem
+                        // Do this instead of wrapping here because it means if
+                        // you remove the last item you stay on the last item
+                        // instead of jumping to the first
+                        selectedItem = clamp(selectedItem, 0, selectedInventory.items.length.to!int - 1);
+                    }
                 }
                 break;
             default:
