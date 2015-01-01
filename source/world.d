@@ -51,8 +51,8 @@ class World {
                     action.execute(this);
                 }
             }
+            entities = entities.filter!(e => e.alive || e.inventory.items.length > 0).array; // Remove dead entities that have no loot from the entity list
         }
-        entities = entities.filter!(e => e.alive || e.inventory.items.length > 0).array; // Remove dead entities that have no loot from the entity list
     }
 
     this(Game g) {
