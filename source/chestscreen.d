@@ -13,10 +13,13 @@ import util;
 class ChestScreen : Screen {
     Inventory opener, opened;
     int selectedItem;
+    Inventory selectedInventory;
 
     this(Inventory opener, Inventory opened) {
         this.opener = opener;
         this.opened = opened;
+
+        this.selectedInventory = this.opener;
 
         this.isTransparent = false;
         this.inputFallthrough = false;
@@ -39,11 +42,20 @@ class ChestScreen : Screen {
                 break;
             case 'j':
                 selectedItem++;
-                selectedItem = wrap(selectedItem, 0, opener.items.length.to!int - 1);
+                selectedItem = wrap(selectedItem, 0, selectedInventory.items.length.to!int - 1);
                 break;
             case 'k':
                 selectedItem--;
-                selectedItem = wrap(selectedItem, 0, opener.items.length.to!int - 1);
+                selectedItem = wrap(selectedItem, 0, selectedInventory.items.length.to!int - 1);
+                break;
+            case 'l':
+            case 'h':
+                if (selectedInventory is opener) {
+                    selectedInventory = opened;
+                } else {
+                    selectedInventory = opener;
+                }
+                selectedItem = wrap(selectedItem, 0, selectedInventory.items.length.to!int - 1);
                 break;
             default:
                 break;
@@ -62,7 +74,7 @@ class ChestScreen : Screen {
             int maxdistfromtop = maxWindowHeight / 2;
             int maxdistfrombottom = maxWindowHeight / 2;
             int start_idx = 0, end_idx = list.length.to!int;
-            if (list is opener.items) {
+            if (list is selectedInventory.items) {
                 // Allow scrolling through the list
                 start_idx = max(0, selectedItem - maxdistfromtop);
                 if (list.length >= start_idx + maxWindowHeight) {
@@ -78,7 +90,7 @@ class ChestScreen : Screen {
                 if (topY + i > display.height - topY) break;
                 // If we've hit the bottom, finish our border, move back to the top and over to the right a bit, and start a new border
                 auto color = Color.NORMAL;
-                if (i+start_idx == selectedItem && list is opener.items) {
+                if (i+start_idx == selectedItem && list is selectedInventory.items) {
                     color = Color.IMPORTANT;
                 }
 
