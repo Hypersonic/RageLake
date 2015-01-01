@@ -127,7 +127,7 @@ class ChestScreen : Screen {
         controls.push("j   : Move down", Color.NORMAL, Alignment.ALIGN_LEFT);
         controls.push("k   : Move up", Color.NORMAL, Alignment.ALIGN_LEFT);
         controls.push("h,l : Switch inventory", Color.NORMAL, Alignment.ALIGN_LEFT);
-        controls.render(display, x, y);
+        controls.render(display, display.width - (controls.width + 10), y);
 
     }
 }

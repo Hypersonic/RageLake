@@ -127,7 +127,14 @@ class InventoryScreen : Screen {
         }
 
         drawList(equiptop, cast(Item[]) inventory.equipment);
-
         drawList(invtop, inventory.items);
+
+
+        Window controls = new Window("Controls");
+        controls.push("e   : Equip/Unequip item", Color.NORMAL, Alignment.ALIGN_LEFT);
+        controls.push("j   : Move down", Color.NORMAL, Alignment.ALIGN_LEFT);
+        controls.push("k   : Move up", Color.NORMAL, Alignment.ALIGN_LEFT);
+        controls.render(display, display.width - (controls.width + 10), y);
+
     }
 }
