@@ -26,6 +26,10 @@ class Window {
         import std.array;
         return cast(int) (lines.map!(a => a[0]).map!(a => a.length).array ~ title.length ~ 30L).reduce!max;
     }
+    
+    int height() {
+        return cast(int) lines.length + 2; // 2 for title and underline
+    }
 
     void render(Display display, int x, int y) {
         int width = this.width;
