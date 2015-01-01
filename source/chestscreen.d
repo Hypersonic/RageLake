@@ -119,5 +119,13 @@ class ChestScreen : Screen {
         drawList("Your Inventory", opener.items);
         drawList("Chest", opened.items);
 
+        Window controls = new Window("Controls");
+        controls.push("e   : Move item", Color.NORMAL, Alignment.ALIGN_LEFT);
+        controls.push("t   : Take all", Color.NORMAL, Alignment.ALIGN_LEFT);
+        controls.push("j   : Move down", Color.NORMAL, Alignment.ALIGN_LEFT);
+        controls.push("k   : Move up", Color.NORMAL, Alignment.ALIGN_LEFT);
+        controls.push("h,l : Switch inventory", Color.NORMAL, Alignment.ALIGN_LEFT);
+        controls.render(display, x, y);
+
     }
 }
