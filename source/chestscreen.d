@@ -116,7 +116,8 @@ class ChestScreen : Screen {
                     color = Color.IMPORTANT;
                 }
 
-                win.push(item.name, color);
+                auto suffix = opener.equipment.canFind(item) ? " (equipped)" : "";
+                win.push(item.name ~ suffix, color);
             }
             win.render(display, x, y);
             x += win.width + 6;
