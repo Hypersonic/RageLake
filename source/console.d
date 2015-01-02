@@ -61,6 +61,11 @@ class Console : Screen {
                         }
                     });
                 }, "Alias a command name to a `;` delimited series of commands");
+        this.registerFunction("listcommands", delegate(string[] args) {
+                foreach (cmd; functions.keys) {
+                    logmsg(cmd);
+                }
+                }, "List all commands");
     }
 
     override void takeInput(KeyPress kp) {
