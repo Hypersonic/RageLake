@@ -3,6 +3,9 @@ module generators.randomwalkmap;
 import std.algorithm;
 import std.random;
 import std.stdio;
+import std.math;
+import std.conv;
+
 import logger;
 import map;
 import tile;
@@ -12,22 +15,16 @@ class RandomWalkMapGenerator : MapGenerator {
     void generate(ref Map map) {
         auto curr = Point(map.bounds.width / 2, map.bounds.height / 2);
         Point[] points;
-        while (points.length < map.bounds.width * map.bounds.height) {
+        while (points.length < (map.bounds.width * map.bounds.height) / 10) {
             points ~= curr;
             Point[] movementChoices;
-            if (map.bounds.min.x + 1 < curr.x) {
+            foreach (i; 0 .. abs(curr.x - (map.bounds.min.x + 1)).to!float.log * 2)
                 movementChoices ~= Point(-1, 0);
-                movementChoices ~= Point(-1, 0);
-                movementChoices ~= Point(-1, 0);
-            }
-            if (curr.x < map.bounds.max.x - 2) {
+            foreach (i; 0 .. abs(curr.x - (map.bounds.max.x - 2)).to!float.log * 2)
                 movementChoices ~= Point(1, 0);
-                movementChoices ~= Point(1, 0);
-                movementChoices ~= Point(1, 0);
-            }
-            if (map.bounds.min.y + 1 < curr.y)
+            foreach (i; 0 .. abs(curr.y - (map.bounds.min.y + 1)).to!float.log)
                 movementChoices ~= Point(0, -1);
-            if (curr.y < map.bounds.max.y - 2)
+            foreach (i; 0 .. abs(curr.y - (map.bounds.max.y - 2)).to!float.log)
                 movementChoices ~= Point(0, 1);
             logDebug("Movement choices: %s", movementChoices);
             auto choiceIndex = uniform(0, movementChoices.length);

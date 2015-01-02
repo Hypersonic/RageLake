@@ -11,7 +11,7 @@ class Map {
     Bounds bounds;
     World world;
 
-    this(World world, MapGenerator generator, int width=400, int height=200) {
+    this(World world, MapGenerator generator, int width=400, int height=400) {
         this.bounds = Bounds(Point(0, 0), Point(width, height));
         this.world = world;
         generator.generate(this);
