@@ -15,13 +15,9 @@ class RandomWalkMapGenerator : MapGenerator {
     void generate(ref Map map) {
         auto curr = Point(map.bounds.width / 2, map.bounds.height / 2);
         Point[] points;
+        Point[] movementChoices = [ Point(-1, 0),Point(1, 0),Point(0, -1),Point(0, 1) ];
         while (points.length < (map.bounds.width * map.bounds.height) / 10) {
             points ~= curr;
-            Point[] movementChoices;
-            movementChoices ~= Point(-1, 0);
-            movementChoices ~= Point(1, 0);
-            movementChoices ~= Point(0, -1);
-            movementChoices ~= Point(0, 1);
             auto choiceIndex = dice(
                     abs(curr.x - (map.bounds.min.x + 1)).to!float.log * 2,
                     abs(curr.x - (map.bounds.max.x - 2)).to!float.log * 2,
@@ -29,7 +25,6 @@ class RandomWalkMapGenerator : MapGenerator {
                     abs(curr.y - (map.bounds.max.y - 2)).to!float.log
                     );
             auto choice = movementChoices[choiceIndex];
-            logDebug("Choice: %s", choice);
             curr += choice;
         }
 
