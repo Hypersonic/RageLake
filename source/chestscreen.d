@@ -55,7 +55,7 @@ class ChestScreen : Screen {
                 } else {
                     selectedInventory = opener;
                 }
-                selectedItem = wrap(selectedItem, 0, selectedInventory.items.length.to!int - 1);
+                selectedItem = clamp(selectedItem, 0, selectedInventory.items.length.to!int - 1);
                 break;
             case 'e':
                 // We shouldn't swap away an equipped item, so check for that
