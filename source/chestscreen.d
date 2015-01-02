@@ -21,7 +21,7 @@ class ChestScreen : Screen {
 
         this.selectedInventory = this.opener;
 
-        this.isTransparent = false;
+        this.isTransparent = true;
         this.inputFallthrough = false;
     }
 
