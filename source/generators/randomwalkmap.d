@@ -10,15 +10,21 @@ import util;
 
 class RandomWalkMapGenerator : MapGenerator {
     void generate(ref Map map) {
-        auto curr = Point(1, 1);
+        auto curr = Point(map.bounds.width / 2, map.bounds.height / 2);
         Point[] points;
         while (points.length < map.bounds.width * map.bounds.height) {
             points ~= curr;
             Point[] movementChoices;
-            if (map.bounds.min.x + 1 < curr.x)
+            if (map.bounds.min.x + 1 < curr.x) {
                 movementChoices ~= Point(-1, 0);
-            if (curr.x < map.bounds.max.x - 2)
+                movementChoices ~= Point(-1, 0);
+                movementChoices ~= Point(-1, 0);
+            }
+            if (curr.x < map.bounds.max.x - 2) {
                 movementChoices ~= Point(1, 0);
+                movementChoices ~= Point(1, 0);
+                movementChoices ~= Point(1, 0);
+            }
             if (map.bounds.min.y + 1 < curr.y)
                 movementChoices ~= Point(0, -1);
             if (curr.y < map.bounds.max.y - 2)
