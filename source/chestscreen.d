@@ -98,7 +98,7 @@ class ChestScreen : Screen {
             int start_idx = 0, end_idx = list.length.to!int;
             if (list is selectedInventory.items) {
                 // Allow scrolling through the list
-                start_idx = max(0, selectedItem - maxdistfromtop);
+                start_idx = max(0, selectedItem - maxdistfromtop + 1);
                 if (list.length >= start_idx + maxWindowHeight) {
                     // We're not yet hitting the end of the list, so just offset the end by maxWindowHeight
                     end_idx = start_idx + maxWindowHeight;
