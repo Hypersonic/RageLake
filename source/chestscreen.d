@@ -60,14 +60,14 @@ class ChestScreen : Screen {
             case 'e':
                 // We shouldn't swap away an equipped item, so check for that
                 // TODO: Print an error of some sort
-                if (!opener.equipment.canFind(selectedInventory.items[selectedItem])) {
-                    Inventory unSelectedInventory;
-                    if (selectedInventory is opener) {
-                        unSelectedInventory = opened;
-                    } else {
-                        unSelectedInventory = opener;
-                    }
-                    if (selectedInventory.items.length > 0) {
+                if (selectedInventory.items.length > 0) {
+                    if (!opener.equipment.canFind(selectedInventory.items[selectedItem])) {
+                        Inventory unSelectedInventory;
+                        if (selectedInventory is opener) {
+                            unSelectedInventory = opened;
+                        } else {
+                            unSelectedInventory = opener;
+                        }
                         unSelectedInventory.items ~= selectedInventory.items[selectedItem];
                         selectedInventory.items = selectedInventory.items.remove(selectedItem);
 
