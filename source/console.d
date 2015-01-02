@@ -66,6 +66,9 @@ class Console : Screen {
                     logmsg(cmd);
                 }
                 }, "List all commands");
+        this.registerFunction("clear", delegate(string[] args) {
+                log = [];
+                }, "Clear the console");
     }
 
     override void takeInput(KeyPress kp) {
