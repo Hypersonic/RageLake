@@ -134,6 +134,7 @@ class InventoryScreen : Screen {
         controls.push("e   : Equip/Unequip item", Color.NORMAL, Alignment.ALIGN_LEFT);
         controls.push("j   : Move down", Color.NORMAL, Alignment.ALIGN_LEFT);
         controls.push("k   : Move up", Color.NORMAL, Alignment.ALIGN_LEFT);
+        controls.push("q   : Close", Color.NORMAL, Alignment.ALIGN_LEFT);
         controls.render(display, display.width - (controls.width + 10), y);
 
     }
