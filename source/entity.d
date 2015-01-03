@@ -3,7 +3,7 @@ import world : World;
 import tile;
 import display;
 import action : Action;
-import util : Cell, Point, Updates, Color;
+import util;
 import event : Event;
 import inventory;
 import equipment;
@@ -72,7 +72,7 @@ class Entity : Updates {
     }
 
     bool canTraverse(Tile tile) {
-        return typeid(tile) == typeid(FloorTile);
+        return tile.isA!FloorTile;
     }
 
     void render(Display display) {
