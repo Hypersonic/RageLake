@@ -22,6 +22,9 @@ class Player : Entity {
         this.world.game.console.registerFunction("right", delegate(string[] s) {
                 this.desiredAction = new MovementAction(this, 1, 0);
                 });
+        this.world.game.console.registerFunction("wait", delegate(string[] s) {
+                this.desiredAction = new MovementAction(this, 0, 0);
+                });
         this.world.game.console.registerFunction("tp", delegate(string[] s) {
                 import std.conv;
                 if (s.length < 2) {
