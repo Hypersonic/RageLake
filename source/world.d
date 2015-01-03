@@ -65,7 +65,7 @@ class World {
         }
         import item, std.random;
         foreach (i; 0 .. 20) {
-            auto e = new Chest(itemList[uniform(0, itemList.length)]());
+            auto e = new Chest([randomItem()]);
             e.world = this;
             entities ~= e;
         }

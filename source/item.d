@@ -24,13 +24,21 @@ mixin template registerItem() {
 }
 
 
+Item randomItem() {
+    import std.random;
+    return itemList[uniform(0, itemList.length)]();  
+}
+
+
 
 import entity;
 class Chest : Entity {
-    this(Item item) {
+    this(Item[] items) {
         super();
-        this.inventory.items ~= item;
-        cell = item.cell;
+        foreach (item; items) {
+            this.inventory.items ~= item;
+        }
+        cell = Cell('i', Color.ITEM);
         normalColor = Color.ITEM;
         this.alive = false;
     }
