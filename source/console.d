@@ -73,19 +73,19 @@ class Console : Screen {
 
     override void takeInput(KeyPress kp) {
         switch (kp.key) {
-            case 127: // Backspace
+            case "" ~ cast(char)127: // Backspace
                 if (input.length > 0) input = input[0 .. $-1];
                 break;
-            case 13: // Return
+            case "" ~ cast(char)13: // Return
                 logmsg(input);
                 submit(input);
                 input = "";
                 break;
-            case 27: // ESC
+            case "" ~ cast(char)27: // ESC
                 import app;
                 screens.pop();
                 break;
-            case '\t': // Tab, attempt autocomplete
+            case "\t": // Tab, attempt autocomplete
                 auto comps = getAutoCompleteChoices(input);
                 if (input.length > 0 && comps.length > 0) {
                     input = comps[0];
@@ -94,6 +94,9 @@ class Console : Screen {
             default:
                 input ~= kp.key;
                 break;
+        }
+        if (kp.esc_seq) {
+            logmsg(kp.to!string);
         }
     }
 

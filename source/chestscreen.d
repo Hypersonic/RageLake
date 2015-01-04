@@ -27,29 +27,29 @@ class ChestScreen : Screen {
 
     override void takeInput(KeyPress kp) {
         switch (kp.key) {
-            case 127: // Backspace
-            case 27: // ESC
-            case 'q':
+            case "" ~ cast(char)127: // Backspace
+            case "" ~ cast(char)27: // ESC
+            case "q":
                 import app;
                 screens.pop();
                 break;
-            case 't':
+            case "t":
                 // Take all items from chest
                 foreach (item; opened.items) {
                     opener.items ~= item;
                 }
                 opened.items = [];
                 break;
-            case 'j':
+            case "j":
                 selectedItem++;
                 selectedItem = wrap(selectedItem, 0, selectedInventory.items.length.to!int - 1);
                 break;
-            case 'k':
+            case "k":
                 selectedItem--;
                 selectedItem = wrap(selectedItem, 0, selectedInventory.items.length.to!int - 1);
                 break;
-            case 'l':
-            case 'h':
+            case "l":
+            case "h":
                 if (selectedInventory is opener) {
                     selectedInventory = opened;
                 } else {
@@ -57,7 +57,7 @@ class ChestScreen : Screen {
                 }
                 selectedItem = clamp(selectedItem, 0, selectedInventory.items.length.to!int - 1);
                 break;
-            case 'e':
+            case "e":
                 // We shouldn't swap away an equipped item, so check for that
                 // TODO: Print an error of some sort
                 if (selectedInventory.items.length > 0) {

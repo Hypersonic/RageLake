@@ -23,23 +23,23 @@ class InventoryScreen : Screen {
 
     override void takeInput(KeyPress kp) {
         switch (kp.key) {
-            case 127: // Backspace
-            case 27: // ESC
-            case 'q':
-            case 'i':
+            case "" ~ cast(char)127: // Backspace
+            case "" ~ cast(char)27: // ESC
+            case "q":
+            case "i":
                 import app;
                 screens.pop();
                 break;
             // Allow scrolling through the items list, wrap at edges
-            case 'j':
+            case "j":
                 selectedItem++;
                 selectedItem = wrap(selectedItem, 0, inventory.items.length.to!int - 1);
                 break;
-            case 'k':
+            case "k":
                 selectedItem--;
                 selectedItem = wrap(selectedItem, 0, inventory.items.length.to!int - 1);
                 break;
-            case 'e':
+            case "e":
                 if (inventory.items.length == 0) break;
                 auto item = inventory.items[selectedItem];
                 if (inventory.items.length > selectedItem && item.isA!Equipment) {

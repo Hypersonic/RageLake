@@ -1,28 +1,29 @@
 import std.string;
 import game;
 import deimos.ncurses.ncurses;
+import event;
 
 class Config {
     Game game;
-    string[char] keybinds;
+    string[KeyPress] keybinds;
 
     this(Game g) {
         this.game = g;
         // Bind default keys
         foreach (k; ['h', 'H', KEY_LEFT])
-            bindKey(cast(char) k, "left");
+            bindKey(KeyPress("" ~ cast(char)k), "left");
         foreach (k; ['l', 'L', KEY_RIGHT])
-            bindKey(cast(char) k, "right");
+            bindKey(KeyPress("" ~ cast(char)k), "right");
         foreach (k; ['k', 'K', KEY_UP])
-            bindKey(cast(char) k, "up");
+            bindKey(KeyPress("" ~ cast(char)k), "up");
         foreach (k; ['j', 'J', KEY_DOWN])
-            bindKey(cast(char) k, "down");
+            bindKey(KeyPress("" ~ cast(char)k), "down");
         foreach (k; ['q', 'Q'])
-            bindKey(cast(char) k, "quit");
+            bindKey(KeyPress("" ~ cast(char)k), "quit");
         foreach (k; [':'])
-            bindKey(cast(char) k, "openConsole");
+            bindKey(KeyPress("" ~ cast(char)k), "openConsole");
         foreach (k; ['i', 'I'])
-            bindKey(cast(char) k, "openinventory");
+            bindKey(KeyPress("" ~ cast(char)k), "openinventory");
         g.console.registerFunction("bind",
                 delegate(string[] s) {
                     if (s.length < 2) {
@@ -33,7 +34,7 @@ class Config {
                         g.console.logmsg("Error, `bind` requires first argument to be a character, got \"" ~ s[0] ~ "\"");
                         return;
                     }
-                    this.bindKey(s[0][0], join(s[1..$], " "));
+                    this.bindKey(KeyPress(s[0]), join(s[1..$], " "));
                 });
         g.console.registerFunction("unbind",
                 delegate(string[] s) {
@@ -45,7 +46,7 @@ class Config {
                         g.console.logmsg("Error, `unbind` requires first argument to be a character, got \"" ~ s[0] ~ "\"");
                         return;
                     }
-                    this.unbindKey(s[0][0]);
+                    this.unbindKey(KeyPress(s[0]));
                 });
         g.console.registerFunction("listbinds",
                 delegate(string[] s) {
@@ -55,15 +56,15 @@ class Config {
                 }, "List all binds");
     }
 
-    @safe void bindKey(char keyCode, string command) pure nothrow {
-        keybinds[keyCode] = command;
+    @safe void bindKey(KeyPress key, string command) pure nothrow {
+        keybinds[key] = command;
     }
 
-    @safe void unbindKey(char keyCode) pure nothrow {
-        keybinds.remove(keyCode);
+    @safe void unbindKey(KeyPress key) pure nothrow {
+        keybinds.remove(key);
     }
 
-    @trusted string getCommand(char keyCode) pure {
-        return keybinds.get(keyCode, "");
+    @trusted string getCommand(KeyPress key) pure {
+        return keybinds.get(key, "");
     }
 }

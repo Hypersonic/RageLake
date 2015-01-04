@@ -1,14 +1,14 @@
 import std.signals;
 import std.variant;
 import std.string;
-import game : Game;
+import game;
 import entity : Entity;
 import util : Point;
 import logger;
 
 struct KeyPress {
+    string key;
     bool esc_seq; // is this an escape sequence
-    char key;
 }
 
 struct Movement {

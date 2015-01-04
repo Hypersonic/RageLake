@@ -92,7 +92,7 @@ class Game : Screen {
     }
 
     override void takeInput(KeyPress kp) {
-        auto cmd = config.getCommand(kp.key);
+        auto cmd = config.getCommand(kp);
         console.submit(cmd);
     }
 
