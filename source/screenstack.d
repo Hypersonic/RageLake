@@ -38,6 +38,10 @@ class ScreenStack {
         KeyPress current;
         while ((code = getch()) != ERR){
             states ~= code;
+            if (code == 27) { // Beginning of escape sequence
+                current.esc_seq = true;
+            } 
+            // TODO: If we're in an escape sequence, handle the 2-wide escape code
             current.key = cast(char) code;
             emitted ~= current;
             current = KeyPress();

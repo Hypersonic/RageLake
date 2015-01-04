@@ -7,6 +7,7 @@ import util : Point;
 import logger;
 
 struct KeyPress {
+    bool esc_seq; // is this an escape sequence
     char key;
 }
 
