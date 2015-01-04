@@ -37,9 +37,7 @@ class ScreenStack {
         int code;
         while ((code = getch()) != ERR){
             states ~= code;
-        }
-        foreach (state; states) {
-            auto e = KeyPress(cast(char) state);
+            auto e = KeyPress(cast(char) code);
             emitted ~= e;
         }
 
