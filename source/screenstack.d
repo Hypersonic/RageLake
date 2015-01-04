@@ -35,10 +35,12 @@ class ScreenStack {
         char[] states;
         KeyPress[] emitted;
         int code;
+        KeyPress current;
         while ((code = getch()) != ERR){
             states ~= code;
-            auto e = KeyPress(cast(char) code);
-            emitted ~= e;
+            current.key = cast(char) code;
+            emitted ~= current;
+            current = KeyPress();
         }
 
         void inputStack(Screen[] stack, KeyPress kp) {
