@@ -39,6 +39,11 @@ class Player : Entity {
                 this.alive = true;
                 this.normalColor = Color.PLAYER;
                 this.health = this.maxHealth;
+                import std.algorithm;
+                if (!this.world.entities.canFind(this)) {
+                    this.world.entities ~= this;
+                    this.world.player = this;
+                }
                 }, "LIVE, Liiiiiiiive!");
         this.world.game.console.registerFunction("openinventory", delegate(string[] s) {
                 import inventoryscreen;
