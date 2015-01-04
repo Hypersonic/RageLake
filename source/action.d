@@ -156,6 +156,7 @@ class OpenAction : Action {
     }
 
     override bool canExecute(World world) {
-        return true;
+        import item;
+        return openee.isA!Chest;
     }
 }
