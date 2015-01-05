@@ -81,9 +81,11 @@ class Console : Screen {
                 submit(input);
                 input = "";
                 break;
-            case "" ~ cast(char)27: // ESC
-                import app;
-                screens.pop();
+            case "": // ESC, if kp.esc_seq is true
+                if (kp.esc_seq) {
+                    import app;
+                    screens.pop();
+                }
                 break;
             case "\t": // Tab, attempt autocomplete
                 auto comps = getAutoCompleteChoices(input);
@@ -94,9 +96,6 @@ class Console : Screen {
             default:
                 input ~= kp.key;
                 break;
-        }
-        if (kp.esc_seq) {
-            logmsg(kp.to!string);
         }
     }
 
