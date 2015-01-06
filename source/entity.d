@@ -7,6 +7,7 @@ import util;
 import event : Event;
 import inventory;
 import equipment;
+import stats;
 
 class Entity : Updates {
     Point position;
@@ -16,6 +17,7 @@ class Entity : Updates {
     int health = 10;
     int maxHealth = 10;
     bool alive = true;
+    Stats stats;
     Action desiredAction;
     World world;
     Cell cell;
