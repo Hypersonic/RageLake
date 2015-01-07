@@ -63,6 +63,7 @@ class Display {
         nodelay(stdscr, true);
         intrflush(stdscr, false);
         keypad(stdscr, true);
+        notimeout(stdscr, true);
 
         // Get the window bounds
         getmaxyx(stdscr, this.height, this.width);
