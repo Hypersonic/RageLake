@@ -92,6 +92,13 @@ class World {
                 e.position = player.position;
                 entities ~= e;
                 }, "Spawn an enemy at the player's position");
+        game.console.registerFunction("spawnarrow", delegate(string[] s) {
+                import entities.arrow;
+                import std.random;
+                auto a = new Arrow(this, uniform(-2, 3), uniform(-2, 3));
+                a.position = player.position;
+                this.entities ~= a;
+                }, "Spawn a new arrow");
         game.console.registerFunction("regeneratemap", regenmap, "Regenerate the map");
     }
 
