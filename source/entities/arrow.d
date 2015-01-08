@@ -19,9 +19,9 @@ class Arrow : Entity {
         } else if (this.vx < 0) {
             cell.glyph = '<';
         } else if (this.vy > 0) {
-            cell.glyph = '^';
-        } else {
             cell.glyph = 'v';
+        } else {
+            cell.glyph = '^';
         }
     }
     
