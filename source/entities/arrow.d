@@ -1,5 +1,8 @@
 module entities.arrow;
 
+import std.algorithm;
+import std.math;
+
 import entity;
 import util;
 import action;
@@ -14,14 +17,19 @@ class Arrow : Entity {
         this.vx = vx;
         this.vy = vy;
         this.staminaRechargeRate = 10;
-        if (this.vx > 0) {
-            cell.glyph = '>';
-        } else if (this.vx < 0) {
-            cell.glyph = '<';
-        } else if (this.vy > 0) {
-            cell.glyph = 'v';
+        bool vxbigger = max(vx.abs, vy.abs) == vx.abs;
+        if (vxbigger) {
+            if (this.vx > 0) {
+                cell.glyph = '>';
+            } else if (this.vx < 0) {
+                cell.glyph = '<';
+            }
         } else {
-            cell.glyph = '^';
+            if (this.vy > 0) {
+                cell.glyph = 'v';
+            } else {
+                cell.glyph = '^';
+            }
         }
     }
     
