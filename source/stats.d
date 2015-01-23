@@ -1,9 +1,9 @@
 struct Stats {
-    int health;
-    int max_health;
-    int strength;
-    int speed;
-    int stamina;
-    int stamina_recharge_rate;
-    int max_stamina;
+    int health = 10;
+    int maxHealth = 10;
+    int strength = 1;
+    int speed = 1;
+    int stamina = 100;
+    int staminaRechargeRate = 4;
+    int maxStamina = 100;
 }
